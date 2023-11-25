@@ -102,41 +102,69 @@ module Debugger
             when "trm"
                 @exec_ctx = :terminated
                 break 
+            when "fcp"
+                puts "Source filename: "
+                src = STDIN.gets.chomp
+
+                puts "Dest filename: "
+                dest = STDIN.gets.chomp
+
+                @file_lt.copy(src, dest)
+            when "fdel"
+                puts "Filename: "
+                fn = STDIN.gets.chomp
+
+                @file_lt.delete(fn)
+            when "fr"
+                puts "Filename: "
+                fn = STDIN.gets.chomp
+
+                puts @file_lt.read(fn)
+            when "fw"
+                puts "Filename: "
+                fn = STDIN.gets.chomp
+
+                puts "Content: "
+                content = STDIN.gets.chomp
+
+                @file_lt.write(fn, content)
             else 
                 puts "
-                    PROGRAM COUNTER
-                    pc   | current PC value
-                    j    | Jump to address
+                --- CBAT DEBUGGER ---
 
-                    EXECUTION
-                    d    | dump instructions (internal repr)
-                    dc   | dump instructions (cbat repr)
-                    insi | Insert instruction at address
-                    deli | delete instruction at address
+                PROGRAM COUNTER
+                pc    | current PC value
+                j     | Jump to address
 
-                    VARIABLES
-                    vset | set variable
-                    vdel | delete variable
-                    vdmp | dump variables 
+                EXECUTION
+                d     | dump instructions (internal repr)
+                dc    | dump instructions (cbat repr)
+                insi  | Insert instruction at address
+                deli  | delete instruction at address
 
-                    LABELS
-                    lbc  | create label
-                    lbd  | delete label
-                    lbdmp| dump labels
-                    
-                    FILES
-                    fcp  | file copy
-                    fdel | file delete
-                    fr   | read file content
-                    fw   | write file content
-                    fdmp | dump files
+                VARIABLES
+                vset  | set variable
+                vdel  | delete variable
+                vdmp  | dump variables 
 
-                    MISC
-                    foutc | Dump program as cbat
-                    foutb | Dump program as batch
-                    trm   | Terminate execution
-                    step | toggle step log
-                    dlog | toggle step log
+                LABELS
+                lbc   | create label
+                lbd   | delete label
+                lbdmp | dump labels
+                
+                FILES
+                fcp   | file copy
+                fdel  | file delete
+                fr    | read file content
+                fw    | write file content
+                fdmp  | dump files
+
+                MISC
+                foutc | Dump program as cbat
+                foutb | Dump program as batch
+                trm   | Terminate execution
+                step  | toggle step log
+                dlog  | toggle step log
                 "
             end
         @exec_ctx = :running 
