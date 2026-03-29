@@ -17,6 +17,7 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
+	"BBS_VM/pkg/bytecode"
 	"BBS_VM/pkg/compiler"
 	"BBS_VM/pkg/debugger"
 	"BBS_VM/pkg/parser"
@@ -56,7 +57,9 @@ func main() {
 		cmdBench(os.Args[2:])
 	default:
 		// If the argument looks like a file, infer the command
-		if strings.HasSuffix(os.Args[1], ".cbat") {
+		if strings.HasSuffix(os.Args[1], ".cbatc") {
+			cmdExec(os.Args[1:])
+		} else if strings.HasSuffix(os.Args[1], ".cbat") {
 			cmdExec(os.Args[1:])
 		} else if strings.HasSuffix(os.Args[1], ".bat") {
 			cmdRun(os.Args[1:])
@@ -115,20 +118,59 @@ func cmdRun(args []string) {
 	runWithTerminal(result)
 }
 
-// --- exec: run a .cbat file ---
+// --- exec: run a .cbat or .cbatc file ---
 
 func cmdExec(args []string) {
 	if len(args) == 0 {
 		usage()
 	}
 
-	result, err := parser.ParseFile(args[0])
+	path := args[0]
+	result, err := loadWithCache(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "cbat: %v\n", err)
 		os.Exit(1)
 	}
 
 	runWithTerminal(result)
+}
+
+// loadWithCache loads a .cbat file, using a cached .cbatc if fresh.
+// If the .cbat is newer than the .cbatc (or no cache exists), it parses
+// the text source, writes a .cbatc, and returns the result.
+// If the input is already a .cbatc, it decodes directly.
+func loadWithCache(path string) (*parser.Result, error) {
+	// Direct bytecode file
+	if strings.HasSuffix(path, ".cbatc") || bytecode.IsBytecode(path) {
+		return bytecode.DecodeFile(path)
+	}
+
+	cachePath := bytecode.CachedPath(path)
+
+	// Check if cache is fresh
+	srcInfo, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	if cacheInfo, err := os.Stat(cachePath); err == nil {
+		if cacheInfo.ModTime().After(srcInfo.ModTime()) {
+			if result, err := bytecode.DecodeFile(cachePath); err == nil {
+				return result, nil
+			}
+			// stale or corrupt cache — fall through to recompile
+		}
+	}
+
+	// Parse text source
+	result, err := parser.ParseFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	// Write cache (best-effort, don't fail if we can't write)
+	bytecode.EncodeFile(cachePath, result)
+
+	return result, nil
 }
 
 func runWithTerminal(result *parser.Result) {
@@ -235,7 +277,7 @@ func cmdBench(args []string) {
 		}
 	}
 
-	result, err := parser.ParseFile(cbatFile)
+	result, err := loadWithCache(cbatFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "cbat: %v\n", err)
 		os.Exit(1)
@@ -311,9 +353,9 @@ func cmdServe(args []string) {
 		}
 	}
 
-	result, err := parser.ParseFile(cbatFile)
+	result, err := loadWithCache(cbatFile)
 	if err != nil {
-		log.Fatalf("Failed to parse %s: %v", cbatFile, err)
+		log.Fatalf("Failed to load %s: %v", cbatFile, err)
 	}
 
 	sqlStore, err := store.NewSQLiteStore(dbPath)
