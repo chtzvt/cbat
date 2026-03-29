@@ -38,7 +38,7 @@ module Debugger
                     next
                 end 
         
-                i.init(ins[1], @var_lt, @label_lt, @file_lt, @exec_ctx)
+                i.init(ins[1], @var_lt, @label_lt, @file_lt, @exec_ctx, @debug_log_enable, @subr_lt)
                 insert_instr(i, addr)
                 @current_instr += 1 if addr <= @current_instr
             when "j"
@@ -93,6 +93,8 @@ module Debugger
                 puts self.to_cbat_file
             when "foutb"
                 puts self.dump_batch
+            when "sdmp"
+                puts JSON.pretty_generate(state_hash)
             when "step"
                 @debug_step ^= true
                 puts "step log #{@debug_step ? "enabled" : "disabled"}"

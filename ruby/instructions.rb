@@ -23,7 +23,7 @@ class InstructionMap
             StoreInstruction.new
         when "stfi"
             StoreFromFileIndexInstruction.new
-        when "stfc"
+        when "stf"
             StoreFromFileInstruction.new
         when "bp"
             BreakpointInstruction.new
@@ -84,26 +84,51 @@ class InstructionMap
         when "cls"
             ClearScreenInstruction.new
         when "clr"
-            NopInstruction.new
+            ColorInstruction.new
         when "t"
             TypeFileInstruction.new
         when "c"
             CallInstruction.new
-        else 
+        when "atoi"
+            AsciiToInteger.new
+        when "itoa"
+            IntegerToAscii.new
+        when "df"
+            DeleteFileInstruction.new
+        when "mkd"
+            MakeDirectoryInstruction.new
+        when "slp"
+            SleepInstruction.new
+        when "ttl"
+            TitleInstruction.new
+        when "igti"
+            IfGreaterThanIntegerInstruction.new
+        when "ilti"
+            IfLessThanIntegerInstruction.new
+        when "cat"
+            ConcatenateInstruction.new
+        when "len"
+            LengthInstruction.new
+        when "sta"
+            StoreArithmeticInstruction.new
+        when "tp"
+            TypePagedInstruction.new
+        else
             NopInstruction.new
         end
     end
 end
 
 module Executable
-    attr_accessor :args, :raw_args, :var_lt, :label_lt, :file_lt, :ec, :debug_enable
+    attr_accessor :args, :raw_args, :var_lt, :label_lt, :file_lt, :subr_lt, :ec, :debug_enable
 
-    def init(raw_str, var_lt, label_lt, file_lt, ec, debug_enable)
+    def init(raw_str, var_lt, label_lt, file_lt, ec, debug_enable, subr_lt = nil)
         @args = raw_str.batch_get_instr_args unless raw_str.nil?
         @raw_args = @args.clone.map(&:clone) unless raw_str.nil?
         @var_lt = var_lt
         @label_lt = label_lt
-        @file_lt = file_lt 
+        @file_lt = file_lt
+        @subr_lt = subr_lt
         @ec = ec
         @debug_enable = debug_enable
     end
@@ -298,7 +323,7 @@ class WriteFileInstruction
     end
 
     def to_batch
-        "echo \"#{@raw_args[0]}\" >>\"#{@raw_args[1]}\""
+        "echo \"#{@raw_args[0]}\" >\"#{@raw_args[1]}\""
     end
 
     def to_cbat
@@ -505,23 +530,23 @@ class IfGreaterOrEqualIntegerInstruction
             if @args[2].nil?
                 puts "[debug] \tif greater or equal integer comparison succeeds, advancing" if @debug_enable
                 ci + 1
-            else 
+            else
                 puts "[debug] \tif greater or equal integer comparison succeeds, jumping to #{@args[2]} (#{@label_lt.get(@args[2]).to_i}" if @debug_enable
                 @label_lt.get(@args[2]).to_i
             end
-        else 
+        else
             if @args[2].nil?
                 puts "[debug] \tif greater or equal integer comparison failed without a label, advancing" if @debug_enable
                 ci + 2
-            else 
+            else
                 puts "[debug] \tif greater or equal integer comparison failed with label, advancing" if @debug_enable
                 ci + 1
             end
         end
-    end 
+    end
 
     def to_batch
-        "if \"%#{@raw_args[0]}%\" NOT EQU \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
+        "if \"%#{@raw_args[0]}%\" GEQ \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
     end
 
     def to_cbat
@@ -558,7 +583,7 @@ class IfLessOrEqualIntegerInstruction
     end 
 
     def to_batch
-        "if \"%#{@raw_args[0]}%\" NOT EQU \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
+        "if \"%#{@raw_args[0]}%\" LEQ \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
     end
 
     def to_cbat
@@ -649,17 +674,17 @@ class GotoInstruction
         target
     end
 
-    def target
+    def target(cur = nil)
         case @args[0].batch_interpolate_string(@var_lt).downcase.to_sym
         when :cbat_next
-            cur + 1
+            (cur || 0) + 1
         when :cbat_prev
-            cur - 1
+            (cur || 0) - 1
         else
             puts "[debug] goto target #{@args[0].batch_interpolate_string(@var_lt)}@#{@label_lt.get(@args[0].batch_interpolate_string(@var_lt)).to_i}" if @debug_enable
             @label_lt.get(@args[0].batch_interpolate_string(@var_lt)).to_i
         end
-    end 
+    end
 
     def to_batch
         "goto #{@raw_args[0]}"
@@ -723,16 +748,17 @@ class ReturnInstruction
     end
 
     def target
-        puts "[debug] goto address target #{@args[0].batch_interpolate_string(@var_lt).to_i}" if @debug_enable
-        @var_lt.get(@args[0].batch_interpolate_string(@var_lt)).to_i
-    end 
+        ra = @var_lt.get("RA")
+        puts "[debug] return to address #{ra}" if @debug_enable
+        ra.to_i
+    end
 
     def to_batch
         "::jump to address #{@raw_args[0]}"
     end
 
     def to_cbat
-        "ret #{@raw_args[0]}"
+        "ret"
     end
 end
 
@@ -745,9 +771,9 @@ class CallInstruction
     end
 
     def target
-        puts "[debug] call target #{@args[0]}@#{@label_lt.get(@args[0]).to_i}" if @debug_enable
-        @args[0].batch_interpolate_string(@subr_lt)
-    end 
+        puts "[debug] call target #{@args[0]}" if @debug_enable
+        @args[0].batch_interpolate_string(@var_lt)
+    end
 
     def to_batch
         "call #{@raw_args[0]}"
@@ -817,7 +843,7 @@ class NopInstruction
     end
 
     def to_cbat
-        "l "
+        "nop"
     end
 
     def to_batch
@@ -957,11 +983,11 @@ class AddInstruction
     end
 
     def to_batch
-        "::add #{@raw_args[1]} to #{@raw_args[0]}"
+        "set /a #{@raw_args[0]}=%#{@raw_args[1]}%+%#{@raw_args[2]}%"
     end
 
     def to_cbat
-        "add #{@raw_args[0]},#{@raw_args[1]}"
+        "add #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
     end
 end
 
@@ -977,11 +1003,11 @@ class SubtractInstruction
     end
 
     def to_batch
-        "::subtract #{@raw_args[1]} from #{@raw_args[0]}"
+        "set /a #{@raw_args[0]}=%#{@raw_args[1]}%-%#{@raw_args[2]}%"
     end
 
     def to_cbat
-        "sbi #{@raw_args[0]},#{@raw_args[1]}"
+        "sub #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
     end
 end
 
@@ -997,11 +1023,11 @@ class MultiplyInstruction
     end
 
     def to_batch
-        "::multiply #{@raw_args[1]} by #{@raw_args[0]}"
+        "set /a #{@raw_args[0]}=%#{@raw_args[1]}%*%#{@raw_args[2]}%"
     end
 
     def to_cbat
-        "mli #{@raw_args[0]},#{@raw_args[1]}"
+        "mul #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
     end
 end
 
@@ -1017,17 +1043,17 @@ class DivideInstruction
         if op2 == 0
             puts "[debug] divide by zero!" if @debug_enable
             @var_lt.store(ident, 0)
-        else 
+        else
             @var_lt.store(ident, (op1 / op2).to_i)
         end
     end
 
     def to_batch
-        "::divide #{@raw_args[1]} by #{@raw_args[0]}"
+        "set /a #{@raw_args[0]}=%#{@raw_args[1]}%/%#{@raw_args[2]}%"
     end
 
     def to_cbat
-        "dvi #{@raw_args[0]},#{@raw_args[1]}"
+        "div #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
     end
 end
 
@@ -1044,10 +1070,369 @@ class ModuloInstruction
     end
 
     def to_batch
-        "::modulo #{@raw_args[1]} by #{@raw_args[0]}"
+        "set /a #{@raw_args[0]}=%#{@raw_args[1]}%%%%#{@raw_args[2]}%"
     end
 
     def to_cbat
-        "mod #{@raw_args[0]},#{@raw_args[1]}"
+        "mod #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
+    end
+end
+
+class AsciiToInteger
+    include Executable
+
+    def exec
+        ident = @args[0].batch_interpolate_string(@var_lt)
+        op1 = @args[1].batch_interpolate_string(@var_lt)
+        puts "[debug] atoi #{ident} #{op1}" if @debug_enable
+
+        @var_lt.store(ident, op1.ord)
+    end
+
+    def to_batch
+        "::atoi #{@raw_args[1]} by #{@raw_args[0]}"
+    end
+
+    def to_cbat
+        "atoi #{@raw_args[0]},#{@raw_args[1]}"
+    end
+end
+
+class IntegerToAscii
+    include Executable
+
+    def exec
+        ident = @args[0].batch_interpolate_string(@var_lt)
+        op1 = @args[1].batch_interpolate_string(@var_lt)
+        puts "[debug] itoa #{ident} #{op1}" if @debug_enable
+
+        @var_lt.store(ident, op1.to_i.chr)
+    end
+
+    def to_batch
+        "::itoa #{@raw_args[1]} by #{@raw_args[0]}"
+    end
+
+    def to_cbat
+        "itoa #{@raw_args[0]},#{@raw_args[1]}"
+    end
+end
+
+class DeleteFileInstruction
+    include Executable
+
+    def exec
+        path = @args[0].batch_interpolate_string(@var_lt)
+        puts "[debug] delete file '#{path}'" if @debug_enable
+        @file_lt.delete(path)
+    end
+
+    def to_batch
+        "del \"#{@raw_args[0]}\""
+    end
+
+    def to_cbat
+        "df \"#{@raw_args[0]}\""
+    end
+end
+
+class MakeDirectoryInstruction
+    include Executable
+
+    def exec
+        path = @args[0].batch_interpolate_string(@var_lt)
+        puts "[debug] mkdir '#{path}'" if @debug_enable
+        @file_lt.create(path)
+    end
+
+    def to_batch
+        "mkdir \"#{@raw_args[0]}\""
+    end
+
+    def to_cbat
+        "mkd \"#{@raw_args[0]}\""
+    end
+end
+
+class SleepInstruction
+    include Executable
+
+    def exec
+        ms = @args[0].batch_interpolate_string(@var_lt).to_i
+        puts "[debug] sleep #{ms}ms" if @debug_enable
+        sleep(ms / 1000.0)
+    end
+
+    def to_batch
+        "ping 127.0.0.1 -n 1 -w #{@raw_args[0]} >nul"
+    end
+
+    def to_cbat
+        "slp #{@raw_args[0]}"
+    end
+end
+
+class ColorInstruction
+    include Executable
+
+    BATCH_COLOR_MAP = {
+        "0" => "0",    # black
+        "1" => "4",    # blue
+        "2" => "2",    # green
+        "3" => "6",    # aqua/cyan
+        "4" => "1",    # red
+        "5" => "5",    # purple/magenta
+        "6" => "3",    # yellow
+        "7" => "7",    # white
+        "8" => "0;1",  # gray (bright black)
+        "9" => "4;1",  # light blue
+        "a" => "2;1",  # light green
+        "b" => "6;1",  # light aqua
+        "c" => "1;1",  # light red
+        "d" => "5;1",  # light purple
+        "e" => "3;1",  # light yellow
+        "f" => "7;1",  # bright white
+    }.freeze
+
+    def exec
+        code = @args[0].batch_interpolate_string(@var_lt)
+        puts "[debug] color #{code}" if @debug_enable
+        if code.length == 2
+            bg = BATCH_COLOR_MAP[code[0].downcase] || "0"
+            fg = BATCH_COLOR_MAP[code[1].downcase] || "7"
+            print "\e[4#{bg.split(';')[0]}m\e[3#{fg}m"
+        elsif code.length == 1
+            fg = BATCH_COLOR_MAP[code[0].downcase] || "7"
+            print "\e[3#{fg}m"
+        end
+    end
+
+    def to_batch
+        "color #{@raw_args[0]}"
+    end
+
+    def to_cbat
+        "clr #{@raw_args[0]}"
+    end
+end
+
+class TitleInstruction
+    include Executable
+
+    def exec
+        title = @args[0].batch_interpolate_string(@var_lt)
+        puts "[debug] title '#{title}'" if @debug_enable
+        print "\e]0;#{title}\a"
+    end
+
+    def to_batch
+        "title \"#{@raw_args[0]}\""
+    end
+
+    def to_cbat
+        "ttl \"#{@raw_args[0]}\""
+    end
+end
+
+class IfGreaterThanIntegerInstruction
+    include Executable
+
+    def exec
+        @ec = :jump
+    end
+
+    def target(ci)
+        puts "[debug] if greater than integer compare '#{@var_lt.get(@args[0])}' to '#{@args[1].batch_interpolate_string(@var_lt)}'" if @debug_enable
+        if @var_lt.get(@args[0]).to_i > @args[1].batch_interpolate_string(@var_lt).to_i
+            if @args[2].nil?
+                ci + 1
+            else
+                @label_lt.get(@args[2]).to_i
+            end
+        else
+            if @args[2].nil?
+                ci + 2
+            else
+                ci + 1
+            end
+        end
+    end
+
+    def to_batch
+        "if \"%#{@raw_args[0]}%\" GTR \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
+    end
+
+    def to_cbat
+        "igti #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
+    end
+end
+
+class IfLessThanIntegerInstruction
+    include Executable
+
+    def exec
+        @ec = :jump
+    end
+
+    def target(ci)
+        puts "[debug] if less than integer compare '#{@var_lt.get(@args[0])}' to '#{@args[1].batch_interpolate_string(@var_lt)}'" if @debug_enable
+        if @var_lt.get(@args[0]).to_i < @args[1].batch_interpolate_string(@var_lt).to_i
+            if @args[2].nil?
+                ci + 1
+            else
+                @label_lt.get(@args[2]).to_i
+            end
+        else
+            if @args[2].nil?
+                ci + 2
+            else
+                ci + 1
+            end
+        end
+    end
+
+    def to_batch
+        "if \"%#{@raw_args[0]}%\" LSS \"#{@raw_args[1]}\" goto #{@raw_args[2]}"
+    end
+
+    def to_cbat
+        "ilti #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
+    end
+end
+
+class ConcatenateInstruction
+    include Executable
+
+    def exec
+        dest = @args[0].batch_interpolate_string(@var_lt)
+        a = @var_lt.get(@args[1].batch_interpolate_string(@var_lt))
+        b = @var_lt.get(@args[2].batch_interpolate_string(@var_lt))
+        puts "[debug] cat #{dest} = '#{a}' + '#{b}'" if @debug_enable
+        @var_lt.store(dest, a.to_s + b.to_s)
+    end
+
+    def to_batch
+        "set #{@raw_args[0]}=%#{@raw_args[1]}%%#{@raw_args[2]}%"
+    end
+
+    def to_cbat
+        "cat #{@raw_args[0]},#{@raw_args[1]},#{@raw_args[2]}"
+    end
+end
+
+class LengthInstruction
+    include Executable
+
+    def exec
+        dest = @args[0].batch_interpolate_string(@var_lt)
+        source = @var_lt.get(@args[1].batch_interpolate_string(@var_lt))
+        puts "[debug] len #{dest} = len('#{source}')" if @debug_enable
+        @var_lt.store(dest, source.length)
+    end
+
+    def to_batch
+        "::len #{@raw_args[0]} of #{@raw_args[1]}"
+    end
+
+    def to_cbat
+        "len #{@raw_args[0]},#{@raw_args[1]}"
+    end
+end
+
+class StoreArithmeticInstruction
+    include Executable
+
+    def exec
+        dest = @args[0].batch_interpolate_string(@var_lt)
+        expr = @args[1].batch_interpolate_string(@var_lt)
+        puts "[debug] sta #{dest} = #{expr}" if @debug_enable
+
+        # Simple expression parser for batch-style arithmetic
+        # Supports: +, -, *, /, % with integer operands
+        result = eval_arithmetic(expr)
+        @var_lt.store(dest, result)
+    end
+
+    def to_batch
+        "set /a #{@raw_args[0]}=#{@raw_args[1]}"
+    end
+
+    def to_cbat
+        "sta #{@raw_args[0]},\"#{@raw_args[1]}\""
+    end
+
+    private
+
+    def eval_arithmetic(expr)
+        # Tokenize: split on operators while keeping them
+        tokens = expr.scan(/(-?\d+|[+\-*\/%])/).flatten.reject(&:empty?)
+
+        return 0 if tokens.empty?
+
+        # Evaluate with standard precedence: * / % first, then + -
+        # First pass: handle * / %
+        i = 0
+        while i < tokens.length
+            if ["*", "/", "%"].include?(tokens[i])
+                left = tokens[i - 1].to_i
+                right = tokens[i + 1].to_i
+                result = case tokens[i]
+                         when "*" then left * right
+                         when "/" then right == 0 ? 0 : left / right
+                         when "%" then right == 0 ? 0 : left % right
+                         end
+                tokens[(i-1)..(i+1)] = [result.to_s]
+                i -= 1
+            end
+            i += 1
+        end
+
+        # Second pass: handle + -
+        result = tokens[0].to_i
+        i = 1
+        while i < tokens.length
+            op = tokens[i]
+            val = tokens[i + 1].to_i
+            case op
+            when "+" then result += val
+            when "-" then result -= val
+            end
+            i += 2
+        end
+
+        result
+    end
+end
+
+class TypePagedInstruction
+    include Executable
+
+    def prompt_continue
+        print "-- MORE --"
+        STDIN.gets
+    end
+
+    def exec
+        path = @args[0].batch_interpolate_string(@var_lt)
+        lines_per_page = (@args[1] || "20").batch_interpolate_string(@var_lt).to_i
+        puts "[debug] type paged '#{path}' (#{lines_per_page} lines/page)" if @debug_enable
+
+        content = @file_lt.read(path)
+        lines = content.split("\n")
+
+        lines.each_with_index do |line, idx|
+            puts line
+            if (idx + 1) % lines_per_page == 0 && idx + 1 < lines.length
+                prompt_continue
+            end
+        end
+    end
+
+    def to_batch
+        "type \"#{@raw_args[0]}\" | MORE"
+    end
+
+    def to_cbat
+        "tp \"#{@raw_args[0]}\",#{@raw_args[1]}"
     end
 end

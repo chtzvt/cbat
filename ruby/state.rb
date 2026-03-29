@@ -83,7 +83,7 @@ class FileLookupTable
     end
 
     def delete(name)
-        delete(name)
+        @lt.delete(name.delete('"').to_sym)
     end
 
     def copy(source, dest)

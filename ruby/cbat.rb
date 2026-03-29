@@ -114,6 +114,8 @@ class CBATLoader
             @cur_prog.version = kv[1]
         when "debug"
             @cur_prog.debug_log_enable = true
+        when "dump_state_on_exit"
+            @cur_prog.dump_state_on_exit = true
         end
     end 
 
@@ -135,7 +137,7 @@ class CBATLoader
             raise "cbat: illegal instruction `#{kv[0]}`"
         end 
 
-        i.init(kv[1], @cur_prog.var_lt, @cur_prog.label_lt, @cur_prog.file_lt, @cur_prog.exec_ctx, @cur_prog.debug_log_enable)
+        i.init(kv[1], @cur_prog.var_lt, @cur_prog.label_lt, @cur_prog.file_lt, @cur_prog.exec_ctx, @cur_prog.debug_log_enable, @subr_lt)
         @cur_prog.instructions.append(i)
     end
 end
