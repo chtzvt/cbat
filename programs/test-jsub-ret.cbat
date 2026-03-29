@@ -1,0 +1,15 @@
+.header
+    filename "test-jsub-ret.bat"
+.instrs
+    e "before jsub"
+    jsub my_sub
+    e "after jsub"
+    j done
+
+    l my_sub
+    e "inside subroutine"
+    ret
+
+    l done
+    e "all done"
+    trm

@@ -1,0 +1,146 @@
+.header
+    filename "brain.bat"
+
+.files
+    "PROGRAM","+++++++++++>+>>>>++++++++++++++++++++++++++++++++++++++++++++>++++++++++++++++++++++++++++++++<<<<<<[>[>>>>>>+>+<<<<<<<-]>>>>>>>[<<<<<<<+>>>>>>>-]<[>++++++++++[-<-[>>+>+<<<-]>>>[<<<+>>>-]+<[>[-]<[-]]>[<<[>>>+<<<-]>>[-]]<<]>>>[>>+>+<<<-]>>>[<<<+>>>-]+<[>[-]<[-]]>[<<+>>[-]]<<<<<<<]>>>>>[++++++++++++++++++++++++++++++++++++++++++++++++.[-]]++++++++++<[->-<]>++++++++++++++++++++++++++++++++++++++++++++++++.[-]<<<<<<<<<<<<[>>>+>+<<<<-]>>>>[<<<<+>>>>-]<-[>>.>.<<<[-]]<<[>>+>+<<<-]>>>[<<<+>>>-]<<[<+>-]>[<+>-]<<<-]&"
+    "INPUT",""
+
+.instrs
+    ; runtime vars
+    st INS_CHR,""
+    st INP_PTR,0
+    st INS_PTR,0
+    st DTA_PTR,0
+    st DTA_VAL,0
+    st STACK_SP,0
+    st LOOP_NEST,0
+
+    ; initialize data tape using file-per-cell pattern
+    l init_data
+        wf "0","DATA/%DTA_VAL%"
+        adi DTA_VAL,1
+        ilti DTA_VAL,30000,init_data
+    st DTA_VAL,0
+
+    ; main fetch/decode loop
+    l load
+        stfi INS_CHR,"PROGRAM","%INS_PTR%"
+        ieq INS_CHR,"&"
+        jsub bf_end
+
+        ieq INS_CHR,"+"
+        jsub incr_val
+
+        ieq INS_CHR,"-"
+        jsub decr_val
+
+        ieq INS_CHR,">"
+        jsub incr_ptr
+
+        ieq INS_CHR,"<"
+        jsub decr_ptr
+
+        ieq INS_CHR,"["
+        jsub loop_begin
+
+        ieq INS_CHR,"]"
+        jsub loop_end
+
+        ieq INS_CHR,","
+        jsub read_val
+
+        ieq INS_CHR,"."
+        jsub print_val
+
+        adi INS_PTR,1
+        g load
+
+    ; --- + ---
+    l incr_val
+        stf DTA_VAL,"DATA/%DTA_PTR%"
+        adi DTA_VAL,1
+        wf "%DTA_VAL%","DATA/%DTA_PTR%"
+        ret
+
+    ; --- - ---
+    l decr_val
+        stf DTA_VAL,"DATA/%DTA_PTR%"
+        sbi DTA_VAL,1
+        wf "%DTA_VAL%","DATA/%DTA_PTR%"
+        ret
+
+    ; --- > ---
+    l incr_ptr
+        adi DTA_PTR,1
+        ret
+
+    ; --- < ---
+    l decr_ptr
+        sbi DTA_PTR,1
+        ret
+
+    ; --- . (output) ---
+    l print_val
+        stf DTA_VAL,"DATA/%DTA_PTR%"
+        itoa TMP,"%DTA_VAL%"
+        e "%TMP%"
+        ret
+
+    ; --- , (input) ---
+    l read_val
+        stfi INS_CHR,"INPUT","%INP_PTR%"
+        ieq INS_CHR,""
+        j skip_read
+        atoi DTA_VAL,"%INS_CHR%"
+        wf "%DTA_VAL%","DATA/%DTA_PTR%"
+        adi INP_PTR,1
+    l skip_read
+        ret
+
+    ; --- [ (loop begin) ---
+    l loop_begin
+        stf DTA_VAL,"DATA/%DTA_PTR%"
+        ieiq DTA_VAL,0,skip_loop
+        ; non-zero: push instruction pointer
+        adi STACK_SP,1
+        wf "%INS_PTR%","LOOP/%STACK_SP%"
+        ret
+
+    l skip_loop
+        ; zero: skip forward to matching ]
+        st LOOP_NEST,1
+    l loop_scan
+        adi INS_PTR,1
+        stfi INS_CHR,"PROGRAM","%INS_PTR%"
+        ieq INS_CHR,"[",inc_nest
+        ieq INS_CHR,"]",dec_nest
+        g loop_scan
+
+    l inc_nest
+        adi LOOP_NEST,1
+        g loop_scan
+
+    l dec_nest
+        sbi LOOP_NEST,1
+        ieiq LOOP_NEST,0,loop_done
+        g loop_scan
+
+    l loop_done
+        ret
+
+    ; --- ] (loop end) ---
+    l loop_end
+        stf DTA_VAL,"DATA/%DTA_PTR%"
+        ieiq DTA_VAL,0,exit_loop
+        ; non-zero: peek loop start address & jump back
+        stf INS_PTR,"LOOP/%STACK_SP%"
+        ret
+
+    l exit_loop
+        ; zero: pop and continue past ]
+        sbi STACK_SP,1
+        ret
+
+    ; --- termination ---
+    l bf_end
+        trm

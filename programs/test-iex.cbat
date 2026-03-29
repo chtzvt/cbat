@@ -1,0 +1,16 @@
+.header
+    filename "test-iex.bat"
+.files
+    "EXISTS.txt","hello"
+.instrs
+    iex "EXISTS.txt",found
+    e "FAIL: file should exist"
+    trm
+    l found
+    e "PASS: file exists"
+    inx "NOFILE.txt",notfound
+    e "FAIL: file should not exist"
+    trm
+    l notfound
+    e "PASS: file does not exist"
+    trm

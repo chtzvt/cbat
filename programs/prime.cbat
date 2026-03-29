@@ -1,5 +1,6 @@
 .header
     filename "prime.bat"
+;    debug
 .instrs
     ; The following prime factorization algorithm in cbat is
     ; equivalent to the Ruby implementation given below:

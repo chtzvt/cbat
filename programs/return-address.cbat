@@ -11,7 +11,7 @@
 
     ; manually set up call to subroutine a
     st RET_ADDR,"%PC%" ; store current program counter to return address
-    adi RET_ADDR,2 ; increment return address by 2 (to skip past the next jump instruction when resuming)
+    adi RET_ADDR,3 ; increment return address by 3 (skip st, adi, j to land on the instruction after the jump)
     j subr_a
 
     e "Second print is at %PC%" ; execution resumes here after subroutine a exits

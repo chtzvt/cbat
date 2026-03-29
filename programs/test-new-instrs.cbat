@@ -1,0 +1,85 @@
+.header
+    filename "test-new-instrs.bat"
+.files
+    "TESTFILE.txt","line one\nline two\nline three"
+.instrs
+    ; --- df (delete file) ---
+    iex "TESTFILE.txt",df_exists
+    e "FAIL: TESTFILE.txt should exist"
+    trm
+    l df_exists
+    df "TESTFILE.txt"
+    inx "TESTFILE.txt",df_pass
+    e "FAIL: TESTFILE.txt should be deleted"
+    trm
+    l df_pass
+    e "PASS: df"
+
+    ; --- mkd (make directory) ---
+    mkd "NEWDIR"
+    iex "NEWDIR",mkd_pass
+    e "FAIL: NEWDIR should exist"
+    trm
+    l mkd_pass
+    e "PASS: mkd"
+
+    ; --- cat (concatenate) ---
+    st A,"hello"
+    st B," world"
+    cat RESULT,A,B
+    ieq RESULT,"hello world",cat_pass
+    e "FAIL: cat expected 'hello world' got '%RESULT%'"
+    trm
+    l cat_pass
+    e "PASS: cat"
+
+    ; --- len (length) ---
+    st STR,"abcde"
+    len SLEN,STR
+    ieiq SLEN,5,len_pass
+    e "FAIL: len expected 5 got %SLEN%"
+    trm
+    l len_pass
+    e "PASS: len"
+
+    ; --- sta (arithmetic expression) ---
+    sta EXPR,"3+4*2"
+    ieiq EXPR,11,sta_pass
+    e "FAIL: sta expected 11 got %EXPR%"
+    trm
+    l sta_pass
+    e "PASS: sta"
+
+    ; --- igti (greater than) ---
+    st X,10
+    igti X,5,igti_pass
+    e "FAIL: 10 should be > 5"
+    trm
+    l igti_pass
+    e "PASS: igti"
+
+    ; --- ilti (less than) ---
+    st Y,3
+    ilti Y,7,ilti_pass
+    e "FAIL: 3 should be < 7"
+    trm
+    l ilti_pass
+    e "PASS: ilti"
+
+    ; --- slp (sleep) - quick 10ms ---
+    slp 10
+    e "PASS: slp"
+
+    ; --- ttl (title) ---
+    ttl "CBAT Test"
+    e "PASS: ttl"
+
+    ; --- clr (color) ---
+    clr 17
+    e "PASS: clr"
+    ; reset color
+    clr 07
+
+    e ""
+    e "All new instructions passed!"
+    trm

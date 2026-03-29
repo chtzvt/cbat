@@ -1,0 +1,30 @@
+.header
+        filename "GUESTBOOK.BAT"
+        entry 1
+        ver 0.1
+.labels
+.files 
+        NAMES.TXT:Charlton was here!
+.instrs
+        l start
+        cls
+        e "---- Guest Book ----"
+        t "NAMES.TXT"
+        e "--------------------"
+        e ""
+        stp NAME,"Enter your name or q to exit: "
+        ieq NAME,"q",end
+        ieq NAME,"r",secret
+        af "%NAME%","NAMES.TXT"
+        g start
+        l end 
+        e ""
+        e "Visitors:"
+        e ""
+        t "NAMES.TXT"
+        e ""
+        trm
+        l secret
+        e "This is the secret area!"
+        p
+        g start

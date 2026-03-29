@@ -1,0 +1,13 @@
+.header
+    filename "test-stf-df.bat"
+.files
+    "DATA.txt","hello world"
+.instrs
+    stf CONTENTS,"DATA.txt"
+    e "stf loaded: %CONTENTS%"
+    iex "DATA.txt",exists1
+    e "FAIL: file should exist before delete"
+    trm
+    l exists1
+    e "PASS: file exists before delete"
+    trm

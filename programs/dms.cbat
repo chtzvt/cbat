@@ -1,0 +1,1345 @@
+.global
+    entry "DMS.bat"
+
+.files
+    "C:\DSOFT\DMS\ADMINTOOLS\SYSPASSWD.txt","dsoft1"
+
+.header
+    filename "DMS.bat"
+    entry 0
+    ver 1.0
+.instrs
+    clr 17
+    cls
+    ; ::DMS Changelog
+    ; ::Please record changes to DMS here.
+    ; ::
+    ; ::V 3.0 Telnet (DSOFT HQ 2 ON SERVER 02)
+    ; ::6:52 PM 3/18/2012 Centered title
+    ; ::6:59 PM 3/18/2012 Removed "Color" Statements, color now controlled at top.
+    ; ::7:09 PM 3/18/2012 Fixed userlist text does not disappear/color bleeding.
+    ; ::7:24 AM 6/16/2012 Added a few Easter eggs :)
+    ; ::7:30 AM 6/16/2012 Established a slogan for differential software, "Look to the future!"
+    ; ::7:34 AM 6/16/2012 added date+time to the DMS login menu
+    ; ::12:35 PM 6/16/2012 added ARC feature (account recovery code), along with extra steps to the registration process, plus minor improvements.
+    ; ::2:43 AM 8/14/2012 Added update feature, and added nice new title screen. i plan on adding the ability to change your password in a future update.
+    ; ::--
+    ; ::FRI JUN 7 2013
+    ; ::|Programming in batch 3 miles above the surface of the earth!
+    ; ::|Revamped chat system w/ muliple rooms
+    ; ::|Fixed title screen & added box for system information.
+    ; ::|Added more customizability to the credits.
+    ; ::|Changed admin to sysop
+    ; ::|Removed some stuff
+    ; ::|Cleaned up code
+    ; ::|Changed directory so that its universal.
+    ; ::|Added warnings to message input screen (Chat & MAil)
+    ; ::|Added installer features.
+    ; ::|Eventually going to add ability to ban mail coming from individual users. Screw it. i'll do it eventually...
+    ; ::|Changed admin password to be set in a text file.
+    ; ::|Added screen refresh feature to get rid of laggy bits that sometimes appear because of slow connections, etc...
+    ; ::--
+    ; ::Fixed variable handling by sanitizing. With certain types of input, this could cause crashing,
+    ; ::Leading to a crash, which may, in most cases, drop telnet users to a command prompt, allowing them
+    ; ::To execute DOS commands with the priveleges of the user running the DMS server.
+    ; ::Sanitized all the vars in registration
+    ; :: ::::::::::::::::STARTUP SCRIPTS::::::::::::::::::::::
+    l STARTUPMODE
+    ; ::Check to see if DMS should run in cloud mode from a cloud service like Dropbox.
+    ; :: ****!!!BE SURE TO CHANGE THE PATH TO REFLECT WHICH CLOUD ERVICE YOU CHOOSE TO USE!!!****
+    iex "C:\DSOFT\DMS\SYSTEM\MODE\CLOUDMODE-ENABLED.txt"
+    c ""C:\Documents and Settings\%username%\My Documents\Dropbox\SERVER_SYNC\CLOUDOP\DMS\SYSTEM\DMS.bat"
+    ; ::Set up the username for login to the Administration Console.
+    ; ::***********!!!!!!!!!!!!!Make sure you set that variable!!!!!**********
+    ; ::If the file does not exist, default is "system1"
+    inx "%C:\DSOFT\DMS\SYSTEM\MODE\VAULT\SYSTEMUN.txt"
+    st SYSTEMUN,"system1"
+    inx "%C:\DSOFT\DMS\SYSTEM\MODE\VAULT\SYSTEMUN.txt",SKIPSYSUNSET
+    stf SYSTEMUN,"%C:\DSOFT\DMS\SYSTEM\MODE\VAULT\SYSTEMUN.txt"
+    l SKIPSYSUNSET
+    ; ::Initialize failed password try count.
+    l DMSLOGIN
+    clr 17
+    cls
+    e "                           ##########################            %time%"
+    e "                           #DDDDD   MM    MM  SSSSS #           %date%"
+    e "                           #DD  DD  MMM  MMM SS     #            v 3.0 T"
+    e "                           #DD   DD MM MM MM  SSSSS #"
+    e "                           #DD   DD MM    MM      SS#"
+    e "                           #DDDDDD  MM    MM  SSSSS #"
+    e "                           #Dynamic Messaging System#"
+    e "                           #########BY DSOFT#########"
+    e ""
+    ; ::Please entr the appropriate information into the title text file.
+    ; ::For the love of all that is holy, MAKE THE BOX LOOK NEAT!
+    t "C:\DSOFT\DMS\SYSTEM\DMS_TITLE.txt"
+    e ""
+    e "Please Log in To DMS."
+    e "Type "newuser" to register an account."
+    e "Type "exit" to exit. Type "recover" to recover your"
+    e "login information."
+    e ""
+    stp user,"Username:"
+    iex "C:\DSOFT\DMS\USERS\%user%.txt",gooduser
+    ieq user,"exit"
+    trm
+    ieq user,"recover",ACCRECOVERY
+    ieq user,"RECOVER",ACCRECOVERY
+    ieq user,"newuser",DMSNEWUSER1
+    ieq user,"NEWUSER",DMSNEWUSER1
+    ieq user,"%SYSTEMUN%",systemlog
+    e "invalid logon..."
+    e "Type "newuser" to register..."
+    p 0
+    g DMSLOGIN
+    l gooduser
+    ; ::if "%TRY%" EQU "3" goo LOCKOUT
+    stf PASSWD,"C:\DSOFT\DMS\USERS\%user%.txt"
+    stp pass,"Password for %user%:"
+    ieq pass,"%PASSWD%",good
+    ; ::set /a tries=%TRY%+1
+    e "invalid logon..."
+    e "Type "newuser" to register..."
+    ; ::echo Failed tries: %TRY% of 3 possible.
+    p 0
+    g DMSLOGIN
+    l good
+    af "","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    af "%user% logged in at %time% on %date%","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    af "","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    g DMSLOBBY
+    l DMSLOBBY
+    cls
+    e "DMS Lobby."
+    e ""
+    e "Anouncements:"
+    t "C:\DSOFT\DMS\ADMINTOOLS\ANOUNCEMENTS.txt"
+    e ""
+    e "Press any key to enter DMS..."
+    p 0
+    g DMSMAIN
+    l DMSMAIN
+    clr 17
+    cls
+    e "Welcome to DMS!                                       %TIME%%date%"
+    e "%user% is logged in to the system."
+    e "Select an option below:"
+    e ""
+    e "1)Inbox."
+    e "2)Send Mail."
+    e "3)Messageboard."
+    e "4)Logout"
+    e "5)More..."
+    stp input,"DMS:"
+    ieq input,"1",DMSINBOX
+    ieq input,"2",DMSSEND
+    ieq input,"3",DMSMESSAGE
+    ieq input,"4",DMSLOGOFF
+    ieq input,"5",DMSMORE
+    e "Command Invalid."
+    p
+    g DMSMAIN
+    l DMSLOGOFF
+    af "","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    af "%user% logged out at %time% on %date%","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    af "","C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    g DMSLOGIN
+    l DMSMORE
+    clr 17
+    cls
+    e "More options:                                              %time%%Date%"
+    e ""
+    e "1)Credits"
+    e "2)Manual"
+    e "3)Report a Bug"
+    e "4)Report a User"
+    e "5)List Of Users"
+    e "6)Exit"
+    stp input,"DMS:"
+    ieq input,"1",DMSCREDITS
+    ieq input,"2",DMSMANUAL
+    ieq input,"3",DMSBUGREPORT
+    ieq input,"4",DMSREPORTABUSE
+    ieq input,"5",DMSUSERSLIST
+    ieq input,"6",DMSMAIN
+    ; ::if "%input%" "cake" goto CAKE
+    ; ::if "%input%" "h2g2" goto H2G2
+    ; ::if "%input%" "H2G2" goto H2G2
+    e "Command Invalid"
+    p
+    g DMSMORE
+    ; :: Easter egg
+    l H2G2
+    cls
+    e "Don't Panic!"
+    slp 2000
+    slp 0
+    c "HITCHHIK.exe"
+    e "Press any key to return to DMS..."
+    p 0
+    g DMSMAIN
+    ; :: Other easter egg
+    l CAKE
+    e ""
+    e "the cake is a lie."
+    e "the cake is a lie."
+    e "the cake is a lie."
+    e "the cake is a lie."
+    e "                  \"
+    p 0
+    g DMSMORE
+    l DMSMANUAL
+    cls
+    inx "C:\DSOFT\DMS\NETWORK\RESOURCES\DMS_MANUAL.txt",NOMANUALFOUND
+    e "**********Dynamic Messaging system**********"
+    e "****************User Manual*****************"
+    tp "C:\DSOFT\DMS\NETWORK\RESOURCES\DMS_MANUAL.txt",20
+    p
+    g DMSMORE
+    l NOMANUALFOUND
+    cls
+    e "A manual for DMS could not be found on this system."
+    e "Please contact the Sysop."
+    p
+    g DMSMORE
+    l DMSUSERSLIST
+    cls
+    e "List of registered users on this system:"
+    e ""
+    t "C:\DSOFT\DMS\USERS\USERDATA\USERLIST.txt"
+    e ""
+    p
+    g DMSMORE
+    l DMSCREDITS
+    cls
+    e " ########################################"
+    e " X-DOS Dynamic Messaging System"
+    e " Original code created by: Charlton Trezevant"
+    e " Server setup: HW_ADMINS"
+    e " Admin(s) of this installation:"
+    t "C:\DSOFT\DMS\ADMINTOOLS\SYSOPINFO.txt"
+    e " ########################################"
+    e " location of this setup:"
+    e ""
+    t "C:\DSOFT\DMS\ADMINTOOLS\SERVERLOCATIONINFO.txt"
+    ; ::You may add more stuff to the credits as you see fit.
+    ; ::echo  ########################################
+    ; ::echo  I would like to thank all of my friends
+    ; ::echo  for their help and support, especially
+    ; ::echo  these people:
+    ; ::echo.
+    ; ::echo  David D.
+    ; ::echo  Paul A.
+    ; ::echo  Brett M.
+    ; ::echo  Jay M.
+    ; ::echo  The fine folks at 777 Computers and Games
+    ; ::echo.
+    p
+    g DMSMORE
+    l DMSREPORTABUSE
+    cls
+    e "User report system."
+    e "Use this to contact an admin"
+    e "about abuse of the program"
+    e "and/or other users. type "/q""
+    e "in any feild to exit."
+    e ""
+    stp ABUSER,"Username of abuser:"
+    e ""
+    stp RSON,"Reason for reporting:"
+    e ""
+    e "Describe the offense:"
+    e "Press ENTER key to send report."
+    stp OF1,">"
+    l OFFYN1
+    stp LN1S1,"Send message? (Y/N):"
+    ieq LN1S1,"y",DMSSENDMSGO
+    ieq LN1S1,"Y",DMSSENDMSGO
+    ieq LN1S1,"yes",DMSSENDMSGO
+    ieq LN1S1,"YES",DMSSENDMSGO
+    ieq LN1S1,"n",DMSMAIN
+    ieq LN1S1,"N",DMSMAIN
+    ieq LN1S1,"no",DMSMAIN
+    ieq LN1S1,"NO",DMSMAIN
+    e "Invalid."
+    p
+    g OFFYN1
+    l DMSSENDMSGO
+    cls
+    e "Your Problem was reported."
+    e "You will probably recieve a message"
+    e "from the Sysop at a later time."
+    p
+    af "","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "%user% reported %ABUSER% at %time% %date%","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "Reason for reporting: %RSON%","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "Description:","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "%OF1%","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    af "***END***","C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    g DMSMORE
+    l DMSBUGREPORT
+    cls
+    e "Bug report system."
+    e "Use this to contact an admin"
+    e "about glitches the program"
+    e "and/or account issues."
+    e "type "back" to go back."
+    e ""
+    stp PROBLEM,""
+    e ""
+    stp WHAT,"What were you doing:"
+    e ""
+    e "Describe the problem:"
+    e "Press ENTER key to send."
+    stp BG1,">"
+    l LQWE
+    stp LN1S12,"Send message? (Y/N):"
+    ieq LN1S12,"y",DMSSENDMSGO1
+    ieq LN1S12,"Y",DMSSENDMSGO1
+    ieq LN1S12,"yes",DMSSENDMSGO1
+    ieq LN1S12,"YES",DMSSENDMSGO1
+    ieq LN1S12,"n",DMSMAIN
+    ieq LN1S12,"N",DMSMAIN
+    ieq LN1S12,"no",DMSMAIN
+    ieq LN1S12,"NO",DMSMAIN
+    e "Invalid."
+    p
+    g LQWE
+    l DMSSENDMSGO1
+    cls
+    e "Your Problem was reported."
+    e "You will probably recieve a message"
+    e "from the Sysop at a later time."
+    af "",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "%user% reported %PROBLEM% at %time% %date%",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "While Doing %WHAT%",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "Description:",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "%BG1%",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    af "***END***",""C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    p
+    g DMSMORE
+    ; :::DMSMESSAGE
+    ; ::echo. >>"C:\DSOFT\DMS\MAILSERVER\DMSMESSAGEBOARD.txt"
+    ; ::echo %user% entered! >>"C:\DSOFT\DMS\MAILSERVER\DMSMESSAGEBOARD.txt"
+    ; ::echo. >>"C:\DSOFT\DMS\MAILSERVER\DMSMESSAGEBOARD.txt"
+    ; ::goto DMSMSG1
+    l DMSMSG1
+    l DMSMESSAGE
+    cls
+    e "Welcome to the DMS Messageboard!"
+    e "It's like IRC (IM for you young whippersnappers). But on a BBS."
+    e ""
+    e "Please select a chatroom:"
+    e ""
+    e "Chatroom 1 (Random)"
+    e "Chatroom 2 (Science/Technology)"
+    e "Chatroom 3 (Politics/World News)"
+    e "Chatroom 4 (Arts/Music)"
+    e ""
+    e "Type /q to exit"
+    e "Chatroom number [1-4]:"
+    stp ROOM,"Room to join:"
+    ieq ROOM,"/q",DMSMAIN
+    ieq ROOM,"1",CR1
+    ieq ROOM,"2",CR2
+    ieq ROOM,"3",CR3
+    ieq ROOM,"4",CR4
+    e "the choice is invalid."
+    e "Choose a number between 1 and for that"
+    e "corresponds with the catroom that you want to join."
+    p
+    g DMSMESSAGE
+    l CR1
+    c "C:\DSOFT\DMS\SYSTEM\CHAT1.bat"
+    g DMSMSG1
+    l CR2
+    c "C:\DSOFT\DMS\SYSTEM\CHAT2.bat"
+    g DMSMSG1
+    l CR3
+    c "C:\DSOFT\DMS\SYSTEM\CHAT3.bat"
+    g DMSMSG1
+    l CR4
+    c "C:\DSOFT\DMS\SYSTEM\CHAT4.bat"
+    g DMSMSG1
+    l DMSSEND
+    cls
+    e "Send Mail."
+    e "Type "/q" in any field to exit."
+    e ""
+    e "Enter Username:"
+    stp UNAMME,"User:"
+    iex "C:\DSOFT\DMS\USERS\%UNAMME%.txt",GOODRECIPENT
+    ieq UNAMME,"/q",DMSMAIN
+    e "?Invalid Username"
+    e "Please try again..."
+    p 0
+    g DMSSEND
+    l GOODRECIPENT
+    stp SUBJ,"Subject:"
+    ieq SUBJ,"/q",DMSMAIN
+    e ""
+    l ENTERMSGCONTENT
+    st LN1," "
+    e "Word wrap is automatic. DO NOT press ENTER to start a new line."
+    e "You may not come back and edit messages once you press ENTER."
+    e ""
+    stp LN1,"Message Text:"
+    ieq LN1,"/q",DMSMAIN
+    ; ::echo Maximum Message Content!
+    e ""
+    l ASDW
+    stp LN1S,"Send message? (Y/N):"
+    ieq LN1S,"y",DMSSENDMSG
+    ieq LN1S,"Y",DMSSENDMSG
+    ieq LN1S,"yes",DMSSENDMSG
+    ieq LN1S,"YES",DMSSENDMSG
+    ieq LN1S,"n",ENTERMSGCONTENT
+    ieq LN1S,"N",ENTERMSGCONTENT
+    ieq LN1S,"no",ENTERMSGCONTENT
+    ieq LN1S,"NO",ENTERMSGCONTENT
+    e "Invalid."
+    p
+    g ASDW
+    l DMSSENDMSG
+    cls
+    e "Sending..."
+    af "","C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    af "Message from %user% %time% %date%","C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    af "Subject: %SUBJ%","C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    af "%LN1%","C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    ; ::echo  %LN2%>>"C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    af "***END OF MESSAGE***","C:\DSOFT\DMS\MAILSERVER\%UNAMME%-INBOX.txt"
+    e ""
+    e "Message sent!"
+    e "What would you like to do?"
+    e ""
+    l SMSGMENUU
+    e "1)Main Menu"
+    e "2)Send another message"
+    stp input,":"
+    ieq input,"1",DMSMAIN
+    ieq input,"2",DMSSEND
+    e "Invalid."
+    p
+    g SMSGMENUU
+    l DMSINBOX
+    cls
+    e "Welcome to INBOX."
+    e "Showing mail for %user%:"
+    t "C:\DSOFT\DMS\MAILSERVER\%user%-INBOX.txt"
+    e ""
+    e "Choose an option:"
+    e "1)Main Menu"
+    e "2)Clear Inbox"
+    e "3)Check for new mail."
+    stp input,"DMS:"
+    ieq input,"1",DMSMAIN
+    ieq input,"2",DMSINBOXCLR
+    ieq input,"3",DMSINBOX
+    e "Command Invalid."
+    p
+    g DMSINBOX
+    l DMSCOPYINBOX
+    ; ::xcopy "C:\DSOFT\DMS\MAILSERVER\%user%-INBOX.txt" %userprofile%\Desktop
+    ; ::echo Inbox copied to Desktop.
+    ; ::pause
+    ; ::goto DMSINBOX
+    g FATALERROR
+    l DMSINBOXCLR
+    cls
+    df "C:\DSOFT\DMS\MAILSERVER\%user%-INBOX.txt"
+    af "Inbox: %user%.","C:\DSOFT\DMS\MAILSERVER\%user%-INBOX.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\%user%-INBOX.txt"
+    e "Inbox Cleared!"
+    p
+    g DMSMAIN
+    l WALL
+    g DMSMAIN
+    l systemlog
+    stf CSYSPASS,"C:\DSOFT\DMS\ADMINTOOLS\SYSPASSWD.txt"
+    stp SYSTEMPASSWD,"Password:"
+    ieq CSYSPASS,"%SYSTEMPASSWD%",systemcall
+    e "invalid."
+    p
+    g DMSLOGIN
+    l systemcall
+    cls
+    clr 07
+    c "admin.bat"
+    g DMSLOGIN
+    l WALL
+    g FATALEROR
+    l DMSNEWUSER1
+    cls
+    e "User Registration system.            %time% %date%"
+    e ""
+    e "Please enter required information below."
+    e "Required fields are marked with an "!"."
+    e "Type "/q" in any field to exit registration."
+    e ""
+    e ""
+    l NEWUSER1
+    stp DESUN,"! Desired username:"
+    ieq DESUN,"/q",DMSLOGIN
+    iex "C:\DSOFT\DMS\USERS\%user%-acc.txt",INVALIDDESUN
+    e "Username O.K."
+    e ""
+    g NEWUSER2
+    l INVALIDDESUN
+    e "#!Username has already been taken!"
+    e "Try another one..."
+    e ""
+    p
+    g NEWUSER1
+    ; ::42 br0
+    l NEWUSER2
+    e "First name and first letter of last."
+    e "Example: Arthur D."
+    e "(Just initials are also fine.)"
+    e ""
+    stp RNAM,"! First name/Last initial:"
+    ieq RNAM,"/q'",DMSLOGIN
+    e "O.K."
+    e ""
+    g NEWUSER3
+    l NEWUSER3
+    stp DESPASS,"! Desired Password:"
+    ieq DESPASS,"/q",DMSLOGIN
+    e "O.K."
+    e ""
+    g NEWUSER4
+    l NEWUSER4
+    e "E-Mail is requested for password recovery"
+    e "and/or contact from the Sysop concerning your"
+    e "DMS account. The Sysop should not give this"
+    e "information to others, but it may not be guaranteed."
+    e "it is, however, highly suggested"
+    e "that this information be given, but, if you do"
+    e "not want to give it, type a "." in the prompt."
+    e ""
+    stp USEML,"E-Mail:"
+    ieq USEML,"/q",DMSLOGIN
+    e "O.K."
+    e ""
+    g NEWUSER5
+    l NEWUSER5
+    e "Please type your country and"
+    e "State/Province:"
+    e ""
+    stp UCON,"! Country name:"
+    ieq UCON,"/q",DMSLOGIN
+    stp USTAT,"! State/Province:"
+    ieq USTAT,"/q",DMSLOGIN
+    e "O.K."
+    g NEWUSER6
+    l NEWUSER6
+    e ""
+    e "Now generating a unique Account Recovery Code..."
+    st ARC,"%random%-%random%"
+    e ""
+    e "Your ARC: %ARC%"
+    e ""
+    e "This code will be used to recover your credentials"
+    e "should they ever be lost or stolen. This code will be used"
+    e "to identify you as a valid user of the DMS, and to aid in the"
+    e "password recovery process. Please, store this code in a safe place."
+    e "You will not be able to get a new ARC once you leave this screen."
+    e ""
+    p
+    e "Press any key if you have stored your ARC safeley."
+    p
+    g NEWUSER7
+    l NEWUSER7
+    e ""
+    e "Privacy policy:"
+    e ""
+    e "Your information will be safely stored on the Sysop's"
+    e "own servers. The Sysop will NOT give your personal data"
+    e "to ANYONE. DSOFT will not contact you with advertisements of any kind at all"
+    e "whatsoever. All important information will be stored in"
+    e "the "Anouncements" page in the DMS lobby. the sole purpose"
+    e "of this system is to supply users with a free alternative to"
+    e "commercial e-mail services."
+    e ""
+    e "Terms of use:"
+    e ""
+    ; ::Add additional legalese/T&C here.
+    e "Behave. In the chatroom, mind your manners. Going off on an"
+    e "all-out rant will A)Result in an IP Ban and B)Make you look"
+    e "like an idiot."
+    e "IN REGARDS TO HACKING: Please, don't try and"
+    e "hack our stuff. Were trying to run an innocent service here"
+    e "that lets people send messages back and forth. If you really want"
+    e "to cause some damage to a server(s), then try a website/service"
+    e "that is destructive or evil in some way. you will have made the"
+    e "Interblag just that much of a better place."
+    e "Keep your cool. Mind your manners."
+    e "Thats all we ask of you, mmmkay?"
+    e ""
+    e "Do you accept these terms? (Y/N)"
+    e "Disagreement will result in a"
+    e "redirect to the login screen."
+    stp input,"(Y/N)?"
+    ieq input,"y",PROCESSUSERDATA
+    ieq input,"n",DMSLOGIN
+    ieq input,"Y",PROCESSUSERDATA
+    ieq input,"N",DMSLOGIN
+    e "Invalid."
+    p
+    g NEWUSER7
+    l PROCESSUSERDATA
+    e "Thank-You for registering!"
+    e "Please wait while we process your data..."
+    ; ::Total account information file.
+    ; ::Contains ALL user data
+    af "","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "%RNAM%:","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "Country: %UCON%","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "State/Province: %USTAT%","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "E-MAIL: %USEML%","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "%DESUN%/%DESPASS%","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "ARC: %ARC%","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    af "","C:\DSOFT\DMS\USERS\USERDATA\INF-%DESUN%-%DESPASS%-%RNAM%.DMS"
+    p
+    ; ::Add user to user list
+    af "%DESUN% ! %RNAM%","C:\DSOFT\DMS\USERS\USERDATA\USERLIST.txt"
+    af "Joined: %time% %date%","C:\DSOFT\DMS\USERS\USERDATA\USERLIST.txt"
+    ; ::Create login file for new user.
+    af "%DESPASS%","C:\DSOFT\DMS\USERS\%DESUN%.txt"
+    ; ::Create inbox for new user
+    af "Inbox: %user%.","C:\DSOFT\DMS\MAILSERVER\%DESUN%-INBOX.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\%DESUN%-INBOX.txt"
+    ; ::Create an ARC account recovery info file
+    af "Username: %DESUN%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    af "Password: %DESPASS%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    af "Real Name: %RNAM%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    af "E-mail: %USEML%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    af "Country: %UCON%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    af "User State/Province: %USTAT%","C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    e "Data Was processed successfully."
+    e "You are now a registered user of DSOFT's"
+    e "Dynamic Messaging System!"
+    e ""
+    e "!!WRITE THIS DOWN!!"
+    e "This code is used to recover your account information, should it"
+    e "become lost."
+    e ""
+    e "Your ARC:%ARC%"
+    e ""
+    p
+    g DMSLOGIN
+    l ACCRECOVERY
+    cls
+    e "Please enter your Account Recovery Code (ARC) below:"
+    e "To leave this screen, type "exit"."
+    stp %RCVR%,"ARC:"
+    ieq ARC,"exit",DMSLOGIN
+    ieq ARC,"EXIT",DMSLOGIN
+    iex "C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat",GOODARC
+    e "That ARC is invalid."
+    e "Please make sure that you entered your ARC correctly, and try again."
+    p
+    g ACCRECOVERY
+    l GOODARC
+    cls
+    e "Your credentials are:"
+    e ""
+    t "C:\DSOFT\DMS\USERS\USERDATA\ARC\%ARC%.dat"
+    e "Please, store these credentials in a safe place!"
+    e "Press any key to return to login..."
+    p 0
+    g DMSLOGIN
+    l %ERRORLEVEL%
+    l CRITICALERROR
+    l FATALERROR
+    e "OK, i admit it, you have some kind of skill."
+    e "this is the bumper at the END OF THE PROGRAM, bud."
+    e "This is the SERIOUS ERROR MESSAGE!!"
+    e "wow. Please report this to an admin."
+    e "You will be redirected to the login screen..."
+    p
+    g DMSLOGIN
+
+.header
+    filename "admin.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ; :: ADMIN DMS V1.2 (TELNET)
+    clr 07
+    cls
+    l boot
+    e "KUCHI Server Administration System v2.0"
+    p
+    l system
+    cls
+    clr 07
+    e "System menu."
+    e "Choose an option:"
+    e ""
+    e "1)Run a System check"
+    e "2)Server information"
+    e "3)Uninstall DMS from this network"
+    e "4)Clear chatroom"
+    e "5)User information"
+    e "6)CMD"
+    e "7)Update"
+    stp vpie,"SYSTEM:"
+    ieq vpie,"1",SYSTEMCHECK
+    ieq vpie,"2",KUCHIINFO
+    ieq vpie,"3",VERIFYDEL
+    ieq vpie,"4",MSGCLS
+    ieq vpie,"5",USRINPUT
+    ieq vpie,"6",DMSCMD
+    ieq vpie,"7",UPDATE
+    ieq vpie,"8",DMSLOGINE
+    e "Invalid command."
+    p
+    g system
+    l DMSCMD
+    cls
+    stp vpie,"Enter Security Code:"
+    ieq vpie,"dsoft1",GOODCODECMD
+    e "Invalid."
+    p
+    g system
+    l GOODCODECMD
+    cls
+    c "CMD.exe"
+    g system
+    l USRINPUT
+    cls
+    e "Choose one:"
+    e ""
+    e "1)View Bug Reports"
+    e "2)View Reported Users"
+    e "3)View logins"
+    e "4)View Registered Users"
+    e "5)Main Menu"
+    stp vpie,"COM:"
+    ieq vpie,"1",BUGS1
+    ieq vpie,"2",USR1
+    ieq vpie,"3",LOGMAN
+    ieq vpie,"4",REGUSRS
+    ieq vpie,"5",system
+    e "invalid."
+    g USRINPUT
+    l REGUSRS
+    cls
+    e "Displaying current DMS users:"
+    e ""
+    t "C:\DSOFT\DMS\USERS\USERDATA\USERLIST.txt"
+    e ""
+    p
+    g USRINPUT
+    l LOGMAN
+    cls
+    e "Logins as of %time% %date%:"
+    e ""
+    t "C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    e ""
+    stp vpie,"Clear list? (Y/N)"
+    ieq vpie,"Y",CLSLOGMAN
+    ieq vpie,"y",CLSLOGMAN
+    ieq vpie,"n",USRINPUT
+    ieq vpie,"N",USRINPUT
+    g USRINPUT
+    l CLSLOGMAN
+    df "C:\DSOFT\DMS\ADMINTOOLS\LOGINRECORD.txt"
+    e "Cleared."
+    p
+    g USRINPUT
+    l BUGS1
+    cls
+    e "Bugs reported:"
+    e ""
+    t "C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    e ""
+    stp vpie,"Clear list? (Y/N)"
+    ieq vpie,"Y",CLSBUG
+    ieq vpie,"y",CLSBUG
+    ieq vpie,"n",USRINPUT
+    ieq vpie,"N",USRINPUT
+    e "invalid."
+    p
+    g BUGS1
+    l USR1
+    cls
+    e "Users reported:"
+    e ""
+    t "C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    e ""
+    stp vpie,"Clear list? (Y/N)"
+    ieq vpie,"Y",CLSUSR1
+    ieq vpie,"y",CLSUSR1
+    ieq vpie,"n",USRINPUT
+    ieq vpie,"N",USRINPUT
+    e "invalid."
+    p
+    g USR1
+    l CLSBUG
+    df "C:\DSOFT\DMS\ADMINTOOLS\BUGREPORT.txt"
+    e "Cleared."
+    p
+    g USRINPUT
+    l CLSUSR1
+    df "C:\DSOFT\DMS\ADMINTOOLS\USERREPORT.txt"
+    e "Cleared."
+    p
+    g USRINPUT
+    l MSGCLS
+    df "C:\DSOFT\DMS\MAILSERVER\DMSMESSAGEBOARD.txt"
+    e "Cleared."
+    p
+    g system
+    l KUCHIINFO
+    cls
+    e "KUCHI Server System."
+    e "Software: v2.0"
+    e "By Charlton Trezevant."
+    e ""
+    e "Current setup:"
+    e "Netman compatible: %netman%"
+    e "Active: YES"
+    p
+    g system
+    l SYSTEMCHECK
+    cls
+    e "KUCHI Server System check v1.3"
+    e "By: Charlton Trezevant."
+    e ""
+    e "Running System Check, please wait..."
+    e "Checking Main..."
+    iex "C:\DSOFT\DMS",Maingood
+    clr 04
+    e "Main: ERR"
+    e "RELOAD FILE."
+    g SYSTEMCHECK2
+    l Maingood
+    e "Main: OK."
+    g SYSTEMCHECK2
+    l SYSTEMCHECK2
+    e "Checking Mail server..."
+    iex "C:\DSOFT\DMS\MAILSERVER",mailservergood
+    clr 04
+    e ""
+    e "Mail server: ERR"
+    e "RELOAD FILE."
+    g SYSTEMCHECK3
+    l mailservergood
+    e ""
+    e "Mail server: OK"
+    g SYSTEMCHECK3
+    l SYSTEMCHECK3
+    e "Checking Internal network..."
+    iex "C:\DSOFT\DMS\NETWORK",networkgood
+    clr 04
+    e ""
+    e "Network: ERR"
+    e "RELOAD FILE."
+    l networkgood
+    e ""
+    e "Network: OK"
+    g SYSTEMCHECK4
+    l SYSTEMCHECK4
+    e "Checking Additional System files..."
+    iex "C:\DSOFT\DMS\SYSTEM",systemfilesok
+    clr 04
+    e ""
+    e "Adtl. System files: ERR"
+    e "RELOAD FILE."
+    g SYSTEMCHECK5
+    l systemfilesok
+    e ""
+    e "Adtl. System files: OK."
+    g SYSTEMCHECK5
+    l SYSTEMCHECK5
+    e "Checking User-based data..."
+    iex "C:\DSOFT\DMS\NETWORK\BLOGS",usrchk2
+    clr 04
+    e ""
+    e "File 1: ERR"
+    e "RELOAD FILE."
+    e "Checking File 2..."
+    iex "C:\DSOFT\DMS\NETWORK\USERSERVICES",usrchk23
+    g f2err
+    l usrchk2
+    e "File 1: OK"
+    e "Checking File 2..."
+    iex "C:\DSOFT\DMS\NETWORK\USERSERVICES",usrchk23
+    g f2err
+    l f2err
+    clr 04
+    e ""
+    e "File 2: ERR"
+    e "RELOAD FILE."
+    g SYSTEMCHECK6
+    l usrchk23
+    e "File 2: OK"
+    g SYSTEMCHECK6
+    l SYSTEMCHECK6
+    e "Checking for Administrator tools..."
+    iex "C:\DSOFT\DMS\ADMINTOOLS",admingood
+    clr 04
+    e ""
+    e "Admin Tools: ERR"
+    e "RELOAD FILE."
+    g SYSTEMCHECKED
+    l admingood
+    e ""
+    e "Admin Tools: OK."
+    g SYSTEMCHECKED
+    l SYSTEMCHECKED
+    e ""
+    e "System diagnostics finished."
+    e "%time% %date%"
+    e ""
+    p
+    g system
+    l VERIFYDEL
+    cls
+    clr 07
+    ; ::set /p vpie=Enter Security Code:
+    ; ::if %vpie%" EQU "admindel" goto delete dms
+    ; ::echo Invalid Code.
+    ; ::pause>nul
+    ; ::goto system
+    l delete dms
+    e "Now deleting program..."
+    ; ::del "C:\DSOFT\DMS
+    cls
+    e "Uninstalled."
+    p 0
+    trm
+    l UPDATE
+    c "C:\DMS-STATIC\SYNCAGENT.bat"
+    p
+    g system
+    l DMSLOGINE
+    ; ::Goes back to DMS, leave blank!
+
+.header
+    filename "CHAT1.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "DMS Chat (Room 1: Random)"
+    clr 17
+    ; ::This is from my integrated file transfer/chat program I wrote a while back.
+    ; ::Feel free to modify it to suit your needs.
+    ; ::Took out the ability to ban users via a file. you must do it manually.
+    l enterchat
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "%user% entered chat.","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Random""
+    e "You may talk about whatever you like here."
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e "---------------------------------------------------------------"
+    e "This notice will reappear at the top of the chatroom."
+    g chat
+    l chat
+    ; :: IF EXIST "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\BANS\%USERNAME%.txt" goto USERBAN
+    ieq user,"banned_person's_name_here",bannotice
+    cls
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Random""
+    e "You may talk about whatever you like here."
+    e ""
+    e "COMMANDS:"
+    e "New messages do not appear automatically. you must constantly refresh the chat session."
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e ""
+    t "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    e ""
+    e "%user% in Chat."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat
+    ieq MSG1,"/termclear",color1
+    ieq MSG1,"/q",leave
+    e "SENDING..."
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "%user% said:","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "%MSG1%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "%time% %date%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    g chat
+    l leave
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "%user% left!","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM.txt"
+    g eof
+    l color1
+    e "Set color to 17."
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "Attempted to clear screen. It may or may not have worked."
+    e "At the least it should have cut the laggy text away from your screen."
+    p
+    clr 17
+    g chat
+
+.header
+    filename "CHAT2.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "DMS Chat (Room 2: Science, Technology)"
+    clr 17
+    ; ::This is from my integrated file transfer/chat program I wrote a while back.
+    ; ::Feel free to modify it to suit your needs.
+    ; ::Took out the ability to ban users via a file. you must do it manually.
+    l enterchat
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "%user% entered chat.","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Random""
+    e "You may talk about whatever you like here."
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e "---------------------------------------------------------------"
+    e "This notice will reappear at the top of the chatroom."
+    g chat
+    l chat
+    ; :: IF EXIST "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\BANS\%USERNAME%.txt" goto USERBAN
+    ieq user,"banned_person's_name_here",bannotice
+    cls
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Science, Technology""
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e ""
+    t "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    e ""
+    e "%user% in Chat."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat
+    ieq MSG1,"/termclear",color1
+    ieq MSG1,"/q",leave
+    e "SENDING..."
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "%user% said:","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "%MSG1%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "%time% %date%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    g chat
+    l leave
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "%user% left!","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM2.txt"
+    g eof
+    l color1
+    e "Set color to 17."
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "Attempted to clear screen. It may or may not have worked."
+    e "At the least it should have cut the laggy text away from your screen."
+    p
+    clr 17
+    g chat
+
+.header
+    filename "CHAT3.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "DMS Chat (Room 3: Politics, World News)"
+    clr 17
+    ; ::This is from my integrated file transfer/chat program I wrote a while back.
+    ; ::Feel free to modify it to suit your needs.
+    ; ::Took out the ability to ban users via a file. you must do it manually.
+    l enterchat
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "%user% entered chat.","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Politics/World News""
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e "---------------------------------------------------------------"
+    e "This notice will reappear at the top of the chatroom."
+    g chat
+    l chat
+    ; :: IF EXIST "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\BANS\%USERNAME%.txt" goto USERBAN
+    ieq user,"banned_person's_name_here",bannotice
+    cls
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Politics/World News""
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e ""
+    t "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    e ""
+    e "%user% in Chat."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat
+    ieq MSG1,"/termclear",color1
+    ieq MSG1,"/q",leave
+    e "SENDING..."
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "%user% said:","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "%MSG1%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "%time% %date%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    g chat
+    l leave
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "%user% left!","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM3.txt"
+    g eof
+    l color1
+    e "Set color to 17."
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "Attempted to clear screen. It may or may not have worked."
+    e "At the least it should have cut the laggy text away from your screen."
+    p
+    clr 17
+    g chat
+
+.header
+    filename "CHAT4.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "DMS Chat (Room 4: Arts & Music)"
+    clr 17
+    ; ::This is from my integrated file transfer/chat program I wrote a while back.
+    ; ::Feel free to modify it to suit your needs.
+    ; ::Took out the ability to ban users via a file. you must do it manually.
+    l enterchat
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "%user% entered chat.","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Art/Music""
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e "---------------------------------------------------------------"
+    e "This notice will reappear at the top of the chatroom."
+    g chat
+    l chat
+    ; :: IF EXIST "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\BANS\%USERNAME%.txt" goto USERBAN
+    ieq user,"banned_person's_name_here",bannotice
+    cls
+    e "Welcome to Chatroom 1."
+    e "The topic here is "Art/Music""
+    e ""
+    e "COMMANDS:"
+    e "***New messages do not appear automatically.***"
+    e "!!!!!You must constantly refresh the chat session.!!!!!"
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /termclear to remove any laggy strings of text you may see."
+    e ""
+    t "C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    e ""
+    e "%user% in Chat."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat
+    ieq MSG1,"/termclear",color1
+    ieq MSG1,"/q",leave
+    e "SENDING..."
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "%user% said:","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "%MSG1%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "%time% %date%","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    g chat
+    l leave
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "%user% left!","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    af "","C:\DSOFT\DMS\MAILSERVER\CHATROOMS\CHATROOM4.txt"
+    g eof
+    l color1
+    e "Set color to 17."
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "###########################################################################"
+    e "Attempted to clear screen. It may or may not have worked."
+    e "At the least it should have cut the laggy text away from your screen."
+    p
+    clr 17
+    g chat
+

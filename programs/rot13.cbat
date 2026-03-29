@@ -1,0 +1,39 @@
+.header
+    filename "ROT13.BAT"
+    entry 0
+    ver 0.1
+    ;debug
+.instrs
+    l main
+
+    wfi MSG,"gur tnzr",0
+    wfi DEC,"",0
+    st I,"0"
+    st LEN,"8"
+
+    l loop
+    stfi C,MSG,"%I%"
+    e "%C%"
+    jsub rot
+    jsub append
+    adi I,1
+    igeqi I,"%LEN%",done
+    j loop
+
+    l rot 
+    ieq C," "
+    ret
+    atoi CHR,"%C%"
+    sbi CHR,13
+    ret
+
+    l append 
+    e "%CHR%"
+    wfi DEC,"%I%","%CHR%"
+    adi I,1
+    ret
+
+    l done 
+    t DEC
+    trm
+

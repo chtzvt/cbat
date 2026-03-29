@@ -1,0 +1,6082 @@
+.global
+    entry "X-DOS.bat"
+
+.header
+    filename "X-DOS.bat"
+    entry 0
+    ver 1.0
+.instrs
+    l X-DOS1
+    st VERSION,"5.5"
+    ; ::CHANGELOG
+    ; ::3:27 PM 9/8/2012 Added major improvements.
+    ; ::2:03 PM 9/22/2012 Final improvements made to 5.0
+    ttl "X-DOS v%VERSION%"
+    st YNREG,"Yes"
+    clr 17
+    cls
+    l AUTO
+    iex "%CD%\XSYS\SYSTEM\MODE\AUTOMATICLOGIN.txt",SETLOGIN
+    g up
+    l SETLOGIN
+    e "You are being automatically logged in..."
+    slp 0
+    st user,""
+    st pass,""
+    stf user,"%CD%\XSYS\SYSTEM\AUTOLOGIN.txt"
+    iex "%CD%\XSYS\USERS\%user%-un.txt",goodAL1
+    e "The AutoLogin credentials are invalid."
+    p
+    g up
+    l goodAL1
+    stf pass,"%CD%\XSYS\SYSTEM\AUTOLOGINP.txt"
+    iex "%CD%\XSYS\USERS\%user%-%pass%-login.txt",good
+    e "The AutoLogin credentials are invalid."
+    p
+    g up
+    l up
+    clr 17
+    cls
+    ttl "Log in to X-DOS."
+    e "Log in to X-DOS."
+    e ""
+    e "Type "options" for options."
+    e ""
+    stp user,"username:"
+    ieq user,"newuser",register
+    ieq user,"SETTINGS",opu
+    ieq user,"options",opmen
+    ieq user,"boot",bootmenu
+    ieq user,"smode",smodelodr
+    iex "%CD%\XSYS\USERS\%user%-un.txt",gooduser
+    e "Invalid username."
+    p
+    g up
+    l smodelodr
+    iex "%CD%\XSYS\SYSTEM\MODE\NOSMODE.txt",nosmode
+    e "LOADING SAFE MODE..."
+    e "Please wait..."
+    g SAFE-MODE
+    l opmen
+    e "Type "boot" for boot options,"
+    e "or "newuser" to make an account."
+    e "Alternatively, you can log in as "smode""
+    e "to boot into safe mode."
+    e "Commab"
+    e ""
+    e "All of these commands may be enabled or"
+    e "disabled by your administrator at any time."
+    p
+    g up
+    l bootmenu
+    iex "%CD%\XSYS\SYSTEM\MODE\NOBOOT.txt",noboot
+    cls
+    clr 07
+    e "Please select a boot option:"
+    e "1)Command prompt only."
+    e "2)Safe mode only."
+    e "3)Restart this machine."
+    e "4)Exit to login."
+    stp input,":"
+    ieq input,"1",234432
+    ieq input,"2",smodemain
+    ieq input,"3",bootrestart
+    ieq input,"4",up
+    e "Command invalid."
+    p
+    g bootmenu
+    l 234432
+    cls
+    c "cmd.exe"
+    trm
+    l bootrestart
+    ; unrecognized: shutdown/f
+    l gooduser
+    stp pass,"password:"
+    ieq pass,"dave",good
+    ieq pass,"@@",good
+    iex "%CD%\XSYS\USERS\%user%-%pass%-login.txt",good
+    e "invalid login."
+    e "Press any key to exit..."
+    af "","%CD%\XSYS\SYSTEM\elogonrecord.txt"
+    af "An unauthorized user logged on at %time% on %date%","%CD%\XSYS\SYSTEM\elogonrecord.txt"
+    af "","%CD%\XSYS\SYSTEM\elogonrecord.txt"
+    g up
+    l good
+    ttl "X-DOS v%VERSION%"
+    af "","%CD%\XSYS\SYSTEM\logonrecord.txt"
+    af "%user% logged on at %time% on %date%","%CD%\XSYS\SYSTEM\logonrecord.txt"
+    cls
+    e "Loading-Please wait [1%%]"
+    cls
+    e "Loading-Please wait [2%%]"
+    cls
+    e "Loading-Please wait [3%%]"
+    cls
+    e "Loading-Please wait [4%%]"
+    cls
+    e "Loading-Please wait [5%%]"
+    cls
+    e "Loading-Please wait [6%%]"
+    cls
+    e "Loading-Please wait [7%%]"
+    cls
+    e "Loading-Please wait [8%%]"
+    cls
+    e "Loading-Please wait [9%%]"
+    cls
+    e "Loading-Please wait [10%%]"
+    cls
+    e "Loading-Please wait [11%%]"
+    cls
+    e "Loading-Please wait [12%%]"
+    cls
+    e "Loading-Please wait [13%%]"
+    cls
+    e "Loading-Please wait [14%%]"
+    cls
+    e "Loading-Please wait [15%%]"
+    cls
+    e "Loading-Please wait [16%%]"
+    cls
+    e "Loading-Please wait [17%%]"
+    cls
+    e "Loading-Please wait [18%%]"
+    cls
+    e "Loading-Please wait [19%%]"
+    cls
+    e "Loading-Please wait [20%%]"
+    cls
+    e "Loading-Please wait [21%%]"
+    cls
+    e "Loading-Please wait [22%%]"
+    cls
+    e "Loading-Please wait [23%%]"
+    cls
+    e "Loading-Please wait [24%%]"
+    cls
+    e "Loading-Please wait [25%%]"
+    cls
+    e "Loading-Please wait [26%%]"
+    cls
+    e "Loading-Please wait [27%%]"
+    cls
+    e "Loading-Please wait [28%%]"
+    cls
+    e "Loading-Please wait [29%%]"
+    cls
+    e "Loading-Please wait [30%%]"
+    cls
+    e "Loading-Please wait [31%%]"
+    cls
+    e "Loading-Please wait [32%%]"
+    cls
+    e "Loading-Please wait [33%%]"
+    cls
+    e "Loading-Please wait [34%%]"
+    cls
+    e "Loading-Please wait [35%%]"
+    cls
+    e "Loading-Please wait [36%%]"
+    cls
+    e "Loading-Please wait [37%%]"
+    cls
+    e "Loading-Please wait [38%%]"
+    cls
+    e "Loading-Please wait [39%%]"
+    cls
+    e "Loading-Please wait [40%%]"
+    cls
+    e "Loading-Please wait [41%%]"
+    cls
+    e "Loading-Please wait [42%%]"
+    cls
+    e "Loading-Please wait [43%%]"
+    cls
+    e "Loading-Please wait [44%%]"
+    cls
+    e "Loading-Please wait [45%%]"
+    cls
+    e "Loading-Please wait [46%%]"
+    cls
+    e "Loading-Please wait [47%%]"
+    cls
+    e "Loading-Please wait [48%%]"
+    cls
+    e "Loading-Please wait [49%%]"
+    cls
+    e "Loading-Please wait [50%%]"
+    cls
+    e "Loading-Please wait [51%%]"
+    cls
+    e "Loading-Please wait [52%%]"
+    cls
+    e "Loading-Please wait [53%%]"
+    cls
+    e "Loading-Please wait [54%%]"
+    cls
+    e "Loading-Please wait [55%%]"
+    cls
+    e "Loading-Please wait [56%%]"
+    cls
+    e "Loading-Please wait [57%%]"
+    cls
+    e "Loading-Please wait [58%%]"
+    cls
+    e "Loading-Please wait [59%%]"
+    cls
+    e "Loading-Please wait [60%%]"
+    cls
+    e "Loading-Please wait [61%%]"
+    cls
+    e "Loading-Please wait [62%%]"
+    cls
+    e "Loading-Please wait [63%%]"
+    cls
+    e "Loading-Please wait [64%%]"
+    cls
+    e "Loading-Please wait [65%%]"
+    cls
+    e "Loading-Please wait [66%%]"
+    cls
+    e "Loading-Please wait [67%%]"
+    cls
+    e "Loading-Please wait [68%%]"
+    cls
+    e "Loading-Please wait [69%%]"
+    cls
+    e "Loading-Please wait [70%%]"
+    cls
+    e "Loading-Please wait [71%%]"
+    cls
+    e "Loading-Please wait [72%%]"
+    cls
+    e "Loading-Please wait [73%%]"
+    cls
+    e "Loading-Please wait [74%%]"
+    cls
+    e "Loading-Please wait [75%%]"
+    cls
+    e "Loading-Please wait [76%%]"
+    cls
+    e "Loading-Please wait [77%%]"
+    cls
+    e "Loading-Please wait [78%%]"
+    cls
+    e "Loading-Please wait [79%%]"
+    cls
+    e "Loading-Please wait [80%%]"
+    cls
+    e "Loading-Please wait [81%%]"
+    cls
+    e "Loading-Please wait [82%%]"
+    cls
+    e "Loading-Please wait [83%%]"
+    cls
+    e "Loading-Please wait [84%%]"
+    cls
+    e "Loading-Please wait [85%%]"
+    cls
+    e "Loading-Please wait [86%%]"
+    cls
+    e "Loading-Please wait [87%%]"
+    cls
+    e "Loading-Please wait [88%%]"
+    cls
+    e "Loading-Please wait [89%%]"
+    cls
+    e "Loading-Please wait [90%%]"
+    cls
+    e "Loading-Please wait [91%%]"
+    cls
+    e "Loading-Please wait [92%%]"
+    cls
+    e "Loading-Please wait [93%%]"
+    cls
+    e "Loading-Please wait [94%%]"
+    cls
+    e "Loading-Please wait [95%%]"
+    cls
+    e "Loading-Please wait [96%%]"
+    cls
+    e "Loading-Please wait [97%%]"
+    cls
+    e "Loading-Please wait [98%%]"
+    cls
+    e "Loading-Please wait [99%%]"
+    cls
+    e "Loading-Please wait [100%%]"
+    p
+    l A
+    st LOGIN,"YES"
+    ttl "X-DOS v%VERSION% (%user%'s session.)"
+    cls
+    clr 17
+    st input,""
+    ieq user,"exit",up
+    e "X-DOS Version %VERSION%."
+    e "Created by DSOFT."
+    e "Type "?" for help."
+    e "%time%-%date%"
+    e ""
+    e ""
+    g P
+    l clsp
+    cls
+    l P
+    st input,""
+    stp input,"X-DOS:%user%$>"
+    ieq input,"games",1
+    ieq input,"message",2
+    ieq input,"movie",3
+    ieq input,"calculator",4
+    ieq input,"internet",5
+    ieq input,"music",6
+    ieq input,"logoff",7
+    ieq input,"time",8
+    ieq input,"?",45
+    ieq input,"exit",77
+    ieq input,"generators",789987
+    ieq input,"credits",707
+    ieq input,"terminal",cmdprpt
+    ieq input,"shell",cmdprpt
+    ieq input,"cmd",cmdprpt
+    ieq input,"scribe",scribe
+    ieq input,"word",scribe
+    ieq input,"sleep",sleepmode
+    ieq input,"help",45
+    ieq input,"mail",DMS
+    ieq input,"message",DMS
+    ieq input,"",Pa
+    ieq input," ",Pa
+    ieq input,"clear",clsp
+    ieq input,"cls",clsp
+    ieq input,"start",SX
+    ieq input,"whoami",whoiam
+    ieq input,"clock",8
+    ieq input,"chat",chata
+    ieq input,"relay",chata
+    ieq input,"vers",versinfo
+    ieq input,"xsys",xsysinfo
+    ieq input,"ipaddr",ipaddr
+    ieq input,"smode",SAFE-MODE
+    ieq input,"SETTINGS",opu
+    ieq input,"newuser",register
+    ieq input,"bootmenu",bootmenu
+    e "Invalid command "%input%"."
+    e "Type ? for a list."
+    e ""
+    g P
+    l ipaddr
+    ; unrecognized: ipconfig
+    g P
+    l xsysinfo
+    e " User.....................%user%"
+    e " Version..................%VERSION%"
+    e " Checking update data............."
+    e "Last update:"
+    t ""%CD%\XSYS\SYSTEM\UPDATEINFO.txt"
+    e ""
+    e ""
+    e ":::::CHECK SYSTEM COMPONENTS:::::"
+    e "Checking system................."
+    iex ""%CD%\XSYS" echo [1/3] System files OK!",
+    iex ""%CD%\XSYS\SYSTEM" echo [2/3] Underlying system structure OK!",
+    iex ""%CD%\XSYS\PROGRAMS" echo [3/3] Program folder OK!",
+    e "!! Preparing to check installed programs..."
+    iex ""%CD%\XSYS\PROGRAMS\LLOTTO" echo [1/18] Lucky lotto system files OK!",
+    iex ""%CD%\XSYS\PROGRAMS\Saves" echo [2/18] Game Part 1 Las Vegas 777 system OK!",
+    iex ""%CD%\XSYS\PROGRAMS\System" echo [3/18] Game Part 2 Las Vegas 777 system OK!",
+    iex ""%CD%\XSYS\PROGRAMS\cmd.exe" echo [4/18] Command-Line OK!",
+    iex ""%CD%\XSYS\PROGRAMS\HITCHHIK.dat" echo [5/18] Game Hitchhiker's Guide system files OK!",
+    iex ""%CD%\XSYS\PROGRAMS\HITCHHIK.exe" echo [6/18] Game Hitchhiker's Guide OK!",
+    iex ""%CD%\XSYS\PROGRAMS\msg.exe" echo [7/18] Messenger OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SK1.bat" echo [8/18] Old setup OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SK2.bat" echo [9/18] Old FAQ OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SK09.bat" echo [10/18] Game T-T-T OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SK84.bat" echo [11/18] Game Connect-4 OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP1.bat" echo [12/18] Game Genius OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP2.bat" echo [13/18] Game Mancala OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP3.bat" echo [14/18] Game R.P.S OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP4.bat" echo [15/18] Calculator OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP5.exe" echo [16/18] Game Las Vegas 777 OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP6.bat" echo [17/18] Matrix OK!",
+    iex ""%CD%\XSYS\PROGRAMS\SP7.bat" echo [18/18] Game Deal or no Deal OK!",
+    e "!! XSYS check complete!"
+    e ""
+    g P
+    l versinfo
+    e "X-DOS version %VERSION%."
+    e "Created by DSOFT."
+    e ""
+    e "Last update:"
+    t ""%CD%\XSYS\SYSTEM\UPDATEINFO.txt"
+    e ""
+    g P
+    l chata
+    cls
+    e "Starting Chat..."
+    iex "\\E026060n01\room308\SERVER",bnetchat
+    ; unrecognized: telnet relay.zapto.org
+    e "Press any key to go Home..."
+    p 0
+    g P
+    l bnetchat
+    e "BISD Network detected!"
+    st SWITCH,"CHATA"
+    st NSWITCH,"100"
+    c "\\E026060n01\room308\SERVER\SYSTEM\PLUGBOARD.bat"
+    p
+    g P
+    l whoiam
+    e "%user%"
+    g P
+    l SX
+    ; unrecognized: start X-DOS.bat
+    g P
+    l Pa
+    g P
+    l interpreter
+    e "No longer available since 5.5"
+    g P
+    l sleepmode
+    cls
+    e "                 Program in sleep mode."
+    e "            [%time%] [%date%]"
+    e ""
+    p 0
+    g redirect
+    l redirect
+    cls
+    g P
+    l DMS
+    cls
+    e "Starting Mail..."
+    iex "\\E026060n01\room308\SERVER",bnetDMS
+    ; unrecognized: telnet dsoft.zapto.org
+    e "Press any key to go Home..."
+    p 0
+    g P
+    l bnetDMS
+    e "BISD Network detected!"
+    st SWITCH,"DMS"
+    c "\\E026060n01\room308\SERVER\SYSTEM\PLUGBOARD.bat"
+    p
+    g P
+    l cmdprpt
+    e "running command prompt"
+    ; unrecognized: start "%CD%\XSYS\PROGAMS\cmd.exe"
+    p
+    g redirect
+    l 1
+    cls
+    clr 17
+    e "games:"
+    e "1) tic-tac-toe"
+    e "2) connect 4"
+    e "3) genius"
+    e "4) mancala"
+    e "5) rock-papper-scissors"
+    e "6) Las-Vagas 777"
+    e "7) deal or no deal"
+    e "8) ---"
+    e "9) super mario bros. 3D"
+    e "10) Hitchhiker's Guide"
+    e "11) main menu"
+    e ""
+    e "What would you like to play?"
+    stp spie,"X-DOS:%user%$>"
+    ieq spie,"1",TtT
+    ieq spie,"2",22
+    ieq spie,"3",33
+    ieq spie,"4",44
+    ieq spie,"5",55
+    ieq spie,"6",679
+    ieq spie,"7",660
+    ieq spie,"8",1
+    ieq spie,"9",
+    ieq spie,"10",2233
+    ieq spie,"11",66
+    e "Command Invalid."
+    p
+    g 1
+    l 22
+    cls
+    e "Running CONNECT-4"
+    c "%CD%\XSYS\PROGRAMS\SK84.bat"
+    p
+    g 1
+    l TtT
+    cls
+    c "%CD%\XSYS\PROGRAMS\SK09.bat"
+    p
+    g 1
+    l 2233
+    cls
+    c "%CD%\XSYS\PROGRAMS\HITCHHIK.EXE"
+    e "Running "Hitchhiker's Guide"
+    e "Press any key to continue..."
+    ; unrecognized: pause<nul
+    g 779
+    l 33
+    cls
+    c "%CD%\XSYS\PROGRAMS\SP1.bat"
+    e "Running Genius"
+    p
+    g P
+    l 44
+    cls
+    c "%CD%\XSYS\PROGRAMS\SP2.bat"
+    e "Running manacala"
+    p
+    g P
+    l 55
+    cls
+    c "%CD%\XSYS\PROGAMS\SP3.bat"
+    e "Running r.p.s."
+    p
+    g P
+    l 66
+    g P
+    l 2
+    cls
+    e "MESSENGER"
+    stp n,"User:"
+    stp m,"Message:"
+    cls
+    ; unrecognized: "%CD%\XSYS\PROGRAMS\msg.exe" %n% %m%
+    e "Loading"
+    e "What would you like to do?"
+    e ""
+    e "To use messenger, enter an asterisk in "user" then enter message."
+    e ""
+    e "1) send another message"
+    e "2) main menu"
+    e ""
+    stp ujkl,""
+    ieq ujkl,"1",2
+    ieq ujkl,"2",P
+    ieq ujkl,"!",4734
+    e "Command Invalid."
+    e "Type ? for a list."
+    p
+    g 2
+    l 3
+    cls
+    e "star wars movie"
+    clr 17
+    stp n,"hit enter to connect to server"
+    stp m,"hit enter to watch movie"
+    ; unrecognized: telnet towel.blinkenlights.nl
+    stp o,"thank you for watching"
+    p
+    g P
+    l 4
+    cls
+    c "%CD%\XSYS\PROGRAMS\SP4.bat"
+    e "Running calculator"
+    p
+    g P
+    l 5
+    cls
+    e "Internet menu"
+    e ""
+    e "1) google"
+    e "2) Reddit"
+    e "3) main menu"
+    e ""
+    stp upie,""
+    ieq upie,"1",45675
+    ieq upie,"2",RED.DIT
+    ieq upie,"3",7743
+    ieq upie,"4",4734
+    l RED.DIT
+    cls
+    e "LOADING..."
+    ; unrecognized: start www.reddit.com
+    cls
+    e "running reddit"
+    p
+    g P
+    l 45675
+    cls
+    e "LOADING..."
+    ; unrecognized: start www.google.com
+    cls
+    e "running internet"
+    p
+    g P
+    l 7743
+    g P
+    l 6
+    cls
+    ; unrecognized: start wmplayer.exe
+    p
+    g P
+    l 7
+    cls
+    e "Log Off? (yes/no)"
+    stp ypie,""
+    ieq ypie,"yes",up
+    ieq ypie,"no",P
+    ieq ypie,"!",4734
+    e "Invalid."
+    g P
+    l LLKJ
+    af "%user% logged off at %time% on %date%","%CD%\XSYS\USERS\logonrecord.txt"
+    g up
+    l 8
+    e "Mr.Clock says:"
+    e ""
+    e "                          ||||||||||||||||||||||||||||||||"
+    e "                              ------           ------"
+    e "                                ()               ()"
+    e "                                         /\"
+    e "                                        /  \"
+    e "                                        ----"
+    e "                                  ================"
+    e "                           [%time%] [%date%]"
+    e "                                  ================"
+    e "                                         \/"
+    p
+    g P
+    l 45
+    cls
+    e "/ separates commands with the same outcome."
+    e "COMMANDS ARE CASE SENSITIVE! ALL ARE IN LOWER CASE!"
+    e "all commands:"
+    e "command   !output"
+    e "----------!--------"
+    e "games     !goto games"
+    e "message   !goto mesenger"
+    e "movie     !plays movie"
+    e "calculator!goto calculator"
+    e "internet  !goto internet"
+    e "music     !goto meadia player"
+    e "logoff    !logs off"
+    e "time/clock!displays the time"
+    e "help      !displays help"
+    e "exit      !exits"
+    e "generators!goto generator menu"
+    e "credits   !goto credits"
+    e "cmd       !starts command prompt"
+    e "terminal  !starts command prompt"
+    e "sleep     !sleeps program"
+    e "DMS       !Starts the Dynamic Messaging System"
+    e "relay     !Starts Chat"
+    e "clear/cls !Clears prompt"
+    e "start     !Starts a new instance of X-DOS"
+    e "vers      !Version information"
+    e "xsys      !X-DOS system information"
+    e "ipaddr    !Internet Protocol information."
+    e "newuser   !Register new user (You will be logged out)"
+    e "bootmenu  !Boot menu (You will be logged out)"
+    e "smode     !Safe Mode (You will be logged out)"
+    e "SETTINGS  !Administrator settings"
+    e ""
+    e ""
+    g P
+    l 77
+    cls
+    e "Are you sure you want to exit?"
+    e "Typing "logoff" will take you"
+    e "to the login screen"
+    stp rpie,""
+    ieq rpie,"yes",458
+    ieq rpie,"no",779
+    ieq rpie,"back",up
+    ieq RPIE,"!",
+    ieq rpie,"logoff",up
+    l 4734
+    ttl "SELF DESTRUCT"
+    clr 0c
+    cls
+    g up
+    l qwertyuiop
+    e "Continuing will delete all files and folders associated with [X-DOS]"
+    e "Deleted files cannot be recovered."
+    e "are you sure you want to proceed?"
+    e ""
+    e "1)Y"
+    e "2)N"
+    stp input,"command:"
+    ieq input,"1",imp22
+    ieq input,"2",bluewire
+    e "Invalid Command"
+    p
+    g qwertyuiop
+    l imp22
+    e "deleting [X-DOS]"
+    e "Please wait..."
+    df "%CD%\XSYS\"
+    e "Wipe complete."
+    e "Press any key to finish wipe..."
+    p 0
+    df "%CD%\X-DOS.bat"
+    trm
+    l bluewire
+    e "For security reasons, You will"
+    e "be logged off."
+    l 458
+    af "%user% logged off at %time% on %date%","%CD%\XSYS\USERS\logonrecord.txt"
+    trm
+    l 779
+    g P
+    l 789987
+    cls
+    e "1) random number generator"
+    e "2) password generator"
+    e "3) lottery number generator"
+    e "4) main menu"
+    e ""
+    stp ipie,""
+    ieq ipie,"1",908
+    ieq ipie,"2",907
+    ieq ipie,"3",9068
+    ieq ipie,"4",P
+    ieq ipie,"!",4734
+    l 908
+    cls
+    e "Random number:"
+    e "%random%%random%"
+    p
+    g 789987
+    l 907
+    l start90
+    st pass,""
+    sta done,"0"
+    cls
+    e ""
+    e ""
+    e "Press any key to begin Password Generation..."
+    e ""
+    e ""
+    p 0
+    cls
+    e ""
+    e ""
+    e "How many characters do you want it to be?"
+    e ""
+    stp num,""
+    cls
+    l numorlet
+    e "Cycle."
+    sta done,"%done%+1"
+    sta a,"%random%*99/32767+1"
+    igti a,"60",number
+    ilti a,"61",letter
+    l number
+    e "Processing number..."
+    sta q,"%random%*8/32767+1"
+    st pass,"%pass%%q%"
+    ieq done,"%num%",end
+    g :numorlet
+    l letter
+    e "Processing letter..."
+    sta cap,"%random%*99/32767+1"
+    igti cap,"50",cap
+    ilti cap,"51",low
+    l cap
+    sta capl,"%random%*25/32767+1"
+    ieq capl,"1"
+    st pass,"%pass%A"
+    ieq capl,"2"
+    st pass,"%pass%B"
+    ieq capl,"3"
+    st pass,"%pass%C"
+    ieq capl,"4"
+    st pass,"%pass%D"
+    ieq capl,"5"
+    st pass,"%pass%E"
+    ieq capl,"6"
+    st pass,"%pass%F"
+    ieq capl,"7"
+    st pass,"%pass%G"
+    ieq capl,"8"
+    st pass,"%pass%H"
+    ieq capl,"9"
+    st pass,"%pass%I"
+    ieq capl,"10"
+    st pass,"%pass%J"
+    ieq capl,"11"
+    st pass,"%pass%K"
+    ieq capl,"12"
+    st pass,"%pass%L"
+    ieq capl,"13"
+    st pass,"%pass%M"
+    ieq capl,"14"
+    st pass,"%pass%N"
+    ieq capl,"15"
+    st pass,"%pass%O"
+    ieq capl,"16"
+    st pass,"%pass%P"
+    ieq capl,"17"
+    st pass,"%pass%Q"
+    ieq capl,"18"
+    st pass,"%pass%R"
+    ieq capl,"19"
+    st pass,"%pass%S"
+    ieq capl,"20"
+    st pass,"%pass%T"
+    ieq capl,"21"
+    st pass,"%pass%U"
+    ieq capl,"22"
+    st pass,"%pass%V"
+    ieq capl,"23"
+    st pass,"%pass%W"
+    ieq capl,"24"
+    st pass,"%pass%X"
+    ieq capl,"25"
+    st pass,"%pass%Y"
+    ieq capl,"26"
+    st pass,"%pass%Z"
+    ieq done,"%num%",end
+    g numorlet
+    l low
+    sta capl,"%random%*25/32767+1"
+    ieq capl,"1"
+    st pass,"%pass%a"
+    ieq capl,"2"
+    st pass,"%pass%b"
+    ieq capl,"3"
+    st pass,"%pass%c"
+    ieq capl,"4"
+    st pass,"%pass%d"
+    ieq capl,"5"
+    st pass,"%pass%e"
+    ieq capl,"6"
+    st pass,"%pass%f"
+    ieq capl,"7"
+    st pass,"%pass%g"
+    ieq capl,"8"
+    st pass,"%pass%h"
+    ieq capl,"9"
+    st pass,"%pass%i"
+    ieq capl,"10"
+    st pass,"%pass%j"
+    ieq capl,"11"
+    st pass,"%pass%k"
+    ieq capl,"12"
+    st pass,"%pass%l"
+    ieq capl,"13"
+    st pass,"%pass%m"
+    ieq capl,"14"
+    st pass,"%pass%n"
+    ieq capl,"15"
+    st pass,"%pass%o"
+    ieq capl,"16"
+    st pass,"%pass%p"
+    ieq capl,"17"
+    st pass,"%pass%q"
+    ieq capl,"18"
+    st pass,"%pass%r"
+    ieq capl,"19"
+    st pass,"%pass%s"
+    ieq capl,"20"
+    st pass,"%pass%t"
+    ieq capl,"21"
+    st pass,"%pass%u"
+    ieq capl,"22"
+    st pass,"%pass%v"
+    ieq capl,"23"
+    st pass,"%pass%w"
+    ieq capl,"24"
+    st pass,"%pass%x"
+    ieq capl,"25"
+    st pass,"%pass%y"
+    ieq capl,"26"
+    st pass,"%pass%z"
+    ieq done,"%num%",end
+    g numorlet
+    l end
+    cls
+    e "Your password is: %pass%"
+    e ""
+    e "1) generate another password"
+    e "2) Save to text file"
+    e "3) main menu"
+    stp jip,""
+    ieq jip,"1",start90
+    ieq jip,"2",savetotextfilepw
+    ieq jip,"3",789987
+    ieq jip,"!",4734
+    g 789987
+    l savetotextfilepw
+    af "","password.txt"
+    af "Password generated @%time%-%date%:","password.txt"
+    af "%pass%","password.txt >>password.txt"
+    e "Saved to %CD%\password.txt."
+    p
+    g 789987
+    g start
+    l 9068
+    cls
+    e ""
+    e "                    *                  *"
+    e "                    *      *  *  ****  * *  *  *"
+    e "                    *      *  *  *     *    *  *"
+    e "                    ****   ****  ****  * *  ****"
+    e "                                               *"
+    e "                                              *"
+    e ""
+    e ""
+    e "                    *             *    *"
+    e "                    *      ****  ***  ***  ****"
+    e "                    *      *  *   *    *   *  *"
+    e "                    ****   ****   *    *   ****"
+    e ""
+    e ""
+    p
+    l dads
+    cls
+    e "Your lucky lottery numbers are:"
+    sta t2,"0"
+    af "","%CD%\XSYS\PROGRAMS\LLOTTO\chance.txt"
+    l gen1
+    ieq t2,"4",end
+    sta number,"%random%*9999/32767+1"
+    t ""%CD%\XSYS\PROGRAMS\LLOTTO\chance.txt" | find "%number%" || goto gen2"
+    g gen1
+    l gen2
+    ilti number,"0",gen1
+    af "%number%","%CD%\XSYS\PROGRAMS\LLOTTO\chance.txt"
+    sta t2,"%t2%+1"
+    g gen1
+    l end
+    t "%CD%\XSYS\PROGRAMS\LLOTTO\chance.txt"
+    df "%CD%\XSYS\PROGRAMS\LLOTTO\chance.txt"
+    e ""
+    p
+    cls
+    e "1) play again"
+    e "2) main menu"
+    stp uip,""
+    ieq uip,"1",dads
+    ieq uip,"2",P
+    ieq uip,"!",4734
+    l 707
+    cls
+    e "                        Credits"
+    e ""
+    e "    Alot of this program is the work of other people. I just took"
+    e "  those programs from other people and put them all in one program,"
+    e " so this program is pretty much just a database. Anyway,those people"
+    e "             desevre credit for what they made."
+    e ""
+    e "         William from www.higginsbatch.webs.com"
+    e ""
+    e "     ScrewTheLotOfYou from www.screwthelotofyou.webs.com"
+    e ""
+    e "       abs1296 from www.sites.google.com/site/absppt"
+    e ""
+    e "                       schoolhacks"
+    e ""
+    p
+    g P
+    l 679
+    cls
+    e "This is a gambling game."
+    cls
+    ; unrecognized: start "%CD%\XSYS\PROGRAMS\SP5.exe"
+    e "running Las-Vagas 777"
+    p
+    g P
+    l 709
+    g P
+    l 660
+    cls
+    e "press any key to play game"
+    p 0
+    cls
+    ; unrecognized: start "%CD%\XSYS\PROGRAMS\SP7.bat"
+    e "running deal or no deal."
+    p
+    g P
+    ; ::OLD ADMIN PROG
+    l OLDBIOS
+    l 77909
+    cls
+    clr 0f
+    e "safe mode menu"
+    e ""
+    e "1) run program in safe mode"
+    e "2) current user accounts"
+    e "3) go back"
+    stp kpie,""
+    ieq kpie,"1",olp
+    ieq kpie,"2",opu
+    ieq kpie,"3",ujkl
+    l SAFE-MODE
+    l olp
+    l dws
+    af "","%CD%\XSYS\USERS\logonrecord.txt"
+    af "safe mode was entered at %time% on %date%","%CD%\XSYS\USERS\syslog.txt"
+    cls
+    e "press any key to start in safe mode"
+    p 0
+    g smodemain
+    l smodemain
+    cls
+    e "safe mode"
+    e ""
+    e "logon"
+    st SUUN,"%random%"
+    e "Your username is %SUUN%."
+    stp user6,"username:hit enter"
+    stp pass4,"password:hit enter"
+    cls
+    e "safe mode"
+    e ""
+    e "valid logon"
+    p
+    cls
+    e "Loading-Please wait [1%%]"
+    cls
+    e "Loading-Please wait [2%%]"
+    cls
+    e "Loading-Please wait [3%%]"
+    cls
+    e "Loading-Please wait [4%%]"
+    cls
+    e "Loading-Please wait [5%%]"
+    cls
+    e "Loading-Please wait [6%%]"
+    cls
+    e "Loading-Please wait [7%%]"
+    cls
+    e "Loading-Please wait [8%%]"
+    cls
+    e "Loading-Please wait [9%%]"
+    cls
+    e "Loading-Please wait [10%%]"
+    cls
+    e "Loading-Please wait [11%%]"
+    cls
+    e "Loading-Please wait [12%%]"
+    cls
+    e "Loading-Please wait [13%%]"
+    cls
+    e "Loading-Please wait [14%%]"
+    cls
+    e "Loading-Please wait [15%%]"
+    cls
+    e "Loading-Please wait [16%%]"
+    cls
+    e "Loading-Please wait [17%%]"
+    cls
+    e "Loading-Please wait [18%%]"
+    cls
+    e "Loading-Please wait [19%%]"
+    cls
+    e "Loading-Please wait [20%%]"
+    cls
+    e "Loading-Please wait [21%%]"
+    cls
+    e "Loading-Please wait [22%%]"
+    cls
+    e "Loading-Please wait [23%%]"
+    cls
+    e "Loading-Please wait [24%%]"
+    cls
+    e "Loading-Please wait [25%%]"
+    cls
+    e "Loading-Please wait [26%%]"
+    cls
+    e "Loading-Please wait [27%%]"
+    cls
+    e "Loading-Please wait [28%%]"
+    cls
+    e "Loading-Please wait [29%%]"
+    cls
+    e "Loading-Please wait [30%%]"
+    cls
+    e "Loading-Please wait [31%%]"
+    cls
+    e "Loading-Please wait [32%%]"
+    cls
+    e "Loading-Please wait [33%%]"
+    cls
+    e "Loading-Please wait [34%%]"
+    cls
+    e "Loading-Please wait [35%%]"
+    cls
+    e "Loading-Please wait [36%%]"
+    cls
+    e "Loading-Please wait [37%%]"
+    cls
+    e "Loading-Please wait [38%%]"
+    cls
+    e "Loading-Please wait [39%%]"
+    cls
+    e "Loading-Please wait [40%%]"
+    cls
+    e "Loading-Please wait [41%%]"
+    cls
+    e "Loading-Please wait [42%%]"
+    cls
+    e "Loading-Please wait [43%%]"
+    cls
+    e "Loading-Please wait [44%%]"
+    cls
+    e "Loading-Please wait [45%%]"
+    cls
+    e "Loading-Please wait [46%%]"
+    cls
+    e "Loading-Please wait [47%%]"
+    cls
+    e "Loading-Please wait [48%%]"
+    cls
+    e "Loading-Please wait [49%%]"
+    cls
+    e "Loading-Please wait [50%%]"
+    cls
+    e "Loading-Please wait [51%%]"
+    cls
+    e "Loading-Please wait [52%%]"
+    cls
+    e "Loading-Please wait [53%%]"
+    cls
+    e "Loading-Please wait [54%%]"
+    cls
+    e "Loading-Please wait [55%%]"
+    cls
+    e "Loading-Please wait [56%%]"
+    cls
+    e "Loading-Please wait [57%%]"
+    cls
+    e "Loading-Please wait [58%%]"
+    cls
+    e "Loading-Please wait [59%%]"
+    cls
+    e "Loading-Please wait [60%%]"
+    cls
+    e "Loading-Please wait [61%%]"
+    cls
+    e "Loading-Please wait [62%%]"
+    cls
+    e "Loading-Please wait [63%%]"
+    cls
+    e "Loading-Please wait [64%%]"
+    cls
+    e "Loading-Please wait [65%%]"
+    cls
+    e "Loading-Please wait [66%%]"
+    cls
+    e "Loading-Please wait [67%%]"
+    cls
+    e "Loading-Please wait [68%%]"
+    cls
+    e "Loading-Please wait [69%%]"
+    cls
+    e "Loading-Please wait [70%%]"
+    cls
+    e "Loading-Please wait [71%%]"
+    cls
+    e "Loading-Please wait [72%%]"
+    cls
+    e "Loading-Please wait [73%%]"
+    cls
+    e "Loading-Please wait [74%%]"
+    cls
+    e "Loading-Please wait [75%%]"
+    cls
+    e "Loading-Please wait [76%%]"
+    cls
+    e "Loading-Please wait [77%%]"
+    cls
+    e "Loading-Please wait [78%%]"
+    cls
+    e "Loading-Please wait [79%%]"
+    cls
+    e "Loading-Please wait [80%%]"
+    cls
+    e "Loading-Please wait [81%%]"
+    cls
+    e "Loading-Please wait [82%%]"
+    cls
+    e "Loading-Please wait [83%%]"
+    cls
+    e "Loading-Please wait [84%%]"
+    cls
+    e "Loading-Please wait [85%%]"
+    cls
+    e "Loading-Please wait [86%%]"
+    cls
+    e "Loading-Please wait [87%%]"
+    cls
+    e "Loading-Please wait [88%%]"
+    cls
+    e "Loading-Please wait [89%%]"
+    cls
+    e "Loading-Please wait [90%%]"
+    cls
+    e "Loading-Please wait [91%%]"
+    cls
+    e "Loading-Please wait [92%%]"
+    cls
+    e "Loading-Please wait [93%%]"
+    cls
+    e "Loading-Please wait [94%%]"
+    cls
+    e "Loading-Please wait [95%%]"
+    cls
+    e "Loading-Please wait [96%%]"
+    cls
+    e "Loading-Please wait [97%%]"
+    cls
+    e "Loading-Please wait [98%%]"
+    cls
+    e "Loading-Please wait [99%%]"
+    cls
+    e "Loading-Please wait [100%%]"
+    p
+    l ASA
+    cls
+    clr 07
+    e "safe mode"
+    e ""
+    e "Hello %SUUN%"
+    stp input2,"Command:"
+    ieq input2,"logoff",SMODELOGOFF
+    ieq input2,"games",12
+    ieq input2,"message",209
+    ieq input2,"movie",3054
+    ieq input2,"calculator",47890
+    ieq input2,"internet",52
+    ieq input2,"music",62
+    ieq input2,"logoff",72
+    ieq input2,"time",82
+    ieq input2,"help",452
+    ieq input2,"exit",772
+    ieq input2,"generators",7899872
+    ieq input2,"credits",7072
+    ieq input2,"matrix",SMODEMATRIX
+    e "Command Invalid."
+    e "Type ? for a list."
+    p
+    g PSA
+    l SMODEMATRIX
+    e "Escape charcter is ^^C (Control-C)."
+    e "Press any key to stat matrix..."
+    p 0
+    c "%CD%\XSYS\PROGRAMS\SP6.bat"
+    p
+    g ASA
+    l 12
+    cls
+    clr 07
+    e "safe mode"
+    e ""
+    e "games:"
+    e "1) HITCHHIK"
+    e "2) TTT"
+    e "3) ???"
+    e "4) ???"
+    e "5) ???"
+    e "6) ???"
+    e "7) ???"
+    e "8) ???"
+    e "9) main menu"
+    e ""
+    e "What would you like to play?"
+    stp spie5,""
+    ieq spie5,"1",HHSM
+    ieq spie5,"2",TTTSM
+    ieq spie5,"3",P9
+    ieq spie5,"4",P9
+    ieq spie5,"5",P9
+    ieq spie5,"6",P9
+    ieq spie5,"7",P9
+    ieq spie5,"8",P9
+    ieq spie5,"9",PSA
+    e "Command Invalid."
+    e "Type ? for a list."
+    p
+    g 12
+    l HHSM
+    e "Running HITCHHIK."
+    c "%CD%\XSYS\PROGRAMS\HITCHHIK.exe"
+    p
+    g 12
+    l TTTSM
+    e "running TTT."
+    c "%CD%\XSYS\PROGRAMS\SK09.bat"
+    p
+    g 12
+    l 209
+    cls
+    e "safe mode"
+    e ""
+    e "not available."
+    p
+    g PSA
+    l 3054
+    cls
+    e "safe mode"
+    e ""
+    e "star wars movie"
+    e "hit enter to connect to server"
+    e "hit enter to watch movie"
+    ; unrecognized: telnet towel.blinkenlights.nl
+    p
+    g PSA
+    l 47890
+    cls
+    e "safe mode"
+    e ""
+    e "running calculator"
+    c "%CD%\XSYS\PROGRAMS\SP4.bat"
+    p
+    g PSA
+    l 52
+    cls
+    e "safe mode"
+    e ""
+    e "Internet menu"
+    e ""
+    e "1) google"
+    e "2) main menu"
+    e ""
+    stp upiey,""
+    ieq upiey,"1",PT
+    ieq upiey,"2",PSA
+    l AT
+    cls
+    ; unrecognized: start www.google.com
+    p
+    g PSA
+    l 62
+    cls
+    e "music is not available."
+    p
+    g PSA
+    l 72
+    cls
+    l SMODELOGOFF
+    e "proceding will exit."
+    p
+    af "safe mode was exited at %time% on %date% by %SUUN%","%CD%\XSYS\USERS\logonrecord.txt"
+    trm
+    l 82
+    cls
+    e "                         The Time Is"
+    e ""
+    e ""
+    e "                         %TIME%"
+    e "                         ***********"
+    e ""
+    e ""
+    p
+    g PSA
+    l 452
+    cls
+    e "all commands:"
+    e "command   !output"
+    e "----------!--------"
+    e "games     !goto games"
+    e "message   !goto mesenger      disabled"
+    e "movie     !plays movie"
+    e "calculator!goto calculator"
+    e "internet  !goto internet"
+    e "music     !goto meadia player disabled"
+    e "logoff    !logs off"
+    e "time      !displays the time"
+    e "help      !displays help"
+    e "exit      !exits"
+    e "generators!goto generator menu"
+    e "credits   !goto credits       disabled"
+    e "matrix    !goto matrix"
+    e "  !       !starts self destruct disabled"
+    e ""
+    p
+    g PSA
+    l 772
+    cls
+    e "exiting"
+    p
+    af "safe mode was exited at at %time% on %date% by %SUUN%","%CD%\XSYS\USERS\logonrecord.txt"
+    trm
+    l 7899872
+    cls
+    e "safe mode"
+    e ""
+    e "1) random number generator"
+    e "2) password generator"
+    e "3) ???"
+    e "4) main menu"
+    e ""
+    stp ipie,""
+    ieq ipie,"1",9082
+    ieq ipie,"2",9072
+    ieq ipie,"3",90682
+    ieq ipie,"4",PSA
+    l 9082
+    cls
+    e "safe mode"
+    e ""
+    e "program not installed"
+    p
+    g 7899872
+    l 9072
+    l start90
+    st pass,""
+    sta done,"0"
+    e "%random%%random%"
+    p
+    g 7899872
+    l 90682
+    cls
+    e "safe mode"
+    e ""
+    e "game not acessable in safe mode"
+    p
+    g PSA
+    l A9
+    cls
+    e "safe mode"
+    e ""
+    e "game not accessable in safe mode"
+    p
+    g PSA
+    l 7072
+    e "safe mode"
+    e ""
+    e "credits not avalible in safe mode"
+    p
+    g PSA
+    l 7092
+    cls
+    e "safe mode"
+    e ""
+    e "matrix not acessable in safe mode"
+    p
+    g PSA
+    l opu
+    cls
+    stp h80,"enter security code:"
+    iex "%CD%\XSYS\SYSTEM\ADMIN-%h80%.txt",6565
+    ieq h80,"!",4734
+    e "invalid code"
+    p
+    ieq LOGIN,"YES",P
+    trm
+    l 6565
+    st ADMINID,"%RANDOM%"
+    cls
+    e "Welcome to admintools for {X-DOS}."
+    e "You are %username% (%ADMINID%)"
+    e "Please choose an option from the list below:"
+    e ""
+    e "1)View Logins"
+    e "2)View accounts"
+    e "3)Start Safe Mode"
+    e "4)Clear log"
+    e "5)Mode"
+    e "6)Set admin password."
+    e "7)exit"
+    stp input,"User/ADMIN:"
+    ieq input,"1",loglist
+    ieq input,"2",acclist
+    ieq input,"3",olp
+    ieq input,"4",logman
+    ieq input,"5",modeman
+    ieq input,"6",SAP
+    ieq input,"7",ADMINLEAVE
+    e "Invalid command."
+    p
+    g 6565
+    l ADMINLEAVE
+    ieq LOGIN,"YES",P
+    g up
+    l SAP
+    cls
+    e "Current admin password:"
+    t "%CD%\XSYS\SYSTEM\ADMIN.txt"
+    e ""
+    e "Set a new one? (Y/N)"
+    stp input,""
+    ieq input,"y",SP
+    ieq input,"Y",SP
+    ieq input,"n",6565
+    ieq input,"N",6565
+    e "invalid."
+    p
+    g SAP
+    l SP
+    e "New password:"
+    stp NP,""
+    df "%CD%\XSYS\SYSTEM\ADMIN-%h80%.txt"
+    af "%NP%","%CD%\XSYS\SYSTEM\ADMIN-%NP%.txt"
+    e "Set."
+    p
+    g 6565
+    l modeman
+    cls
+    e "Modes:"
+    e ""
+    e "1)Enable/Disable registration."
+    e "2)Enable/Disable Boot menu."
+    e "3)Configure AutoLogin"
+    e "4)Exit"
+    e ""
+    stp input,"Modes:"
+    ieq input,"1",EDR
+    ieq input,"2",EDB
+    ieq input,"3",CONFAL
+    ieq input,"4",6565
+    e "invalid"
+    l CONFAL
+    cls
+    e "AutoLogin is used to bypass the login screen by automatically logging"
+    e "you in to X-DOS. This is good for when you are the only one using the"
+    e "program."
+    e "WRITE THIS DOWN:"
+    e ""
+    e "The options menu will not be available at startup, so when in the main"
+    e "X-DOS console, use the command "SETTINGS" to get to the boot/safe mode/admin"
+    e "menus."
+    e ""
+    e "This message will appear every time this component is opened."
+    p
+    cls
+    iex "%CD%\XSYS\SYSTEM\MODE\AUTOMATICLOGIN.txt",RMAL
+    e "Please enter username to use in automatic login:"
+    e "You can type "/q" at any prompt to return to the mode manager."
+    stp ALUN,"Username:"
+    ieq ALUN,"/q",modeman
+    ieq ALUN,"/Q",modeman
+    stp ALPS,"Password:"
+    ieq ALPS,"/q",modeman
+    ieq ALPS,"/Q",modeman
+    e "Configuring, please wait..."
+    af "%ALUN%","%CD%\XSYS\SYSTEM\AUTOLOGIN.txt"
+    af "%ALUN% %ALPS% %time%-%date% %username%","%CD%\XSYS\SYSTEM\MODE\AUTOMATICLOGIN.txt"
+    af "%ALPS%","%CD%\XSYS\SYSTEM\AUTOLOGINP.txt"
+    e "AutoLogin has been configured on this system."
+    p
+    g modeman
+    l RMAL
+    e "An AutoLogin account is already configured on this system for:"
+    t "%CD%\XSYS\SYSTEM\AUTOLOGIN.txt"
+    t "%CD%\XSYS\SYSTEM\AUTOLOGINP.txt"
+    e ""
+    stp input,"Would you like to remove it? (Y/N)"
+    ieq input,"y",RAL
+    ieq input,"Y",RAL
+    ieq input,"n",modeman
+    ieq input,"N",modeman
+    e "invalid."
+    p
+    g RMAL
+    l RAL
+    df "%CD%\XSYS\SYSTEM\AUTOLOGIN.txt"
+    df "%CD%\XSYS\SYSTEM\MODE\AUTOMATICLOGIN.txt"
+    df "%CD%\XSYS\SYSTEM\AUTOLOGINP.txt"
+    e "Removed Successfuly!"
+    p
+    g modeman
+    l EDR
+    cls
+    iex "%CD%\XSYS\SYSTEM\MODE\NOREG.txt",ER
+    e "Registration is currently enabled on this copy of X-DOS."
+    e "Would you like to disable it? (Y/N)"
+    stp input,":"
+    ieq input,"y",DR
+    ieq input,"Y",DR
+    ieq input,"n",modeman
+    ieq input,"N",modeman
+    e "invalid."
+    p
+    g EDR
+    l DR
+    af "%time%-%date%-%username%-(%user%)","%CD%\XSYS\SYSTEM\MODE\NOREG.txt"
+    e "Registration Disabled!"
+    p
+    g modeman
+    l ER
+    cls
+    e "Registration is currently disabled on this copy of X-DOS."
+    e "Would you like to enable it? (Y/N)"
+    stp input,":"
+    ieq input,"y",ER
+    ieq input,"Y",ER
+    ieq input,"n",modeman
+    ieq input,"N",modeman
+    e "invalid."
+    p
+    g EDR
+    l ER
+    df "%CD%\XSYS\SYSTEM\MODE\NOREG.txt"
+    e "Registration Enabled!"
+    p
+    g modeman
+    l EDB
+    cls
+    iex "%CD%\XSYS\SYSTEM\MODE\NOBOOT.txt",EBOOT
+    e "Boot Menu is currently enabled on this copy of X-DOS."
+    e "Would you like to disable it? (Y/N)"
+    stp input,":"
+    ieq input,"y",DBOOT
+    ieq input,"Y",DBOOT
+    ieq input,"n",modeman
+    ieq input,"N",modeman
+    e "invalid."
+    p
+    g EDB
+    l DBOOT
+    af "%time%-%date%-%username%-(%user%)","%CD%\XSYS\SYSTEM\MODE\NOBOOT.txt"
+    e "Boot Menu Disabled!"
+    p
+    g modeman
+    l EBOOT
+    cls
+    e "Boot Menu is currently disabled on this copy of X-DOS."
+    e "Would you like to enable it? (Y/N)"
+    stp input,":"
+    ieq input,"y",EB
+    ieq input,"Y",EB
+    ieq input,"n",modeman
+    ieq input,"N",modeman
+    e "invalid."
+    p
+    g EDB
+    l EB
+    df "%CD%\XSYS\SYSTEM\MODE\NOBOOT.txt"
+    e "Boot Menu Enabled!"
+    p
+    g modeman
+    l logman
+    e "Clear log? (Y/N)"
+    e "Current log data will be lost."
+    ; malformed set /p: set /p input:
+    ieq input,"y",dely
+    ieq input,"Y",dely
+    ieq input,"n",6565
+    ieq input,"N",6565
+    e "Invalid command."
+    p
+    g logman
+    l dely
+    df "%CD%\XSYS\USERS\logonrecord.txt"
+    e "Log cleared."
+    e ""
+    p
+    g 6565
+    l loglist
+    cls
+    t "%CD%\XSYS\USERS\logonrecord.txt"
+    p
+    g 6565
+    l acclist
+    cls
+    e "!WELCOME ADMINISTRATOR!"
+    e "current user accounts are:"
+    e ""
+    e "Time/date created"
+    e "Username | Password"
+    e "Real name"
+    t "%CD%\XSYS\USERS\LOGIN.txt"
+    e ""
+    p
+    g 6565
+    l ujkl
+    cls
+    e "for security reasons continuing will exit the program"
+    p
+    af "safe mode was exited at %time% on %date%","%CD%\XSYS\SYSTEM\syslog.txt"
+    trm
+    l register
+    cls
+    iex "%CD%\XSYS\SYSTEM\MODE\NOREG.txt",noreg
+    e "Welcome to registration system!"
+    e "Please follow steps, when prompted."
+    e "type "/q" in any propt to exit."
+    e ""
+    l unaa
+    e "Desired Username:"
+    stp UNAA,""
+    ieq UNAA,"/q",X-DOS1
+    ieq UNAA,"/Q",X-DOS1
+    iex "%CD%\XSYS\USERS\%UNAA%-un.txt",ivunaa
+    e "O.K."
+    g passaa
+    l ivunaa
+    e "Username already taken!"
+    p
+    g register
+    l passaa
+    e "Desired Password:"
+    stp PASSAA,""
+    ieq PASSAA,"/q",X-DOS1
+    ieq PASSAA,"/Q",X-DOS1
+    e "Re-enter password:"
+    stp PASSAA2,""
+    ieq PASSAA2,"/q",X-DOS1
+    ieq PASSAA2,"/Q",X-DOS1
+    ieq PASSAA,"%PASSAA2%",rnaa
+    e "Passwords don't match!"
+    p
+    g passaa
+    l rnaa
+    e "Real Name:"
+    stp RNAA,""
+    ieq RNAA,"/q",X-DOS1
+    ieq RNAA,"/Q",X-DOS1
+    l pinfo
+    af "","%CD%\XSYS\USERS\%UNAA%-un.txt"
+    af "%RNAA%","%CD%\XSYS\USERS\%UNAA%-un.txt"
+    af "%UNAA%","%CD%\XSYS\USERS\%UNAA%-un.txt"
+    af "%time%-%date%","%CD%\XSYS\USERS\%UNAA%-un.txt"
+    af "on comp. acc %username%","%CD%\XSYS\USERS\%UNAA%-un.txt"
+    af "","%CD%\XSYS\USERS\%UNAA%-%PASSAA%-login.txt"
+    af "%RNAA%","%CD%\XSYS\USERS\%UNAA%-%PASSAA%-login.txt"
+    af "%UNAA%","%CD%\XSYS\USERS\%UNAA%-%PASSAA%-login.txt"
+    af "%time%-%date%","%CD%\XSYS\USERS\%UNAA%-%PASSAA%-login.txt"
+    af "on comp. acc %username%","%CD%\XSYS\USERS\%UNAA%-%PASSAA%-login.txt"
+    ; ::for admins
+    af "","%CD%\XSYS\USERS\LOGIN.txt"
+    af "%time%-%date%","%CD%\XSYS\USERS\LOGIN.txt"
+    af "%UNAA% | %PASSAA%","%CD%\XSYS\USERS\LOGIN.txt"
+    af "%RNAA%","%CD%\XSYS\USERS\LOGIN.txt"
+    e "Registration Complete!"
+    e "You will be redirected to the login screen..."
+    p
+    g X-DOS1
+    l noreg
+    e "Registration disabled by ADMIN."
+    p
+    ieq LOGIN,"YES",P
+    g X-DOS1
+    l noboot
+    e "Boot menu disabled by ADMIN."
+    ieq LOGIN,"YES",P
+    p
+    g X-DOS1
+
+.header
+    filename "SP1.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "Genius by William"
+    clr 0A
+    l titlescreen
+    cls
+    e ""
+    e ""
+    e ""
+    e ""
+    e "         **********************************************"
+    e ""
+    e "           ########"
+    e "           ##"
+    e "           ##          ####   ####  # #    #  #####"
+    e "           ##         #    # #    # # #    # #"
+    e "           ##    ###  ###### #    # # #    # ######"
+    e "           ##     #   #      #    # # #    #      #"
+    e "           ########    ####  #    # #  ####  #####"
+    e ""
+    e "         **********************************************"
+    e ""
+    e ""
+    e "                                          by William"
+    e ""
+    e ""
+    p
+    l level
+    cls
+    e ""
+    e ""
+    e "Pick a level:"
+    e ""
+    e "  1)Easy"
+    e "  2)Medium"
+    e "  3)Hard"
+    e "  4)Exit"
+    e ""
+    stp level,""
+    e ""
+    ieq level,"1",start
+    ieq level,"2",medium
+    ieq level,"3",hard
+    ieq level,"4",finend
+    g :level
+    l hard
+    cls
+    e ""
+    e ""
+    e ""
+    e ""
+    e "                     ********************************"
+    e ""
+    e "                          Try and Guess My Number"
+    e ""
+    e "                          It's between 1 and 1000"
+    e ""
+    e "                     ********************************"
+    g A3
+    l medium
+    cls
+    e ""
+    e ""
+    e ""
+    e ""
+    e "                     ********************************"
+    e ""
+    e "                          Try and Guess My Number"
+    e ""
+    e "                          It's between 1 and 500"
+    e ""
+    e "                     ********************************"
+    g A2
+    l start
+    cls
+    e ""
+    e ""
+    e ""
+    e ""
+    e "                     ********************************"
+    e ""
+    e "                          Try and Guess My Number"
+    e ""
+    e "                          It's between 1 and 100"
+    e ""
+    e "                     ********************************"
+    l A
+    sta guess,"1"
+    sta num,"%random%*99/32767+1"
+    l b2
+    e ""
+    e ""
+    e "What's your Guess?"
+    e ""
+    l B
+    e ""
+    stp g2,""
+    ieq g2,"W",G
+    ilti g2,"1",moron
+    igti g2,"100",moron
+    ilti g2,"%num%",H
+    igti g2,"%num%",L
+    ieq g2,"%num%",startf2
+    l moron
+    e ""
+    e "Idiot! It says between 1 and 100! Try again."
+    e ""
+    sta guess,"%guess%+1"
+    g :B
+    l H
+    e ""
+    e "Higher!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B
+    l L
+    e ""
+    e "Lower!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B
+    l end
+    ilti guess,"5",S
+    igti guess,"4",s1
+    l A2
+    sta guess,"1"
+    sta num,"%random%*499/32767+1"
+    l b22
+    e ""
+    e ""
+    e "What's your Guess?"
+    e ""
+    g b2
+    l moron2
+    e ""
+    e "Idiot! It says between 1 and 500! Try again."
+    e ""
+    sta guess,"%guess%+1"
+    g :B2
+    l H2
+    e ""
+    e "Higher!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B2
+    l L2
+    e ""
+    e "Lower!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B2
+    l B2
+    e ""
+    stp g2,""
+    ieq g2,"W",G
+    ilti g2,"1",moron2
+    igti g2,"500",moron2
+    ilti g2,"%num%",H2
+    igti g2,"%num%",L2
+    ieq g2,"%num%",startf2
+    l startf2
+    l S
+    cls
+    ieq guess,"1",G
+    igti guess,"5",s1
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                             It took you %guess% tries"
+    e "                               You're a Genius!"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l s1
+    cls
+    igti guess,"10",s2
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                             It took you %guess% tries"
+    e "                            You almost didn't suck"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l s2
+    cls
+    igti guess,"15",s3
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                             It took you %guess% tries"
+    e "                                   You Suck"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l s3
+    cls
+    igti guess,"20",s4
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                             It took you %guess% tries"
+    e "                               God man try again"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l s4
+    cls
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                             It took you %guess% tries"
+    e "                               You fail at life"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l G
+    cls
+    e ""
+    e "                       ********************************"
+    e ""
+    e "                               Congratulations!"
+    e "                            You Guessed My Number!"
+    e ""
+    e "                              It took you 1 try"
+    e "                            You're a Super-Genius!"
+    e ""
+    e "                       ********************************"
+    e ""
+    e ""
+    p
+    g :blah
+    l A3
+    sta guess,"1"
+    sta num,"%random%*999/32767+1"
+    l b23
+    e ""
+    e ""
+    e "What's your Guess?"
+    e ""
+    l B3
+    e ""
+    stp g2,""
+    ieq g2,"W",G
+    ilti g2,"1",moron3
+    igti g2,"1000",moron3
+    ilti g2,"%num%",H3
+    igti g2,"%num%",L3
+    ieq g2,"%num%",startf2
+    l moron3
+    e ""
+    e "Idiot! It says between 1 and 1000! Try again."
+    e ""
+    sta guess,"%guess%+1"
+    g :B
+    l H3
+    e ""
+    e "Higher!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B3
+    l L3
+    e ""
+    e "Lower!"
+    e ""
+    sta guess,"%guess%+1"
+    g :B3
+    l blah
+    g level
+    l finend
+
+.header
+    filename "SP2.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "Mancala by William"
+    clr 02
+    l titlescreen
+    clr 0A
+    e ""
+    e ""
+    e ""
+    e "                               *****************************************"
+    e ""
+    e "                                 ##   ##"
+    e "                                 ### ###                       #"
+    e "                                 ## # ## ####  #### #### ####  # ####"
+    e "                                 ##   ## #  #  #  # #    #  #  # #  #"
+    e "                                 ##   ## ### # #  # #### ### # # ### #"
+    e ""
+    e "                               *****************************************"
+    e ""
+    e "                                                           By William"
+    e ""
+    e "1) Play Game"
+    e "2) Instructions"
+    e "3) Exit"
+    e ""
+    stp v,""
+    ieq v,"1",:superstart
+    ieq v,"2",:instruct
+    ieq v,"3",finend
+    e ""
+    l instruct
+    cls
+    e ""
+    e ""
+    e "Welcome to Mancala By William. The goal of the game is to get the"
+    e "most "stones" into your side slots. There aren't any stones in"
+    e "this game like a normal Mancala set, however, the amount of"
+    e "stones is represented by a number in the correct slot. To move"
+    e ""stones" type in the column you wish to move (lowercase only)."
+    e "At the end, the person with the most amount of stones in their"
+    e "side slot wins. The end of the game is when all stones are in"
+    e "one of the side pockets. BTW, I do not claim to own Mancala,"
+    e "this is just my representation of the game. First Player is"
+    e "on the bottom, and moves to the right. Second Player is on"
+    e "the top and moves to the left. You receive an extra turn if your"
+    e "last "stone" lands in your side slot."
+    e ""
+    p
+    l superstart
+    cls
+    sta p1s,"0"
+    sta p2s,"0"
+    sta draw,"0"
+    e ""
+    e ""
+    e "Who is Player 1?"
+    e ""
+    stp p1,""
+    e ""
+    cls
+    e ""
+    e ""
+    e "Who is Player 2?"
+    e ""
+    stp p2,""
+    e ""
+    cls
+    l start
+    sta s1,"0"
+    sta s2,"0"
+    sta a1,"4"
+    sta a2,"4"
+    sta b1,"4"
+    sta b2,"4"
+    sta c1,"4"
+    sta c2,"4"
+    sta d1,"4"
+    sta d2,"4"
+    sta e1,"4"
+    sta e2,"4"
+    sta f1,"4"
+    sta f2,"4"
+    l map1
+    cls
+    e ""
+    e ""
+    e "                         Score: %p1%: %p1s%"
+    e "                                %p2%: %p2s%"
+    e "                                Draw: %draw%"
+    e ""
+    e "                  %p2%"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                         [%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]"
+    e "                      {*}                       {*}"
+    e "                      {%s2%}        MANCALA        {%s1%}"
+    e "                      {*}                       {*}"
+    e "                         [%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                                                   %p1%"
+    e ""
+    g P1
+    l map1extra
+    cls
+    e ""
+    e ""
+    e "                         Score: %p1%: %p1s%"
+    e "                                %p2%: %p2s%"
+    e "                                Draw: %draw%"
+    e ""
+    e "                  %p2%"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                         [%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]"
+    e "                      {*}                       {*}"
+    e "                      {%s2%}        MANCALA        {%s1%}"
+    e "                      {*}                       {*}"
+    e "                         [%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                                                   %p1%"
+    e "Extra Turn!!!"
+    e ""
+    g p1
+    l map2
+    cls
+    e ""
+    e ""
+    e "                         Score: %p1%: %p1s%"
+    e "                                %p2%: %p2s%"
+    e "                                Draw: %draw%"
+    e ""
+    e "                  %p2%"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                         [%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]"
+    e "                      {*}                       {*}"
+    e "                      {%s2%}        MANCALA        {%s1%}"
+    e "                      {*}                       {*}"
+    e "                         [%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                                                   %p1%"
+    e ""
+    g P2
+    l map2extra
+    cls
+    e ""
+    e ""
+    e "                         Score: %p1%: %p1s%"
+    e "                                %p2%: %p2s%"
+    e "                                Draw: %draw%"
+    e ""
+    e "                  %p2%"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                         [%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]"
+    e "                      {*}                       {*}"
+    e "                      {%s2%}        MANCALA        {%s1%}"
+    e "                      {*}                       {*}"
+    e "                         [%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]"
+    e ""
+    e "                          A   B   C   D   E   F"
+    e ""
+    e "                                                   %p1%"
+    e "Extra Turn!!!"
+    e ""
+    g p2
+    l P1
+    ieq %a2%+%b2%+%c2%+%d2%+%e2%+%f2%+%a1%+%b1%+%c1%+%d1%+%e1%+%f1%,"0+0+0+0+0+0+0+0+0+0+0+0",end
+    ieq %a1%+%b1%+%c1%+%d1%+%e1%+%f1%,"0+0+0+0+0+0",map2
+    e ""
+    e "%p1%, it's your turn. Select the group you would like to move."
+    e ""
+    stp x,""
+    ieq x,"a",A1
+    ieq x,"b",B1
+    ieq x,"c",C1
+    ieq x,"d",D1
+    ieq x,"e",E1
+    ieq x,"f",F1
+    l A1
+    ieq a1,"0",error1
+    l A11
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta b1,"%b1%+1"
+    l A12
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta c1,"%c1%+1"
+    l A13
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta d1,"%d1%+1"
+    l A14
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta e1,"%e1%+1"
+    l A15
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta f1,"%f1%+1"
+    l A16
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta s1,"%s1%+1"
+    l A17
+    ieq a1,"0",map1extra
+    sta a1,"%a1%-1"
+    sta f2,"%f2%+1"
+    l A18
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta e2,"%e2%+1"
+    l A19
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta d2,"%d2%+1"
+    l A110
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta c2,"%c2%+1"
+    l A111
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta b2,"%b2%+1"
+    l A112
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta a2,"%a2%+1"
+    l A13
+    ieq a1,"0",map2
+    sta a1,"%a1%-1"
+    sta a1,"%a1%+1"
+    g A11
+    l B1
+    ieq b1,"0",error1
+    l B11
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta c1,"%c1%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta d1,"%d1%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta e1,"%e1%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta f1,"%f1%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta s1,"%s1%+1"
+    ieq b1,"0",map1extra
+    sta b1,"%b1%-1"
+    sta f2,"%f2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta e2,"%e2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta d2,"%d2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta c2,"%c2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta b2,"%b2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta a2,"%a2%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta a1,"%a1%+1"
+    ieq b1,"0",map2
+    sta b1,"%b1%-1"
+    sta b1,"%b1%+1"
+    g :B11
+    l C1
+    ieq c1,"0",error1
+    l C11
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta d1,"%d1%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta e1,"%e1%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta f1,"%f1%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta s1,"%s1%+1"
+    ieq c1,"0",map1extra
+    sta c1,"%c1%-1"
+    sta f2,"%f2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta e2,"%e2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta d2,"%d2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta c2,"%c2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta b2,"%b2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta a2,"%a2%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta a1,"%a1%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta b1,"%b1%+1"
+    ieq c1,"0",map2
+    sta c1,"%c1%-1"
+    sta c1,"%c1%+1"
+    g C11
+    l D1
+    ieq d1,"0",error1
+    l D11
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta e1,"%e1%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta f1,"%f1%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta s1,"%s1%+1"
+    ieq d1,"0",map1extra
+    sta d1,"%d1%-1"
+    sta f2,"%f2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta e2,"%e2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta d2,"%d2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta c2,"%c2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta b2,"%b2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta a2,"%a2%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta a1,"%a1%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta b1,"%b1%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta c1,"%c1%+1"
+    ieq d1,"0",map2
+    sta d1,"%d1%-1"
+    sta d1,"%d1%+1"
+    g D11
+    l E1
+    ieq e1,"0",error1
+    l E11
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta f1,"%f1%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta s1,"%s1%+1"
+    ieq e1,"0",map1extra
+    sta e1,"%e1%-1"
+    sta f2,"%f2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta e2,"%e2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta d2,"%d2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta c2,"%c2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta b2,"%b2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta a2,"%a2%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta a1,"%a1%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta b1,"%b1%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta c1,"%c1%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta d1,"%d1%+1"
+    ieq e1,"0",map2
+    sta e1,"%e1%-1"
+    sta e1,"%e1%+1"
+    g E11
+    l F1
+    ieq f1,"0",error1
+    l F11
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta s1,"%s1%+1"
+    ieq f1,"0",map1extra
+    sta f1,"%f1%-1"
+    sta f2,"%f2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta e2,"%e2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta d2,"%d2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta c2,"%c2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta b2,"%b2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta a2,"%a2%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta a1,"%a1%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta b1,"%b1%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta c1,"%c1%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta d1,"%d1%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta e1,"%e1%+1"
+    ieq f1,"0",map2
+    sta f1,"%f1%-1"
+    sta f1,"%f1%+1"
+    g F11
+    l P2
+    ieq %a2%+%b2%+%c2%+%d2%+%e2%+%f2%+%a1%+%b1%+%c1%+%d1%+%e1%+%f1%,"0+0+0+0+0+0+0+0+0+0+0+0",end
+    ieq %a2%+%b2%+%c2%+%d2%+%e2%+%f2%,"0+0+0+0+0+0",map1
+    e ""
+    e "%p2%, it's your turn. Select the group you would like to move."
+    e ""
+    stp x,""
+    ieq x,"a",A2
+    ieq x,"b",B2
+    ieq x,"c",C2
+    ieq x,"d",D2
+    ieq x,"e",E2
+    ieq x,"f",F2
+    l A2
+    ieq a2,"0",error2
+    l A22
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta s2,"%s2%+1"
+    ieq a2,"0",map2extra
+    sta a2,"%a2%-1"
+    sta a1,"%a1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta b1,"%b1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta c1,"%c1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta d1,"%d1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta e1,"%e1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta f1,"%f1%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta f2,"%f2%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta e2,"%e2%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta d2,"%d2%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta c2,"%c2%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta b2,"%b2%+1"
+    ieq a2,"0",map1
+    sta a2,"%a2%-1"
+    sta a2,"%a2%+1"
+    g A22
+    l B2
+    ieq b2,"0",error2
+    l B22
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta a2,"%a2%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta s2,"%s2%+1"
+    ieq b2,"0",map2extra
+    sta b2,"%b2%-1"
+    sta a1,"%a1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta b1,"%b1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta c1,"%c1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta d1,"%d1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta e1,"%e1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta f1,"%f1%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta f2,"%f2%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta e2,"%e2%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta d2,"%d2%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta c2,"%c2%+1"
+    ieq b2,"0",map1
+    sta b2,"%b2%-1"
+    sta b2,"%b2%+1"
+    g :B22
+    l C2
+    ieq c2,"0",error2
+    l C22
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta b2,"%b2%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta a2,"%a2%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta s2,"%s2%+1"
+    ieq c2,"0",map2extra
+    sta c2,"%c2%-1"
+    sta a1,"%a1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta b1,"%b1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta c1,"%c1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta d1,"%d1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta e1,"%e1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta f1,"%f1%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta f2,"%f2%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta e2,"%e2%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta d2,"%d2%+1"
+    ieq c2,"0",map1
+    sta c2,"%c2%-1"
+    sta c2,"%c2%+1"
+    g C22
+    l D2
+    ieq d2,"0",error2
+    l D22
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta c2,"%c2%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta b2,"%b2%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta a2,"%a2%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta s2,"%s2%+1"
+    ieq d2,"0",map2extra
+    sta d2,"%d2%-1"
+    sta a1,"%a1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta b1,"%b1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d1%-1"
+    sta c1,"%c1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta d1,"%d1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta e1,"%e1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta f1,"%f1%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta f2,"%f2%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta e2,"%e2%+1"
+    ieq d2,"0",map1
+    sta d2,"%d2%-1"
+    sta d2,"%d2%+1"
+    g D22
+    l E2
+    ieq e2,"0",error2
+    l E22
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta d2,"%d2%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta c2,"%c2%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta b2,"%b2%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta a2,"%a2%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta s2,"%s2%+1"
+    ieq e2,"0",map2extra
+    sta e2,"%e2%-1"
+    sta a1,"%a1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta b1,"%b1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta c1,"%c1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta d1,"%d1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta e1,"%e1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta f1,"%f1%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta f2,"%f2%+1"
+    ieq e2,"0",map1
+    sta e2,"%e2%-1"
+    sta e2,"%e2%+1"
+    g E22
+    l F2
+    ieq f2,"0",error2
+    l F22
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta e2,"%e2%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta d2,"%d2%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta c2,"%c2%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta b2,"%b2%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta a2,"%a2%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta s2,"%s2%+1"
+    ieq f2,"0",map2extra
+    sta f2,"%f2%-1"
+    sta a1,"%a1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta b1,"%b1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta c1,"%c1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta d1,"%d1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta e1,"%e1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta f1,"%f1%+1"
+    ieq f2,"0",map1
+    sta f2,"%f2%-1"
+    sta f2,"%f2%+1"
+    g F22
+    l error1
+    e ""
+    e "Sorry, %p1%, but that move is invalid. Please select another group."
+    e ""
+    p
+    g map1
+    l error2
+    e ""
+    e "Sorry, %p2%, but that move is invalid. Please select another group"
+    e ""
+    p
+    g map2
+    l end
+    igti s1,"%s2%",win1
+    ilti s1,"%S2%",win2
+    ieq s1,"%s2%",draw
+    l win1
+    sta p1s,"%p1s%+1"
+    cls
+    e ""
+    e ""
+    e "Congratulations %p1%, you have won this round of Mancala."
+    e "Please play again."
+    e ""
+    p
+    g :ending
+    l win2
+    sta p2s,"%p2s%+1"
+    cls
+    e ""
+    e ""
+    e "Congratulations %p2%, you have won this round of Mancala."
+    e "Please play again."
+    e ""
+    p
+    g :ending
+    l draw
+    cls
+    sta draw,"%draw%+1"
+    e ""
+    e ""
+    e "Sorry %p1% and %p2% but it's a draw."
+    e ""
+    p
+    g ending
+    l ending
+    cls
+    e ""
+    e ""
+    e "1)Play Again"
+    e "2)Change Players"
+    e "3)Close"
+    stp v2,""
+    ieq v2,"1",start
+    ieq v2,"2",superstart
+    ieq v2,"3",done
+    l done
+    l finend
+
+.header
+    filename "SP3.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "Rock, Paper, Scissors by William"
+    clr 0E
+    l titlescreen
+    clr 0A
+    e ""
+    e ""
+    e ""
+    e "                               ************************************"
+    e ""
+    e "                                     ####      ####     ####"
+    e "                                     ##  #     ##  #   #"
+    e "                                     ##  #     ##  #   #"
+    e "                                     ###       ####     ####"
+    e "                                     ## #      ##          #"
+    e "                                     ##  #  #  ##   #  ####  #"
+    e ""
+    e "                               ************************************"
+    e ""
+    e "                                                         By William"
+    e ""
+    e ""
+    e "Start R.P.S?"
+    e "Choosing "n" will exit the program."
+    stp DOSTART,""
+    ieq DOSTART,"y",start
+    ieq DOSTART,"Y",start
+    ieq DOSTART,"n",finend
+    ieq DOSTART,"N",finend
+    l start
+    clr 0E
+    cls
+    e ""
+    e ""
+    e "What is your name?"
+    e ""
+    stp name,""
+    e ""
+    sta wins,"0"
+    sta losses,"0"
+    sta draws,"0"
+    l choice
+    cls
+    clr 0E
+    e ""
+    e ""
+    e "  Wins: %wins%"
+    e "Losses: %losses%"
+    e " Draws: %draws%"
+    e ""
+    e ""
+    e "Choose"
+    e ""
+    e "1) Rock"
+    e "2) Paper"
+    e "3) Scissors"
+    e ""
+    stp cho,""
+    e ""
+    l a
+    sta v,"%random%*3/32767+1"
+    ieq v,"1",rock
+    ieq v,"2",paper
+    ieq v,"3",scissor
+    g a
+    l rock
+    ieq cho,"1",rockrock
+    ieq cho,"2",rockpaper
+    ieq cho,"3",rockscissor
+    l paper
+    ieq cho,"1",paperrock
+    ieq cho,"2",paperpaper
+    ieq cho,"3",paperscissor
+    l scissor
+    ieq cho,"1",scissorrock
+    ieq cho,"2",scissorpaper
+    ieq cho,"3",scissorscissor
+    l rockrock
+    clr 0E
+    cls
+    sta draws,"%draws%+1"
+    e ""
+    e ""
+    e "You chose Rock"
+    e ""
+    e "I chose Rock"
+    e ""
+    e "We tied...yet life goes on"
+    e ""
+    p
+    g choice
+    l rockpaper
+    clr 0A
+    cls
+    sta wins,"%wins%+1"
+    e ""
+    e ""
+    e "You chose Paper"
+    e ""
+    e "I chose Rock"
+    e ""
+    e "You Win :["
+    e ""
+    p
+    g choice
+    l rockscissor
+    clr 0C
+    cls
+    sta losses,"%losses%+1"
+    e ""
+    e ""
+    e "You chose Scissors"
+    e ""
+    e "I chose Rock"
+    e ""
+    e "You Lose :P"
+    e ""
+    p
+    g choice
+    l paperrock
+    clr 0C
+    cls
+    sta losses,"%losses%+1"
+    e ""
+    e ""
+    e "You chose Rock"
+    e ""
+    e "I chose Paper"
+    e ""
+    e "Haha %name%, you Suck at this!"
+    e ""
+    p
+    g choice
+    l paperscissor
+    clr 0A
+    cls
+    sta wins,"%wins%+1"
+    e ""
+    e ""
+    e "You chose Scissors"
+    e ""
+    e "I chose Paper"
+    e ""
+    e "Hmm you must have cheated...."
+    e ""
+    p
+    g choice
+    l paperpaper
+    clr 0E
+    cls
+    sta draws,"%draws%+1"
+    e ""
+    e ""
+    e "You chose Paper"
+    e ""
+    e "I too chose Paper"
+    e ""
+    e "Ugh I can't believe I tied with a loser like you"
+    e ""
+    p
+    g choice
+    l scissorrock
+    clr 0A
+    cls
+    sta wins,"%wins%+1"
+    e ""
+    e ""
+    e "Youu chose Rock"
+    e ""
+    e "I chose Scissors"
+    e ""
+    e "How the heck did I lose? I'm a freakin computer!"
+    e "I can see what you pick!"
+    e ""
+    p
+    g choice
+    l scissorpaper
+    clr 0C
+    cls
+    sta losses,"%losses%+1"
+    e ""
+    e ""
+    e "You chose Paper"
+    e ""
+    e "I chose Scissors"
+    e ""
+    e "I am Victorious because I AM THE SMARTEST MAN ALIVE"
+    e ""
+    p
+    g choice
+    l scissorscissor
+    clr 0E
+    cls
+    sta draws,"%draws%+1"
+    e ""
+    e ""
+    e "You chose Scissors"
+    e ""
+    e "I chose Scissors"
+    e ""
+    e "Honestly %name%, this tying thing we've got going is"
+    e "getting old. How bout you just let me win?"
+    e ""
+    p
+    g choice
+    l finend
+
+.header
+    filename "SP4.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "William's Calculator"
+    clr 1F
+    l menu
+    cls
+    e ""
+    e ""
+    e "--------------------"
+    e " 1) Calculator"
+    e " 2) Temp Converter"
+    e " 3) Geometry"
+    e " 4) Notes"
+    e " 5) Exit"
+    e "--------------------"
+    stp menu,""
+    ieq menu,"1",start
+    ieq menu,"2",temp
+    ieq menu,"3",geo
+    ieq menu,"4",notes
+    ieq menu,"5",closezx
+    g menu
+    l notes
+    cls
+    e ""
+    e ""
+    e "-------------------------------------------------"
+    e " All answers generated will be within 1 of their"
+    e " true value. The reason for the chance of error"
+    e " is that batch files cannot handle decimals. If"
+    e " I find away around this I will fix it."
+    e "-------------------------------------------------"
+    e "     Press any key to go back to the menu"
+    p 0
+    g menu
+    l start
+    cls
+    e ""
+    e "----------------------------------------------------------------------"
+    e "  +    -      *        /       ans       menu"
+    e " add minus multiply Divide  Prev. Ans Goto Menu"
+    e "----------------------------------------------------------------------"
+    e ""
+    e "                                              Answer: %ans%"
+    e ""
+    stp equ,"Equation:"
+    ieq equ,"menu",menu
+    sta ans,"%equ%"
+    cls
+    g start
+    l divide
+    e "SUCCESS!"
+    p
+    df "check.txt"
+    g start
+    l exponent
+    e "success"
+    p
+    df "check.txt"
+    g start
+    l temp
+    cls
+    e ""
+    e ""
+    e "-------------------"
+    e " 1) F to C"
+    e " 2) C to F"
+    e " 3) F to K"
+    e " 4) C to K"
+    e " 5) K to F"
+    e " 6) K to C"
+    e " 7) Menu"
+    e "-------------------"
+    stp menu,""
+    ieq menu,"1",FC
+    ieq menu,"2",CF
+    ieq menu,"3",FK
+    ieq menu,"4",CK
+    ieq menu,"5",KF
+    ieq menu,"6",KC
+    ieq menu,"7",menu
+    igti menu,"7",temp
+    ilti menu,"1",temp
+    l FC
+    e "-------------------"
+    e "Temp Fahrenheit:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%-32"
+    sta temp,"%temp%*5"
+    sta temp,"%temp%/9"
+    e ""
+    e "Temp Celcius: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l CF
+    e "-------------------"
+    e "Temp Celcius:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%*9"
+    sta temp,"%temp%/5"
+    sta temp,"%temp%+32"
+    e ""
+    e "Temp Fahrenheit: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l FK
+    e "-------------------"
+    e "Temp Fahrenheit:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%-32"
+    sta temp,"%temp%*5"
+    sta temp,"%temp%/9"
+    sta temp,"%temp%+273"
+    e ""
+    e "Temp Kelvin: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l CK
+    e "-------------------"
+    e "Temp Celcius:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%+273"
+    e ""
+    e "Temp Kelvin: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l KF
+    e "-------------------"
+    e "Temp Kelvin:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%-273"
+    sta temp,"%temp%*9"
+    sta temp,"%temp%/5"
+    sta temp,"%temp%+32"
+    e ""
+    e "Temp Fahrenheit: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l KC
+    e "-------------------"
+    e "Temp Kelvin:"
+    stp temp,""
+    e "-------------------"
+    sta temp,"%temp%-273"
+    e ""
+    e "Temp Celcius: %temp%"
+    e ""
+    e "-------------------"
+    e ""
+    e "Press Enter"
+    p 0
+    g temp
+    l geo
+    cls
+    e ""
+    e ""
+    e "--------------------"
+    e " 1) Area"
+    e " 2) Volume"
+    e " 3) Surface Area"
+    e " 4) Circumference"
+    e " 5) Menu"
+    e "--------------------"
+    e ""
+    e "Choose a Category"
+    e ""
+    stp choice,""
+    ieq choice,"1",area
+    ieq choice,"2",volume
+    ieq choice,"3",sarea
+    ieq choice,"4",circum
+    ieq choice,"5",menu
+    g geo
+    l area
+    cls
+    e ""
+    e ""
+    e "-----------------------"
+    e " 1)Square or Rectangle"
+    e " 2)Triangle"
+    e " 3)Trapezoid"
+    e " 4)Circle"
+    e " 5)Menu"
+    e "-----------------------"
+    e ""
+    stp choice,""
+    ieq choice,"1",rect
+    ieq choice,"2",tri
+    ieq choice,"3",trap
+    ieq choice,"4",cir
+    ieq choice,"5",menu
+    g area
+    l rect
+    cls
+    e ""
+    e ""
+    e "------------------"
+    e "    RECTANGLE"
+    e "------------------"
+    e ""
+    e ""
+    e "  Length="
+    stp len,""
+    e ""
+    e "  Width="
+    stp wid,""
+    sta area,"%len%*%wid%"
+    e ""
+    e "Area=%area%"
+    e ""
+    e "Press Enter"
+    p 0
+    g area
+    l tri
+    cls
+    e ""
+    e ""
+    e "-----------------"
+    e "    Triangle"
+    e "-----------------"
+    e ""
+    e ""
+    e "  Base="
+    stp base,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta area,"%base%*%hei%"
+    sta area,"%area%/2"
+    e ""
+    e "Area=%area%"
+    e ""
+    e "Press Enter"
+    p 0
+    g area
+    l trap
+    cls
+    e ""
+    e ""
+    e "-----------------"
+    e "    Trapezoid"
+    e "-----------------"
+    e ""
+    e ""
+    e "  Base 1="
+    stp base1,""
+    e ""
+    e "  Base 2="
+    stp base2,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta area,"%base1%*%base2%"
+    sta area,"%area%/2"
+    sta area,"%area%*%hei%"
+    e ""
+    e "Area=%area%"
+    e ""
+    e "Press Enter"
+    p 0
+    g area
+    l cir
+    cls
+    e ""
+    e ""
+    e "----------------"
+    e "     Circle"
+    e "----------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    e ""
+    sta area,"%rad%*%rad%"
+    sta area,"%area%*22"
+    sta area,"%area%/7"
+    e ""
+    e "Area=%area%"
+    e ""
+    e "Press Enter"
+    p 0
+    g area
+    l volume
+    cls
+    e ""
+    e ""
+    e "-----------------------------"
+    e " 1)Cube or Rectangular Prism"
+    e " 2)Triangular Prism"
+    e " 3)Square Pyramid"
+    e " 4)Triangular Pyramid"
+    e " 5)Cone"
+    e " 6)Sphere"
+    e " 7)Cylinder"
+    e " 8)Menu"
+    e "-----------------------------"
+    e ""
+    stp choice,""
+    ieq choice,"1",cube
+    ieq choice,"2",trip
+    ieq choice,"3",spyr
+    ieq choice,"4",tpyr
+    ieq choice,"5",cone
+    ieq choice,"6",sphere
+    ieq choice,"7",cyl
+    ieq choice,"8",menu
+    g volume
+    l cube
+    cls
+    e ""
+    e ""
+    e "----------------"
+    e "   RECT Prism"
+    e "----------------"
+    e ""
+    e ""
+    e "  Length="
+    stp len,""
+    e ""
+    e "  Width="
+    stp wid,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%len%*%wid%*%hei%"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l trip
+    cls
+    e ""
+    e ""
+    e "-----------------"
+    e "    TRI Prism"
+    e "-----------------"
+    e ""
+    e ""
+    e "  Base="
+    stp base,""
+    e ""
+    e "  Height (of Base)="
+    stp hei,""
+    e ""
+    e "  Height (of Prism)="
+    stp hei2,""
+    sta vol,"%base%*%hei%"
+    sta vol,"%vol%/2"
+    sta vol,"%vol%*%hei2%"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l spyr
+    cls
+    e ""
+    e ""
+    e "---------------"
+    e "    Sq. Pyr"
+    e "---------------"
+    e ""
+    e ""
+    e "  Length="
+    stp len,""
+    e ""
+    e "  Width="
+    stp wid,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%len%*%wid%*%hei%"
+    sta vol,"%vol%/3"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l tpyr
+    cls
+    e ""
+    e ""
+    e "---------------"
+    e "    Tri Pyr"
+    e "---------------"
+    e ""
+    e ""
+    e "  Base="
+    stp base,""
+    e ""
+    e "  Height (of Base)="
+    stp hei,""
+    e ""
+    e "  Height (of Prism)="
+    stp hei2,""
+    sta vol,"%base%*%hei%"
+    sta vol,"%vol%/2"
+    sta vol,"%vol%*%hei2%"
+    sta vol,"%vol%/3"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l cone
+    cls
+    e ""
+    e ""
+    e "--------------"
+    e "     Cone"
+    e "--------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%rad%*%rad%"
+    sta vol,"%vol%*22"
+    sta vol,"%vol%/7"
+    sta vol,"%vol%*hei"
+    sta vol,"%vol%/3"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l sphere
+    cls
+    e ""
+    e ""
+    e "--------------"
+    e "    Sphere"
+    e "--------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    sta vol,"%rad%*%rad%*%rad%"
+    sta vol,"%vol%*22"
+    sta vol,"%vol%/7"
+    sta vol,"%vol%*4"
+    sta vol,"%vol%/3"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l cyl
+    cls
+    e ""
+    e ""
+    e "----------------"
+    e "    Cylinder"
+    e "----------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%rad%*%rad%"
+    sta vol,"%vol%*22"
+    sta vol,"%vol%/7"
+    sta vol,"%vol%*%hei%"
+    e ""
+    e "Volume=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g volume
+    l sarea
+    cls
+    e ""
+    e ""
+    e "-----------------------------"
+    e " 1)Cube or Rectangular Prism"
+    e " 2)Triangular Prism"
+    e " 3)Sphere"
+    e " 4)Cylinder"
+    e " 5)Menu"
+    e "-----------------------------"
+    e ""
+    stp choice,""
+    ieq choice,"1",cubes
+    ieq choice,"2",trips
+    ieq choice,"3",spheres
+    ieq choice,"4",cyls
+    ieq choice,"5",menu
+    g sarea
+    l cubes
+    cls
+    e ""
+    e ""
+    e "----------------"
+    e "   RECT Prism"
+    e "----------------"
+    e ""
+    e ""
+    e "  Length (base)="
+    stp len,""
+    e ""
+    e "  Width (base)="
+    stp wid,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%len%+%wid%+%len%+%wid%"
+    sta vol,"%vol%*hei"
+    sta b,"%len%*%wid%"
+    sta b,"%b%*2"
+    sta vol,"%vol%+%b%"
+    e ""
+    e "Surface Area=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g sarea
+    l trips
+    cls
+    e ""
+    e ""
+    e "-----------------"
+    e "    TRI Prism"
+    e "-----------------"
+    e ""
+    e ""
+    e "  Base="
+    stp base,""
+    e ""
+    e "  Side 2="
+    stp base2,""
+    e ""
+    e "  Side 3="
+    stp base3,""
+    e ""
+    e "  Height (or Base)="
+    stp hei,""
+    e ""
+    e "  Height (of Prism)="
+    stp hei2,""
+    sta vol,"%base%+%base2%+%base3%"
+    sta vol,"%vol%*hei2"
+    sta b,"%base%*%hei%"
+    sta b,"%b%/2"
+    sta vol,"%vol%+%b%"
+    e ""
+    e "Surface Area=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g sarea
+    l spheres
+    cls
+    e ""
+    e ""
+    e "--------------"
+    e "    Sphere"
+    e "--------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    sta vol,"%rad%*%rad%"
+    sta vol,"%vol%*22"
+    sta vol,"%vol%/7"
+    sta vol,"%vol%*4"
+    e ""
+    e "Surface Area=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g sarea
+    l cyls
+    cls
+    e ""
+    e ""
+    e "----------------"
+    e "    Cylinder"
+    e "----------------"
+    e ""
+    e ""
+    e "  Radius="
+    stp rad,""
+    e ""
+    e "  Height="
+    stp hei,""
+    sta vol,"%rad%*%rad%"
+    sta vol,"%vol%*22"
+    sta vol,"%vol%/7"
+    sta vol,"%vol%*2"
+    sta c,"%rad%*%hei%"
+    sta c,"%c%*22"
+    sta c,"%c%/7"
+    sta c,"%c%*2"
+    sta vol,"%vol%+%c%"
+    e ""
+    e "Surface Area=%vol%"
+    e ""
+    e "Press Enter"
+    p 0
+    g sarea
+    l circum
+    cls
+    e ""
+    e ""
+    e "-----------------------"
+    e " Diamter:"
+    stp dia,""
+    sta cir,"%dia%*22"
+    sta cir,"%cir%/7"
+    e ""
+    e " Circumference: %cir%"
+    e "-----------------------"
+    e ""
+    e "Press Enter"
+    e ""
+    p 0
+    g menu
+    l closezx
+
+.header
+    filename "SP6.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "The Matrix"
+    clr 0A
+    l A
+    sta v,"%random%*2/32767"
+    sta a,"%random%*2/32767"
+    sta b,"%random%*2/32767"
+    sta c,"%random%*2/32767"
+    sta d,"%random%*2/32767"
+    sta e,"%random%*2/32767"
+    sta f,"%random%*2/32767"
+    sta g,"%random%*2/32767"
+    sta h,"%random%*2/32767"
+    sta i,"%random%*2/32767"
+    sta j,"%random%*2/32767"
+    sta k,"%random%*2/32767"
+    e "%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%%v%%a%%b%%c%%d%%e%%f%%h%%i%%j%%k%"
+    e "%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%%c%%e%%g%%i%%k%%b%%d%%f%%h%%j%%v%%a%"
+    g A
+
+.header
+    filename "SP7.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ; :: Created by ScrewTheLotOfYou
+    ; :: Copy, reproduce and edit all you like, as long as you don't infringe copyrights.
+    ; :: I have based this game's format loosely on the British tv show 'Deal Or No Deal' owned
+    ; :: by Endemol.
+    ; :: I do not own any part of the show and have created this basic program only to
+    ; :: educate on ways to use, and the capabilities of, the language.
+    ; :: Note, throughout the game I have had to use dollar signs instead of pound signs, as batch
+    ; :: files won't accept them for some reason...
+    l ffffffffew
+    e "1) Start Deal or No Deal"
+    e "2) Exit"
+    stp vpie,""
+    ieq vpie,"1",stst
+    ieq vpie,"2",finend
+    e "Invalid"
+    p
+    g ffffffffew
+    l stst
+    ttl "deal or no deal"
+    e "Loading..."
+    ; unrecognized: setlocal enabledelayedexpansion
+    st dealdone,"0"
+    st Spaces,""
+    ; unrecognized: for /l %%I in (1,1,22) do set gapline%%I= ___________
+    st amount1,"1"
+    st amount2,"10"
+    st amount3,"50"
+    st amount4,"100"
+    st amount5,"500"
+    st amount6,"1000"
+    st amount7,"5000"
+    st amount8,"10000"
+    st amount9,"25000"
+    st amount10,"50000"
+    st amount11,"75000"
+    st amount12,"100000"
+    st amount13,"300000"
+    st amount14,"500000"
+    st amount15,"1000000"
+    st amount16,"1500000"
+    st amount17,"2000000"
+    st amount18,"3500000"
+    st amount19,"5000000"
+    st amount20,"7500000"
+    st amount21,"10000000"
+    st amount22,"25000000"
+    st famount1,"$0.01"
+    st famount2,"$0.1"
+    st famount3,"$0.50"
+    st famount4,"$1"
+    st famount5,"$5"
+    st famount6,"$10"
+    st famount7,"$50"
+    st famount8,"$100"
+    st famount9,"$250"
+    st famount10,"$500"
+    st famount11,"$750"
+    st famount12,"$1,000"
+    st famount13,"$3,000"
+    st famount14,"$5,000"
+    st famount15,"$10,000"
+    st famount16,"$15,000"
+    st famount17,"$20,000"
+    st famount18,"$35,000"
+    st famount19,"$50,000"
+    st famount20,"$75,000"
+    st famount21,"$100,000"
+    st famount22,"$250,000"
+    st Damount1,"{___$0.01___}"
+    st Damount2,"{____$0.1___}"
+    st Damount3,"{____$0.5___}"
+    st Damount4,"{_____$1____}"
+    st Damount5,"{_____$5____}"
+    st Damount6,"{____$10____}"
+    st Damount7,"{____$50____}"
+    st Damount8,"{____$100___}"
+    st Damount9,"{____$250___}"
+    st Damount10,"{____$500___}"
+    st Damount11,"{____$750___}"
+    st Damount12,"{___$1000___}"
+    st Damount13,"{___$3000___}"
+    st Damount14,"{___$5000___}"
+    st Damount15,"{___$10000__}"
+    st Damount16,"{___$15000__}"
+    st Damount17,"{___$20000__}"
+    st Damount18,"{___$35000__}"
+    st Damount19,"{___$50000__}"
+    st Damount20,"{___$75000__}"
+    st Damount21,"{__$100000__}"
+    st Damount22,"{__$250000__}"
+    ; unrecognized: for /l %%I in (1,1,22) do set boxtop%%I= _____
+    ; unrecognized: for /l %%I in (1,1,22) do set boxlid%%I=[_____]
+    ; unrecognized: for /l %%I in (1,1,9) do set boxmid%%I=[  %%I  ]
+    ; unrecognized: for /l %%I in (10,1,22) do set boxmid%%I=[ %%I  ]
+    ; unrecognized: for /l %%I in (1,1,22) do set boxbot%%I=[_____]
+    ; unrecognized: for /l %%I in (23,1,24) do set boxtop%%I=
+    ; unrecognized: for /l %%I in (23,1,24) do set boxlid%%I=
+    ; unrecognized: for /l %%I in (23,1,24) do set boxmid%%I=
+    ; unrecognized: for /l %%I in (23,1,24) do set boxbot%%I=
+    ; unrecognized: for /l %%I in (1,4,24) do (
+    sta box2number,"%%I + 1"
+    sta box3number,"%%I + 2"
+    sta box4number,"%%I + 3"
+    st DisplayLine%%I,"#boxtop%%I##boxtop!box2number!##boxtop!box3number!##boxtop!box4number!#"
+    ; unrecognized: )
+    ; unrecognized: for /l %%I in (2,4,24) do (
+    sta boxnumber,"%%I - 1"
+    sta box2number,"!boxnumber! + 1"
+    sta box3number,"!boxnumber! + 2"
+    sta box4number,"!boxnumber! + 3"
+    st DisplayLine%%I,"#boxlid!boxnumber!##boxlid!box2number!##boxlid!box3number!##boxlid!box4number!#"
+    ; unrecognized: )
+    ; unrecognized: for /l %%I in (3,4,24) do (
+    sta boxnumber,"%%I - 2"
+    sta box2number,"!boxnumber! + 1"
+    sta box3number,"!boxnumber! + 2"
+    sta box4number,"!boxnumber! + 3"
+    st DisplayLine%%I,"#boxmid!boxnumber!##boxmid!box2number!##boxmid!box3number!##boxmid!box4number!#"
+    ; unrecognized: )
+    ; unrecognized: for /l %%I in (4,4,24) do (
+    sta boxnumber,"%%I - 3"
+    sta box2number,"!boxnumber! + 1"
+    sta box3number,"!boxnumber! + 2"
+    sta box4number,"!boxnumber! + 3"
+    st DisplayLine%%I,"#boxbot!boxnumber!##boxbot!box2number!##boxbot!box3number!##boxbot!box4number!#"
+    ; unrecognized: )
+    st amountnumber1,"0"
+    st amountnumber2,"11"
+    ; unrecognized: for /l %%I in (1,2,22) do set /a AmountNumber1= !amountnumber1! + 1 && set /a Amountnumber2= !amountnumber2! + 1 && for /l %%J in (!Amountnumber1!,1,!Amountnumber1!) do for /l %%K in (!Amountnumber2!,1,!Amountnumber2!) do (
+    st Displayline%%I,"#gapline%%J#            !Displayline%%I!            #gapline%%K#"
+    ; unrecognized: )
+    st amountnumber1,"0"
+    st amountnumber2,"11"
+    ; unrecognized: for /l %%I in (2,2,22) do set /a AmountNumber1= !amountnumber1! + 1 && set /a Amountnumber2= !amountnumber2! + 1 && for /l %%J in (!Amountnumber1!,1,!Amountnumber1!) do for /l %%K in (!Amountnumber2!,1,!Amountnumber2!) do (
+    st Displayline%%I,"#Damount%%J#            !Displayline%%I!            #Damount%%K#"
+    ; unrecognized: )
+    ; unrecognized: for /l %%I in (23,1,24) do set displayline%%I=                         !Displayline%%I!
+    st amountsleft,""
+    ; unrecognized: for /l %%I in (1,1,22) do set AmountsLeft=!Amountsleft!%%I,
+    st Amountnumber,"1"
+    l RandomNumber
+    st minval,"1"
+    st maxval,"22"
+    l NumberGenerator
+    sta RandomNumber,"%random% / 1489"
+    sta RandomNumber,"%RandomNumber% + %MinVal%"
+    ieq /i,"%RandomNumber%",
+    inq defined,"box%randomnumber%",
+    st box%randomnumber%,"%amountnumber%"
+    sta Amountnumber,"!Amountnumber! + 1"
+    ieq /i !amountnumber!,"23",intro
+    ; unrecognized: )
+    g Randomnumber
+    l intro
+    cls
+    e "Let's Play..."
+    e ""
+    e ""
+    e "         ############################################"
+    e "         #                                          #"
+    e "         #   @@   @@@@   @   @            @   @@@   #"
+    e "         #   @ @  @     @ @  @           @ @  @  @  #"
+    e "         #   @  @ @    @   @ @          @   @ @     #"
+    e "         #   @  @ @@@  @@@@@ @          @   @ @     #"
+    e "         #   @ @  @    @   @ @           @ @  @     #"
+    e "         #   @@   @@@@ @   @ @@@@         @   @     #"
+    e "         #                                          #"
+    e "         #   @  @   @         @@   @@@@   @   @     #"
+    e "         #   @@ @  @ @        @ @  @     @ @  @     #"
+    e "         #   @@ @ @   @       @  @ @    @   @ @     #"
+    e "         #   @ @@ @   @       @  @ @@@@ @@@@@ @     #"
+    e "         #   @ @@  @ @        @ @  @    @   @ @     #"
+    e "         #   @  @   @         @@   @@@@ @   @ @@@@  #"
+    e "         #                                          #"
+    e "         ############################################"
+    e ""
+    e "I do not own the "Deal Or No Deal" format or concept. All copyrights"
+    e "and trademarks are property of their respective owners."
+    e ""
+    stp helpyn,""Press enter to continue, or type HELP for instructions."
+    ieq /i "%HelpYN%","HELP",
+    cls
+    e "The aim of the game is to get as much money as possible for your box."
+    e "The game concept is simple. There are 22 sums of money inside 22 boxes."
+    e "The player must choose a box to keep, then remove the others from play,"
+    e "one by one not knowing what sum is inside each box."
+    e ""
+    e "After a certain number of choices, The Banker will phone. He will make"
+    e "you an offer to buy your box off you. You may choose to accept this offer,"
+    e "or keep removing money. Removing high sums makes lower offers and vice-"
+    e "versa."
+    e ""
+    e "If you play until there are only two boxes left, you have the choice to"
+    e "open the box you started with, or switch to the other box. You win the"
+    e "money in the box."
+    e ""
+    e "The knack to the game is knowing whether to take the deal or stop removing"
+    e "money from the game."
+    p
+    ; unrecognized: )
+    cls
+    l ChooseBox
+    c ":display"
+    stp OwnBox,""Choose your own box to keep:    ""
+    inq defined,"Ownbox",Choosebox
+    ieq /i,"not",
+    ieq /i,"not",
+    st boxtop%ownbox%,""
+    st boxlid%ownbox%,""
+    st boxmid%ownbox%,""
+    st boxbot%ownbox%,""
+    st BoxesLeft,"22"
+    st turns,"5"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    st turns,"3"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    st turns,"3"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    st turns,"3"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    st turns,"3"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    st turns,"3"
+    st boxmessage,"Choose the box you want to open"
+    c ":gameloop"
+    ieq dealdone,"1",
+    g SwapOrNot
+    l gameLoop
+    cls
+    c ":display"
+    st boxtoremove,""
+    l OpenBox
+    stp BoxToRemove,""%BoxMessage%""
+    inq defined,"BoxToRemove",OpenBox
+    ieq /i,"not",
+    ieq /i,"not",
+    ieq /i %BoxToRemove%,"%OwnBox%",OpenBox
+    ieq /i "!Box%boxtoremove%!","DONE",OpenBox
+    c ":removebox %boxtoremove%"
+    sta BoxesLeft,"%BoxesLeft% - 1"
+    sta Turns,"%Turns% - 1"
+    ieq /i %turns%,"0",
+    cls
+    c ":display"
+    stp asdfghj,""You lost amount %Amountinbox%. The Phone is ringing, press enter to answer it.""
+    st asdfghj,""
+    c ":MakeOffer"
+    trm
+    ; unrecognized: )
+    st boxmessage,"You lost amount %Amountinbox%. Choose the box you want to open."
+    g GameLoop
+    l RemoveBox
+    st boxtop%1,""
+    st boxlid%1%,""
+    st boxmid%1,""
+    st boxbot%1,""
+    st AmountInBox,"!Box%1!"
+    c ":Remove_Amounts %AmountInBox%"
+    st Box%1,"DONE"
+    trm
+    l Remove_Amounts
+    st damount%1,""
+    st gapline%1,""
+    ; unrecognized: for /f "tokens=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 delims=," %%A in ("%AmountsLeft%") do (
+    st amountsleft,""
+    ieq /i not %%A,"%1"
+    st AmountsLeft,"%%A,"
+    ieq /i not %%B,"%1"
+    st AmountsLeft,"!AmountsLeft!%%B,"
+    ieq /i not %%C,"%1"
+    st AmountsLeft,"!AmountsLeft!%%C,"
+    ieq /i not %%D,"%1"
+    st AmountsLeft,"!AmountsLeft!%%D,"
+    ieq /i not %%E,"%1"
+    st AmountsLeft,"!AmountsLeft!%%E,"
+    ieq /i not %%F,"%1"
+    st AmountsLeft,"!AmountsLeft!%%F,"
+    ieq /i not %%G,"%1"
+    st AmountsLeft,"!AmountsLeft!%%G,"
+    ieq /i not %%H,"%1"
+    st AmountsLeft,"!AmountsLeft!%%H,"
+    ieq /i not %%I,"%1"
+    st AmountsLeft,"!AmountsLeft!%%I,"
+    ieq /i not %%J,"%1"
+    st AmountsLeft,"!AmountsLeft!%%J,"
+    ieq /i not %%K,"%1"
+    st AmountsLeft,"!AmountsLeft!%%K,"
+    ieq /i not %%L,"%1"
+    st AmountsLeft,"!AmountsLeft!%%L,"
+    ieq /i not %%M,"%1"
+    st AmountsLeft,"!AmountsLeft!%%M,"
+    ieq /i not %%N,"%1"
+    st AmountsLeft,"!AmountsLeft!%%N,"
+    ieq /i not %%O,"%1"
+    st AmountsLeft,"!AmountsLeft!%%O,"
+    ieq /i not %%P,"%1"
+    st AmountsLeft,"!AmountsLeft!%%P,"
+    ieq /i not %%Q,"%1"
+    st AmountsLeft,"!AmountsLeft!%%Q,"
+    ieq /i not %%R,"%1"
+    st AmountsLeft,"!AmountsLeft!%%R,"
+    ieq /i not %%S,"%1"
+    st AmountsLeft,"!AmountsLeft!%%S,"
+    ieq /i not %%T,"%1"
+    st AmountsLeft,"!AmountsLeft!%%T,"
+    ieq /i not %%U,"%1"
+    st AmountsLeft,"!AmountsLeft!%%U,"
+    ieq /i not %%V,"%1"
+    st AmountsLeft,"!AmountsLeft!%%V,"
+    ; unrecognized: )
+    st amountinbox,"!FAmount%1!"
+    trm
+    l MakeOffer
+    st amount,"0"
+    ; unrecognized: for /f "tokens=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 delims=," %%A in ("%AmountsLeft%") do (
+    sta Offer,"!Amount%%A! + !Amount%%B! + !Amount%%C! + !Amount%%D! + !Amount%%E! + !Amount%%F! + !Amount%%G! + !Amount%%H! + !Amount%%I! + !Amount%%J! + !Amount%%K! + !Amount%%L! + !Amount%%M! + !Amount%%N! + !Amount%%O! + !Amount%%P! + !Amount%%Q! + !Amount%%R! + !Amount%%S! + !Amount%%T! + !Amount%%U! + !Amount%%V! + 0"
+    ; unrecognized: )
+    sta Offer,"(%Offer%/((%BoxesLeft%*999)/500))/100"
+    cls
+    e ""
+    e "              ####################################"
+    e "             ##                                  ##"
+    e "            ##    ############################    ##"
+    e "             ######     ##            ##     ######"
+    e "                     ######################"
+    e "                     #######        #######"
+    e "                     #####            #####"
+    e "                     ####              ####"
+    e "                     ####              ####"
+    e "                     #####            #####"
+    e "                    #######          #######"
+    e "                   ##########################"
+    e "                  ############################"
+    e "                 ##############################"
+    e "                ################################"
+    e ""
+    e ""
+    e "                  The Banker Offers: $%Offer%"
+    e ""
+    e ""
+    e "                       DEAL OR NO DEAL?"
+    l DealOrNoDeal
+    st deal,""
+    stp Deal,""       ""
+    inq defined,"Deal",DealOrNoDeal
+    ieq /i %Deal:~0,1%,"d",
+    ieq /i %Deal:~0,1%,"N",
+    l Display
+    ; unrecognized: echo/ %displayline1:#=!%
+    ; unrecognized: echo/ %displayline2:#=!%
+    ; unrecognized: echo/ %displayline3:#=!%
+    ; unrecognized: echo/ %displayline4:#=!%
+    ; unrecognized: echo/ %displayline5:#=!%
+    ; unrecognized: echo/ %displayline6:#=!%
+    ; unrecognized: echo/ %displayline7:#=!%
+    ; unrecognized: echo/ %displayline8:#=!%
+    ; unrecognized: echo/ %displayline9:#=!%
+    ; unrecognized: echo/ %displayline10:#=!%
+    ; unrecognized: echo/ %displayline11:#=!%
+    ; unrecognized: echo/ %displayline12:#=!%
+    ; unrecognized: echo/ %displayline13:#=!%
+    ; unrecognized: echo/ %displayline14:#=!%
+    ; unrecognized: echo/ %displayline15:#=!%
+    ; unrecognized: echo/ %displayline16:#=!%
+    ; unrecognized: echo/ %displayline17:#=!%
+    ; unrecognized: echo/ %displayline18:#=!%
+    ; unrecognized: echo/ %displayline19:#=!%
+    ; unrecognized: echo/ %displayline20:#=!%
+    ; unrecognized: echo/ %displayline21:#=!%
+    ; unrecognized: echo/ %displayline22:#=!%
+    ; unrecognized: echo/ %displayline23:#=!%
+    ; unrecognized: echo/ %displayline24:#=!%
+    trm
+    l SwapOrNot
+    cls
+    e ""
+    e "              ####################################"
+    e "             ##                                  ##"
+    e "            ##    ############################    ##"
+    e "             ######     ##            ##     ######"
+    e "                     ######################"
+    e "                     #######        #######"
+    e "                     #####            #####"
+    e "                     ####              ####"
+    e "                     ####              ####"
+    e "                     #####            #####"
+    e "                    #######          #######"
+    e "                   ##########################"
+    e "                  ############################"
+    e "                 ##############################"
+    e "                ################################"
+    e ""
+    e ""
+    e "               The Banker Has Offered You The Swap"
+    e ""
+    e ""
+    e "                       SWAP OR NO SWAP?"
+    l SwapOrNoSwap
+    st swap,""
+    stp Swap,""       ""
+    inq defined,"Swap",SwapOrNoSwap
+    ieq /i %Swap:~0,1%,"S",
+    ieq /i %Swap:~0,1%,"N",
+    l Swap_Not_Taken
+    ; unrecognized: for /f "tokens=1,2 delims=," %%I in ("%AmountsLeft%") do if /i "%%I"=="!Box%OwnBox%!" (set Offer=!Amount%%I!& set OtherBox=%%J& Set OwnBox=%%I) else (set offer=!Amount%%J!& set OtherBox=%%I&& Set OwnBox=%%J)
+    ieq /i,"%offer%",
+    sta offer,"%offer% / 100"
+    ieq /i,"%Offer%",
+    g SwapResult
+    l Swap_Taken
+    ; unrecognized: for /f "tokens=1,2 delims=," %%I in ("%AmountsLeft%") do if /i "%%I"=="!Box%OwnBox%!" (set Offer=!Amount%%J!& set OtherBox=%%I& Set OwnBox=%%J) else (set offer=!Amount%%I!& set OtherBox=%%J& Set OwnBox=%%I)
+    ieq /i,"%offer%",
+    sta offer,"%offer% / 100"
+    ieq /i,"%Offer%",
+    l SwapResult
+    ieq /i,"%OwnBox%",
+    e "You took the chance and won :D Well done"
+    ; unrecognized: ) else (
+    e "Hard luck, you got the smaller prize."
+    ; unrecognized: )
+    e "You won $%Offer% :)"
+    p 0
+    g endofgame
+    l Deal_Taken
+    st dealdone,"1"
+    ieq /i,"%Offer%",
+    ieq /i,"%offer%",
+    st Newoffer,"0.%offer%"
+    ; unrecognized: ) else (
+    st Newoffer,"%offer%"
+    ; unrecognized: )
+    st temp,"!Box%ownbox%!"
+    ieq /i,"!Amount%temp%!",
+    st Newtemp,"0.!Amount%temp%!"
+    ; unrecognized: ) Else (
+    sta Newtemp,"!Amount%temp%! / 100"
+    ; unrecognized: )
+    ieq /i,"%newtemp:.=%",
+    e "Hard luck, in your box there was $%newtemp%, but you dealed at $%Newoffer%"
+    ; unrecognized: )
+    ieq /i,"%newtemp:.=%",
+    e "Well done, you beat the banker :D"
+    e "Your box was worth $%newtemp% but you sold it for $%NewOffer%"
+    ; unrecognized: )
+    ieq /i,"%newtemp:.=%",
+    e "You managed to sell your box for exactly what it was worth, well done :D"
+    e "You won $%NewOffer% :)"
+    ; unrecognized: )
+    p 0
+    g EndOfGame
+    l BigWin
+    cls
+    e "#######################################################"
+    e "#                                                     #"
+    e "#                                                     #"
+    e "#   @       @   @   @   @   @   @   @@@@   @@@@   @   #"
+    e "#   @       @   @   @@  @   @@  @   @      @   @  @   #"
+    e "#   @       @   @   @ @ @   @ @ @   @      @  @   @   #"
+    e "#   @   @   @   @   @ @ @   @ @ @   @@@    @@@    @   #"
+    e "#   @  @ @  @   @   @ @ @   @ @ @   @      @  @   @   #"
+    e "#   @ @   @ @   @   @ @ @   @ @ @   @      @   @      #"
+    e "#    @     @    @   @  @@   @  @@   @@@@   @   @  @   #"
+    e "#                                                     #"
+    e "#                                                     #"
+    e "#######################################################"
+    e ""
+    e ""
+    trm
+    l endOfGame
+    l finend
+
+.header
+    filename "SK1.bat"
+    entry 0
+    ver 1.0
+.instrs
+    clr 0a
+    ttl "setup"
+    e "             Thank you for chosing Batch Generation Computing's"
+    e ""
+    e "             Xtrodinary Differential Output System v1.0 (X-DOS)"
+    e ""
+    p
+    cls
+    e "                           Created By:"
+    e ""
+    e "                           David Dodge"
+    e ""
+    p
+    cls
+    e "                        Including Code By:"
+    e ""
+    e "         William from www.higginsbatch.webs.com"
+    e ""
+    e "     ScrewTheLotOfYou from www.screwthelotofyou.webs.com"
+    e ""
+    e "       abs1296 from www.sites.google.com/site/absppt"
+    e ""
+    e "                       schoolhacks"
+    e ""
+    p
+    cls
+    e "Welcome to the world of command prompt, somthing that is on every"
+    e "windows computer, but many people do not take advantage of this"
+    e "powerful little program on windows.Since X-DOS runs in"
+    e "command prompt, here is a tuturial of how to use the program."
+    e ""
+    p
+    cls
+    e "If you you are reading this, you already know what to do if"
+    e "it says "press any key to continue". If the computer appears to"
+    e "just be sitting there press any key to continue with that to."
+    e "Note that if that does not do anything do not do anything as the"
+    e "computer is thinking."
+    p
+    cls
+    e "If the program needs you to input something, input the option"
+    e "you want ( either a number or yes/no) and press the enter key."
+    e "options have to be entered in lowercase."
+    p
+    cls
+    e "The program has you enter a username and password. To find the"
+    e "avalible user accounts please refer to the instructions that"
+    e "came with the program."
+    p
+    cls
+    e "To use the message service of X-DOS, Follow the instructions"
+    p
+    cls
+    e "1) goto the start menu and right click my computer"
+    e ""
+    e "2) click manage, it will bring up a new window"
+    e ""
+    e "3) double click "services and applications""
+    e ""
+    e "4) double click "services""
+    e ""
+    e "5) The services are in alphibetical order, look for "messanger""
+    e ""
+    e "6) If it says "automatic" next to it, then you don't have to do anything"
+    e ""
+    e "7) If it says "disabled" then right click it, click properties, and select"
+    e "   "automatic" in the drop down box. Click apply, then let it start up."
+    e ""
+    p
+    cls
+    e "To use the movie and internet features, you must have internet access."
+    p
+    cls
+    e "                            File Setup"
+    e ""
+    e "Right click the BG-Computing c folder and click copy. Then"
+    e "goto where you want the folder, right click, and click paste."
+    p
+    cls
+    e "Open the BG computing folder and drag and drop the tree icon"
+    e "onto your desktop."
+    p
+    cls
+    e "Do Not move any other files"
+    e ""
+    p
+    cls
+    e "The help icon will open help and the setup icon will open this."
+    e "The tree icon opens the program."
+    p
+    cls
+    e "Continuing will open the help file. I hope you enjoy X-DOS v1.0"
+    p
+    ; unrecognized: start SK2.bat
+    trm
+
+.header
+    filename "SK2.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "help"
+    clr 0a
+    l U
+    cls
+    e "What do you want to do?"
+    e ""
+    e "1) errors"
+    e "2) FAQ"
+    e ""
+    stp opl,""
+    ieq opl,"1",3
+    cls
+    e "************************************************************"
+    e "*                 Frequently Asked Questions               *"
+    e "*                                                          *"
+    e "************************************************************"
+    e ""
+    e "Q: What are all those files in the BG computing folder?"
+    e ""
+    e "A: These are system files that the program needs to run,"
+    e "   DO Not move,rename, modify these files in any way or"
+    e "   else the program will malfuction. In other words, any"
+    e "   file that has a folder,gear, or slot machine looking icon"
+    e "   you should not be messing with!"
+    e ""
+    e "Q: What is the file named logonrecord.txt?"
+    e ""
+    e "A: This is a useful feature of X-DOS that will"
+    e "   log who logs on and when. To see the log,"
+    e "   open logonrecord.txt. Note that you have to"
+    e "   have run X-DOS once to have logonrecord.txt"
+    e ""
+    e "Q: What is the credits?"
+    e ""
+    e "A: The people in the credits are the people who"
+    e "   I got games and ideas from online."
+    e ""
+    e "Q: What X-DOS stand for?"
+    e ""
+    e "A: Xtrdainary Differential Output System"
+    e "   I named it that because it sounds cool"
+    e ""
+    e "Q: How do I use the message feture?"
+    e ""
+    e "A: For user type the computer's IP address,"
+    e "   or an * to send the message to all computers"
+    e "   on your network."
+    p
+    g U
+    l 3
+    e "                          Errors"
+    e ""
+    e "   Message pops up saying "Windows cannot find (filename)""
+    e ""
+    e "   solution: Reinstall X-DOS"
+    e ""
+    e "   If anything else happens, please contact BG computing"
+    e ""
+    p
+    g U
+
+.header
+    filename "SK09.BAT"
+    entry 0
+    ver 1.0
+.instrs
+    cls
+    clr 17
+    l titlescreen
+    clr 0A
+    e ""
+    e ""
+    e ""
+    e "                *************************************"
+    e ""
+    e "                    ########  ########  ########"
+    e "                       ##        ##        ##"
+    e "                       ##  ---   ##  ---   ##"
+    e "                       ##        ##        ##"
+    e "                       ##        ##        ##"
+    e ""
+    e "                *************************************"
+    e ""
+    e "                                         By William"
+    e ""
+    e ""
+    e ""
+    p
+    l Menu
+    cls
+    e ""
+    e ""
+    e "   ***********************"
+    e ""
+    e "       Select a Mode"
+    e ""
+    e "       1) 2-Player"
+    e "       2) Single-Player"
+    e "       3) Exit"
+    e ""
+    e "   ***********************"
+    e ""
+    stp mode,""
+    ieq mode,"1",ultstart
+    ieq mode,"2",single
+    ieq mode,"3",finend
+    l ultstart
+    sta xscore,"0"
+    sta oscore,"0"
+    sta draw,"0"
+    clr 0F
+    cls
+    e ""
+    e ""
+    e "Who is playing X's?"
+    e ""
+    stp xs,""
+    cls
+    e ""
+    e ""
+    e "Who is playing O's?"
+    e ""
+    stp os,""
+    l superstart
+    clr 0F
+    cls
+    sta moves,"0"
+    sta TL,"7"
+    sta TM,"8"
+    sta TR,"9"
+    sta ML,"4"
+    sta MM,"5"
+    sta MR,"6"
+    sta BL,"1"
+    sta BM,"2"
+    sta BR,"3"
+    g start2
+    l start1
+    ieq moves,"9",draw
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            %os%: %oscore%"
+    e "            Draw: %draw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    g B
+    l start2
+    ieq moves,"9",draw
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            %os%: %oscore%"
+    e "            Draw: %draw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    g A
+    l A
+    e ""
+    e ""
+    e "%xs%'s Turn"
+    e ""
+    sta moves,"%moves%+1"
+    stp x,""
+    ieq x,"7",A1
+    ieq x,"8",A2
+    ieq x,"9",A3
+    ieq x,"4",A4
+    ieq x,"5",A5
+    ieq x,"6",A6
+    ieq x,"1",A7
+    ieq x,"2",A8
+    ieq x,"3",A9
+    l A1
+    ieq TL,"X",errorx
+    ieq TL,"O",errorx
+    st TL,"X"
+    g BC
+    l A2
+    ieq TM,"X",errorx
+    ieq TM,"O",errorx
+    st TM,"X"
+    g BC
+    l A3
+    ieq TR,"X",errorx
+    ieq TR,"O",errorx
+    st TR,"X"
+    g BC
+    l A4
+    ieq ML,"X",errorx
+    ieq ML,"O",errorx
+    st ML,"X"
+    g BC
+    l A5
+    ieq MM,"X",errorx
+    ieq MM,"O",errorx
+    st MM,"X"
+    g BC
+    l A6
+    ieq MR,"X",errorx
+    ieq MR,"O",errorx
+    st MR,"X"
+    g BC
+    l A7
+    ieq BL,"X",errorx
+    ieq BL,"O",errorx
+    st BL,"X"
+    g BC
+    l A8
+    ieq BM,"X",errorx
+    ieq BM,"O",errorx
+    st BM,"X"
+    g BC
+    l A9
+    ieq BR,"X",errorx
+    ieq BR,"O",errorx
+    st BR,"X"
+    g BC
+    l B
+    e ""
+    e ""
+    e "%os%'s Turn"
+    e ""
+    sta moves,"%moves%+1"
+    stp x,""
+    ieq x,"7",B1
+    ieq x,"8",B2
+    ieq x,"9",B3
+    ieq x,"4",B4
+    ieq x,"5",B5
+    ieq x,"6",B6
+    ieq x,"1",B7
+    ieq x,"2",B8
+    ieq x,"3",B9
+    l B1
+    ieq TL,"X",erroro
+    ieq TL,"O",erroro
+    st TL,"O"
+    g AC
+    l B2
+    ieq TM,"X",erroro
+    ieq TM,"O",erroro
+    st TM,"O"
+    g AC
+    l B3
+    ieq TR,"X",erroro
+    ieq TR,"O",erroro
+    st TR,"O"
+    g AC
+    l B4
+    ieq ML,"X",erroro
+    ieq ML,"O",erroro
+    st ML,"O"
+    g AC
+    l B5
+    ieq MM,"X",erroro
+    ieq MM,"O",erroro
+    st MM,"O"
+    g AC
+    l B6
+    ieq MR,"X",erroro
+    ieq MR,"O",erroro
+    st MR,"O"
+    g AC
+    l B7
+    ieq BL,"X",erroro
+    ieq BL,"O",erroro
+    st BL,"O"
+    g AC
+    l B8
+    ieq BM,"X",erroro
+    ieq BM,"O",erroro
+    st BM,"O"
+    g AC
+    l B9
+    ieq BR,"X",erroro
+    ieq BR,"O",erroro
+    st BR,"O"
+    g AC
+    l AC
+    ieq %TL%+%TM%+%TR%,"O+O+O",wino
+    ieq %TL%+%ML%+%BL%,"O+O+O",wino
+    ieq %TL%+%MM%+%BR%,"O+O+O",wino
+    ieq %TM%+%MM%+%BM%,"O+O+O",wino
+    ieq %TR%+%MR%+%BR%,"O+O+O",wino
+    ieq %TR%+%MM%+%BL%,"O+O+O",wino
+    ieq %ML%+%MM%+%MR%,"O+O+O",wino
+    ieq %BL%+%BM%+%BR%,"O+O+O",wino
+    g start2
+    l BC
+    ieq %TL%+%TM%+%TR%,"X+X+X",winx
+    ieq %TL%+%ML%+%BL%,"X+X+X",winx
+    ieq %TL%+%MM%+%BR%,"X+X+X",winx
+    ieq %TM%+%MM%+%BM%,"X+X+X",winx
+    ieq %TR%+%MR%+%BR%,"X+X+X",winx
+    ieq %TR%+%MM%+%BL%,"X+X+X",winx
+    ieq %ML%+%MM%+%MR%,"X+X+X",winx
+    ieq %BL%+%BM%+%BR%,"X+X+X",winx
+    g start1
+    l errorx
+    e ""
+    e "Invalid Move"
+    e ""
+    p
+    g start2
+    l erroro
+    e ""
+    e "Invalid Move"
+    e ""
+    p
+    g start1
+    l winx
+    cls
+    clr 0A
+    sta xscore,"%xscore%+1"
+    e ""
+    e ""
+    e "Congrats %xs%, because..."
+    e ""
+    e ""
+    e "               **"
+    e "  ****    ****  *   *********      **        **  **  **** **"
+    e "   ****  ****      **              **        **  **  **** **"
+    e "    ********       **              **   **   **  **  ** * **"
+    e "     ******        *********       **   **   **  **  ** * **"
+    e "    ********              **       **   **   **  **  ** * **"
+    e "   ****  ****             **       ************  **  ** * **"
+    e "  ****    ****     ********        ************  **  ** ****"
+    e ""
+    e ""
+    p
+    g ending
+    l wino
+    cls
+    clr 0C
+    sta oscore,"%oscore%+1"
+    e ""
+    e ""
+    e "Congrats %os%, because..."
+    e ""
+    e ""
+    e "               **"
+    e "  ************  *   *********      **        **  **  **** **"
+    e "  ************     **              **        **  **  **** **"
+    e "  **        **     **              **   **   **  **  ** * **"
+    e "  **        **     *********       **   **   **  **  ** * **"
+    e "  **        **            **       **   **   **  **  ** * **"
+    e "  ************            **       ************  **  ** * **"
+    e "  ************     ********        ************  **  ** ****"
+    e ""
+    e ""
+    p
+    g ending
+    l draw
+    cls
+    clr 0E
+    sta draw,"%draw%+1"
+    e ""
+    e ""
+    e "Sorry %xs% and %os%, but it's a..."
+    e ""
+    e ""
+    e " ######"
+    e " ##    #"
+    e " ##    #   ####    #####  #     #"
+    e " ##    #  #    #  #    #  #     #"
+    e " ##    #  #       #    #  #  #  #"
+    e " ######   #        #### #  #####"
+    e ""
+    e ""
+    p
+    g ending
+    l ending
+    cls
+    clr 0F
+    e ""
+    e ""
+    e "Press 1 to Play Again"
+    e "Press 2 to Change Players"
+    e "Press 3 to Exit"
+    e ""
+    stp v,""
+    ieq v,"1",superstart
+    ieq v,"2",ultstart
+    ieq v,"3",close
+    l single
+    sta cscore,"0"
+    sta xscore,"0"
+    sta cdraw,"0"
+    cls
+    l name
+    e ""
+    e ""
+    e "What is your name?"
+    e ""
+    stp xs,""
+    e ""
+    l sultstart
+    cls
+    clr 0F
+    cls
+    sta moves,"0"
+    sta TL,"7"
+    sta TM,"8"
+    sta TR,"9"
+    sta ML,"4"
+    sta MM,"5"
+    sta MR,"6"
+    sta BL,"1"
+    sta BM,"2"
+    sta BR,"3"
+    l sstart
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            Computer: %cscore%"
+    e "            Draw: %cdraw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    g CC
+    l SA
+    e ""
+    e ""
+    e "%xs%'s Turn"
+    e ""
+    sta moves,"%moves%+1"
+    stp x,""
+    ieq x,"1",SA7
+    ieq x,"2",SA8
+    ieq x,"3",SA9
+    ieq x,"4",SA4
+    ieq x,"5",SA5
+    ieq x,"6",SA6
+    ieq x,"7",SA1
+    ieq x,"8",SA2
+    ieq x,"9",SA3
+    l SA1
+    ieq moves,"9",draws
+    ieq TL,"X",errors
+    ieq TL,"O",errors
+    st TL,"X"
+    g CCC
+    l SA2
+    ieq moves,"9",draws
+    ieq TM,"X",errors
+    ieq TM,"O",errors
+    st TM,"X"
+    g CCC
+    l SA3
+    ieq moves,"9",draws
+    ieq TR,"X",errors
+    ieq TR,"O",errors
+    st TR,"X"
+    g CCC
+    l SA4
+    ieq moves,"9",draws
+    ieq ML,"X",errors
+    ieq ML,"O",errors
+    st ML,"X"
+    g CCC
+    l SA5
+    ieq moves,"9",draws
+    ieq MM,"X",errors
+    ieq MM,"O",errors
+    st MM,"X"
+    g CCC
+    l SA6
+    ieq moves,"9",draws
+    ieq MR,"X",errors
+    ieq MR,"O",errors
+    st MR,"X"
+    g CCC
+    l SA7
+    ieq moves,"9",draws
+    ieq BL,"X",errors
+    ieq BL,"O",errors
+    st BL,"X"
+    g CCC
+    l SA8
+    ieq moves,"9",draws
+    ieq BM,"X",errors
+    ieq BM,"O",errors
+    st BM,"X"
+    g CCC
+    l SA9
+    igeqi moves,"9",draws
+    ieq BR,"X",errors
+    ieq BR,"O",errors
+    st BR,"X"
+    g CCC
+    l CC
+    ieq %TL%+%TM%+%TR%,"O+O+O",loses
+    ieq %TL%+%ML%+%BL%,"O+O+O",loses
+    ieq %TL%+%MM%+%BR%,"O+O+O",loses
+    ieq %TM%+%MM%+%BM%,"O+O+O",loses
+    ieq %TR%+%MR%+%BR%,"O+O+O",loses
+    ieq %TR%+%MM%+%BL%,"O+O+O",loses
+    ieq %ML%+%MM%+%MR%,"O+O+O",loses
+    ieq %BL%+%BM%+%BR%,"O+O+O",loses
+    g SA
+    l CCC
+    sta moves,"%moves%+1"
+    ieq moves,"2",1turn
+    igti moves,"1",2turn
+    g 2turn
+    l 1turn
+    ieq TL,"X",pcenter
+    ieq TR,"X",pcenter
+    ieq BL,"X",pcenter
+    ieq BR,"X",pcenter
+    ieq MM,"X",pcorner
+    ieq TM,"X",pcenter
+    ieq ML,"X",pcenter
+    ieq MR,"X",pcenter
+    ieq BM,"X",pcenter
+    l pcenter
+    st MM,"O"
+    g sstart
+    l pcorner
+    sta moves,"%moves%+1"
+    sta corn,"%random%*3/32767+1"
+    ieq corn,"1"
+    st TL,"O"
+    ieq corn,"2"
+    st TR,"O"
+    ieq corn,"3"
+    st BL,"O"
+    ieq corn,"4"
+    st BR,"O"
+    g sstart
+    l 2turn
+    igeqi moves,"9",draws
+    ieq %TL%+%TM%+%TR%,"X+X+X",wins
+    ieq %TL%+%ML%+%BL%,"X+X+X",wins
+    ieq %TL%+%MM%+%BR%,"X+X+X",wins
+    ieq %TM%+%MM%+%BM%,"X+X+X",wins
+    ieq %TR%+%MR%+%BR%,"X+X+X",wins
+    ieq %TR%+%MM%+%BL%,"X+X+X",wins
+    ieq %ML%+%MM%+%MR%,"X+X+X",wins
+    ieq %BL%+%BM%+%BR%,"X+X+X",wins
+    l offense
+    ieq %TL%+%TM%+%TR%,"O+O+9",Ota
+    ieq %TL%+%TM%+%TR%,"O+8+O",Otb
+    ieq %TL%+%TM%+%TR%,"7+O+O",Otc
+    ieq %ML%+%MM%+%MR%,"O+O+6",Otd
+    ieq %ML%+%MM%+%MR%,"O+5+O",Ote
+    ieq %ML%+%MM%+%MR%,"4+O+O",Otf
+    ieq %BL%+%BM%+%BR%,"O+O+3",Otg
+    ieq %BL%+%BM%+%BR%,"O+2+O",Oth
+    ieq %BL%+%BM%+%BR%,"1+O+O",Oti
+    ieq %TL%+%ML%+%BL%,"O+O+1",Oti
+    ieq %TL%+%ML%+%BL%,"O+4+O",Otf
+    ieq %TL%+%ML%+%BL%,"7+O+O",Otc
+    ieq %TM%+%MM%+%BM%,"O+O+2",Oth
+    ieq %TM%+%MM%+%BM%,"O+5+O",Ote
+    ieq %TM%+%MM%+%BM%,"8+O+O",Otb
+    ieq %TR%+%MR%+%BR%,"O+O+3",Otg
+    ieq %TR%+%MR%+%BR%,"O+6+O",Otd
+    ieq %TR%+%MR%+%BR%,"9+O+O",Ota
+    ieq %TL%+%MM%+%BR%,"O+O+3",Otg
+    ieq %TL%+%MM%+%BR%,"O+5+O",Ote
+    ieq %TL%+%MM%+%BR%,"7+O+O",Otc
+    ieq %BL%+%MM%+%TR%,"O+O+9",Ota
+    ieq %BL%+%MM%+%TR%,"O+5+O",Ote
+    ieq %BL%+%MM%+%TR%,"1+O+O",Oti
+    g defense
+    l Ota
+    st TR,"O"
+    g sstart
+    l Otb
+    st TM,"O"
+    g sstart
+    l Otc
+    st TL,"O"
+    g sstart
+    l Otd
+    st MR,"O"
+    g sstart
+    l Ote
+    st MM,"O"
+    g sstart
+    l Otf
+    st ML,"O"
+    g sstart
+    l Otg
+    st BR,"O"
+    g sstart
+    l Oth
+    st BM,"O"
+    g sstart
+    l Oti
+    st BL,"O"
+    g sstart
+    l defense
+    ieq %TL%+%TM%+%TR%,"X+X+9",2ta
+    ieq %TL%+%TM%+%TR%,"X+8+X",2tb
+    ieq %TL%+%TM%+%TR%,"7+X+X",2tc
+    ieq %ML%+%MM%+%MR%,"X+X+6",2td
+    ieq %ML%+%MM%+%MR%,"X+5+X",2te
+    ieq %ML%+%MM%+%MR%,"4+X+X",2tf
+    ieq %BL%+%BM%+%BR%,"X+X+3",2tg
+    ieq %BL%+%BM%+%BR%,"X+2+X",2th
+    ieq %BL%+%BM%+%BR%,"1+X+X",2ti
+    ieq %TL%+%ML%+%BL%,"X+X+1",2ti
+    ieq %TL%+%ML%+%BL%,"X+4+X",2tf
+    ieq %TL%+%ML%+%BL%,"7+X+X",2tc
+    ieq %TM%+%MM%+%BM%,"X+X+2",2th
+    ieq %TM%+%MM%+%BM%,"X+5+X",2te
+    ieq %TM%+%MM%+%BM%,"8+X+X",2tb
+    ieq %TR%+%MR%+%BR%,"X+X+3",2tg
+    ieq %TR%+%MR%+%BR%,"X+6+X",2td
+    ieq %TR%+%MR%+%BR%,"9+X+X",2ta
+    ieq %TL%+%MM%+%BR%,"X+X+3",2tg
+    ieq %TL%+%MM%+%BR%,"X+5+X",2te
+    ieq %TL%+%MM%+%BR%,"7+X+X",2tc
+    ieq %BL%+%MM%+%TR%,"X+X+9",2ta
+    ieq %BL%+%MM%+%TR%,"X+5+X",2te
+    ieq %BL%+%MM%+%TR%,"1+X+X",2ti
+    ieq %BL%+%MM%+%TR%,"X+O+X",2tj
+    ieq %TL%+%MM%+%BR%,"X+O+X",2tj
+    ieq %ML%+%MM%+%MR%,"X+O+X",2tk
+    ieq %TM%+%MM%+%BM%,"X+O+X",2tk
+    l omg
+    sta omg,"%random%*8/32767+1"
+    ieq omg,"1",u1
+    ieq omg,"2",u2
+    ieq omg,"3",u3
+    ieq omg,"4",u4
+    ieq omg,"5",u5
+    ieq omg,"6",u6
+    ieq omg,"7",u7
+    ieq omg,"8",u8
+    ieq omg,"9",u9
+    g omg
+    l u1
+    ieq TL,"X",omg
+    ieq TL,"O",omg
+    st TL,"O"
+    g sstart
+    l u2
+    ieq TM,"X",omg
+    ieq TM,"O",omg
+    st TM,"O"
+    g sstart
+    l u3
+    ieq TR,"X",omg
+    ieq TR,"O",omg
+    st TR,"O"
+    g sstart
+    l u4
+    ieq ML,"X",omg
+    ieq ML,"O",omg
+    st ML,"O"
+    g sstart
+    l u5
+    ieq MM,"X",omg
+    ieq MM,"O",omg
+    st MM,"O"
+    g sstart
+    l u6
+    ieq MR,"X",omg
+    ieq MR,"O",omg
+    st MR,"O"
+    g sstart
+    l u7
+    ieq BM,"X",omg
+    ieq BM,"O",omg
+    st BM,"O"
+    g sstart
+    l u8
+    ieq BL,"X",omg
+    ieq BL,"O",omg
+    st BL,"O"
+    g sstart
+    l u9
+    ieq BR,"X",omg
+    ieq BR,"O",omg
+    st BR,"O"
+    g sstart
+    l 2ta
+    st TR,"O"
+    g sstart
+    l 2tb
+    st TM,"O"
+    g sstart
+    l 2tc
+    st TL,"O"
+    g sstart
+    l 2td
+    st MR,"O"
+    g sstart
+    l 2te
+    st MM,"O"
+    g sstart
+    l 2tf
+    st ML,"O"
+    g sstart
+    l 2tg
+    st BR,"O"
+    g sstart
+    l 2th
+    st BM,"O"
+    g sstart
+    l 2ti
+    st BL,"O"
+    g sstart
+    l 2tj
+    sta piece,"%random%*3/32767+1"
+    ieq piece,"1",setml
+    ieq piece,"2",settm
+    ieq piece,"3",setmr
+    ieq piece,"4",setbm
+    l setml
+    ieq ML,"X",:2tj
+    ieq ML,"O",:2tj
+    ieq ML,"4"
+    st ML,"O"
+    g sstart
+    l settm
+    ieq TM,"X",:2tj
+    ieq TM,"O",:2tj
+    ieq TM,"8"
+    st TM,"O"
+    g sstart
+    l setmr
+    ieq MR,"X",:2tj
+    ieq MR,"O",:2tj
+    ieq MR,"6"
+    st MR,"O"
+    g sstart
+    l setbm
+    ieq BM,"X",:2tj
+    ieq BM,"O",:2tj
+    ieq BM,"2"
+    st BM,"O"
+    g sstart
+    l 2tk
+    sta piece,"%random%*3/32767+1"
+    ieq piece,"1",settl
+    ieq piece,"2",settr
+    ieq piece,"3",setbl
+    ieq piece,"4",setbr
+    l settl
+    ieq TL,"X",:2tk
+    ieq TL,"O",:2tk
+    ieq TL,"7"
+    st ML,"O"
+    g sstart
+    l settr
+    ieq TR,"X",:2tk
+    ieq TR,"O",:2tk
+    ieq TR,"9"
+    st TM,"O"
+    g sstart
+    l setbl
+    ieq BL,"X",:2tk
+    ieq BL,"O",:2tk
+    ieq BL,"1"
+    st MR,"O"
+    g sstart
+    l setbr
+    ieq BR,"X",:2tk
+    ieq BR,"O",:2tk
+    ieq BR,"3"
+    st BM,"O"
+    g sstart
+    l wins2
+    cls
+    clr 0A
+    sta xscore,"%xscore%+1"
+    e ""
+    e ""
+    e "Congrats %xs%, because..."
+    e ""
+    e ""
+    e "               **"
+    e "  ****    ****  *   *********      **        **  **  **** **"
+    e "   ****  ****      **              **        **  **  **** **"
+    e "    ********       **              **   **   **  **  ** * **"
+    e "     ******        *********       **   **   **  **  ** * **"
+    e "    ********              **       **   **   **  **  ** * **"
+    e "   ****  ****             **       ************  **  ** * **"
+    e "  ****    ****     ********        ************  **  ** ****"
+    e ""
+    e ""
+    p
+    g endings
+    l wins
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            Computer: %cscore%"
+    e "            Draw: %cdraw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    p
+    g wins2
+    l loses2
+    cls
+    clr 0C
+    sta cscore,"%cscore%+1"
+    e ""
+    e ""
+    e "Sorry %xs%, because..."
+    e ""
+    e ""
+    e "   ****    ****             ****"
+    e "    ****  ****              ****"
+    e "     ******** ***** *   *   ****     ***** ***** ****"
+    e "      ******  *   * *   *   ****     *   * *     *"
+    e "       ****   *   * *   *   ****     *   * ***** ***"
+    e "       ****   *   * *   *   ******** *   *     * *"
+    e "       ****   ***** *****   ******** ***** ***** *****"
+    e ""
+    e ""
+    p
+    g endings
+    l draws2
+    cls
+    clr 0E
+    sta cdraw,"%craw%+1"
+    e ""
+    e ""
+    e "Sorry %xs% but you failed to beat the computer. It's a....."
+    e ""
+    e ""
+    e " ######"
+    e " ##    #"
+    e " ##    #   ####    #####  #     #"
+    e " ##    #  #    #  #    #  #     #"
+    e " ##    #  #       #    #  #  #  #"
+    e " ######   #        #### #  #####"
+    e ""
+    e ""
+    p
+    g endings
+    l draws
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            Computer: %cscore%"
+    e "            Draw: %cdraw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    p
+    g draws2
+    l endings
+    cls
+    clr 0F
+    e ""
+    e ""
+    e "Press 1 to Play Again"
+    e "Press 2 to Go to the main menu"
+    e "Press 3 to Exit"
+    e ""
+    stp v,""
+    ieq v,"1",sultstart
+    ieq v,"2",menu9
+    ieq v,"3",close
+    l menu9
+    g Menu
+    l errors
+    e ""
+    e "Hey you dingbat! That's an invalid move!"
+    e ""
+    p
+    g sstart
+    l loses
+    cls
+    e ""
+    e ""
+    e "     Score: %xs%: %xscore%"
+    e "            Computer: %cscore%"
+    e "            Draw: %cdraw%"
+    e ""
+    e ""
+    e "                          ***********"
+    e "                         *           *"
+    e "                         *  %TL%  %TM%  %TR%  *"
+    e "                         *           *"
+    e "                         *  %ML%  %MM%  %MR%  *"
+    e "                         *           *"
+    e "                         *  %BL%  %BM%  %BR%  *"
+    e "                         *           *"
+    e "                          ***********"
+    e ""
+    e ""
+    p
+    g loses2
+    l close
+    g 1
+    l finend
+
+.header
+    filename "SK84.bat"
+    entry 0
+    ver 1.0
+.instrs
+    clr 17
+    ttl "Connect-4"
+    l titlescreen
+    clr 0A
+    cls
+    e ""
+    e ""
+    e "                    *************************************************"
+    e ""
+    e "                        #####                               #   #"
+    e "                       #                                #   #   #"
+    e "                       #       ##   ##   ##  ####  ### ###  #####"
+    e "                       #      #  # #  # #  #  #   #     #       #"
+    e "                        #####  ##  #  # #  # ####  ###  #       #"
+    e ""
+    e "                    *************************************************"
+    e ""
+    e "                                                         By William"
+    e ""
+    e ""
+    e "1)Play Game"
+    e "2)Instructions"
+    e "3)exit"
+    e ""
+    e ""
+    stp choice,""
+    ieq choice,"1",superstart else goto titlescreen
+    ieq choice,"2",Instruct
+    ieq choice,"3",finend
+    l instruct
+    cls
+    e ""
+    e ""
+    e "The goal of this game is to get four of your pieces in a row"
+    e "in any direction. To choose a column to place your piece in"
+    e "type in the letter that corresponds with it (lowercase only)."
+    e "You must stack pieces in each column so the bottom will always"
+    e "fill up first. Enjoy! BTW, I do not claim to own Connect Four,"
+    e "this is just my representation of it."
+    e ""
+    e ""
+    p
+    g :superstart
+    l superstart
+    clr 0E
+    cls
+    e ""
+    e ""
+    e "Who will play X's?"
+    e ""
+    stp xs,""
+    cls
+    e ""
+    e ""
+    e "Who will play O's?"
+    e ""
+    stp os,""
+    sta scorex,"0"
+    sta scoreo,"0"
+    sta draw,"0"
+    sta turns,"0"
+    l start
+    st a1,"_"
+    st a2,"_"
+    st a3,"_"
+    st a4,"_"
+    st a5,"_"
+    st b1,"_"
+    st b2,"_"
+    st b3,"_"
+    st b4,"_"
+    st b5,"_"
+    st c1,"_"
+    st c2,"_"
+    st c3,"_"
+    st c4,"_"
+    st c5,"_"
+    st d1,"_"
+    st d2,"_"
+    st d3,"_"
+    st d4,"_"
+    st d5,"_"
+    st e1,"_"
+    st e2,"_"
+    st e3,"_"
+    st e4,"_"
+    st e5,"_"
+    st f1,"_"
+    st f2,"_"
+    st f3,"_"
+    st f4,"_"
+    st f5,"_"
+    l map1
+    cls
+    e ""
+    e ""
+    e "          Score: %xs%:%scorex%"
+    e "                 %os%:%scoreo%"
+    e "                 Draw:%draw%"
+    e ""
+    e ""
+    e "            A   B   C   D   E   F"
+    e "          *[%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]*"
+    e "          *                       *"
+    e "          *[%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]*"
+    e "          *                       *"
+    e "          *[%a3%] [%b3%] [%c3%] [%d3%] [%e3%] [%f3%]*"
+    e "          *                       *"
+    e "          *[%a4%] [%b4%] [%c4%] [%d4%] [%e4%] [%f4%]*"
+    e "          *                       *"
+    e "          *[%a5%] [%b5%] [%c5%] [%d5%] [%e5%] [%f5%]*"
+    e ""
+    g P1
+    l map2
+    cls
+    e ""
+    e ""
+    e "          Score: %xs%:%scorex%"
+    e "                 %os%:%scoreo%"
+    e "                 Draw:%draw%"
+    e ""
+    e ""
+    e "            A   B   C   D   E   F"
+    e "          *[%a1%] [%b1%] [%c1%] [%d1%] [%e1%] [%f1%]*"
+    e "          *                       *"
+    e "          *[%a2%] [%b2%] [%c2%] [%d2%] [%e2%] [%f2%]*"
+    e "          *                       *"
+    e "          *[%a3%] [%b3%] [%c3%] [%d3%] [%e3%] [%f3%]*"
+    e "          *                       *"
+    e "          *[%a4%] [%b4%] [%c4%] [%d4%] [%e4%] [%f4%]*"
+    e "          *                       *"
+    e "          *[%a5%] [%b5%] [%c5%] [%d5%] [%e5%] [%f5%]*"
+    e ""
+    g P2R
+    l P1c
+    ieq %a1%+%a2%+%a3%+%a4%,"O+O+O+O",wino
+    ieq %a5%+%a2%+%a3%+%a4%,"O+O+O+O",wino
+    ieq %b1%+%b2%+%b3%+%b4%,"O+O+O+O",wino
+    ieq %b5%+%b2%+%b3%+%b4%,"O+O+O+O",wino
+    ieq %c1%+%c2%+%c3%+%c4%,"O+O+O+O",wino
+    ieq %c5%+%c2%+%c3%+%c4%,"O+O+O+O",wino
+    ieq %d1%+%d2%+%d3%+%d4%,"O+O+O+O",wino
+    ieq %d5%+%d2%+%d3%+%d4%,"O+O+O+O",wino
+    ieq %e1%+%e2%+%e3%+%e4%,"O+O+O+O",wino
+    ieq %e5%+%e2%+%e3%+%e4%,"O+O+O+O",wino
+    ieq %f1%+%f2%+%f3%+%f4%,"O+O+O+O",wino
+    ieq %f5%+%f2%+%f3%+%f4%,"O+O+O+O",wino
+    ieq %a1%+%b1%+%c1%+%d1%,"O+O+O+O",wino
+    ieq %e1%+%b1%+%c1%+%d1%,"O+O+O+O",wino
+    ieq %e1%+%f1%+%c1%+%d1%,"O+O+O+O",wino
+    ieq %a2%+%b2%+%c2%+%d2%,"O+O+O+O",wino
+    ieq %e2%+%b2%+%c2%+%d2%,"O+O+O+O",wino
+    ieq %e2%+%f2%+%c2%+%d2%,"O+O+O+O",wino
+    ieq %a3%+%b3%+%c3%+%d3%,"O+O+O+O",wino
+    ieq %e3%+%b3%+%c3%+%d3%,"O+O+O+O",wino
+    ieq %e3%+%f3%+%c3%+%d3%,"O+O+O+O",wino
+    ieq %a4%+%b4%+%c4%+%d4%,"O+O+O+O",wino
+    ieq %e4%+%b4%+%c4%+%d4%,"O+O+O+O",wino
+    ieq %e4%+%f4%+%c4%+%d4%,"O+O+O+O",wino
+    ieq %a5%+%b5%+%c5%+%d5%,"O+O+O+O",wino
+    ieq %e5%+%b5%+%c5%+%d5%,"O+O+O+O",wino
+    ieq %e5%+%f5%+%c5%+%d5%,"O+O+O+O",wino
+    ieq %a2%+%b3%+%c4%+%d5%,"O+O+O+O",wino
+    ieq %a1%+%b2%+%c3%+%d4%,"O+O+O+O",wino
+    ieq %e5%+%b2%+%c3%+%d4%,"O+O+O+O",wino
+    ieq %b1%+%c2%+%d3%+%e4%,"O+O+O+O",wino
+    ieq %f5%+%c2%+%d3%+%e4%,"O+O+O+O",wino
+    ieq %c1%+%d2%+%e3%+%f4%,"O+O+O+O",wino
+    ieq %c5%+%d4%+%e3%+%f2%,"O+O+O+O",wino
+    ieq %c5%+%d4%+%e3%+%f2%,"O+O+O+O",wino
+    ieq %b5%+%c4%+%d3%+%e2%,"O+O+O+O",wino
+    ieq %f1%+%c4%+%d3%+%e2%,"O+O+O+O",wino
+    ieq %a5%+%b4%+%c3%+%d2%,"O+O+O+O",wino
+    ieq %e1%+%b4%+%c3%+%d2%,"O+O+O+O",wino
+    ieq %a4%+%b3%+%c2%+%d1%,"O+O+O+O",wino
+    ieq turns,"30",draw
+    g map1
+    l P1
+    e ""
+    e ""
+    e "%xs%, it's your turn."
+    e ""
+    e ""
+    stp x,""
+    ieq x,"a",A5
+    ieq x,"b",B5
+    ieq x,"c",C5
+    ieq x,"d",D5
+    ieq x,"e",E5
+    ieq x,"f",F5
+    g Map1
+    l A5
+    ieq a5,"X",A4
+    ieq a5,"O",A4
+    st a5,"X"
+    g P2
+    l A4
+    ieq a4,"X",A3
+    ieq a4,"O",A3
+    st a4,"X"
+    g P2
+    l A3
+    ieq a3,"X",A2
+    ieq a3,"O",A2
+    st a3,"X"
+    g P2
+    l A2
+    ieq a2,"X",A1
+    ieq a2,"O",A1
+    st a2,"X"
+    g P2
+    l A1
+    ieq a1,"X",error1
+    ieq a1,"O",error1
+    st a1,"X"
+    g P2
+    l B5
+    ieq b5,"X",B4
+    ieq b5,"O",B4
+    st b5,"X"
+    g P2
+    l B4
+    ieq b4,"X",B3
+    ieq b4,"O",B3
+    st b4,"X"
+    g P2
+    l B3
+    ieq b3,"X",B2
+    ieq b3,"O",B2
+    st b3,"X"
+    g P2
+    l B2
+    ieq b2,"X",B1
+    ieq b2,"O",B1
+    st b2,"X"
+    g P2
+    l B1
+    ieq b1,"X",error1
+    ieq b1,"O",error1
+    st b1,"X"
+    g P2
+    l C5
+    ieq c5,"X",C4
+    ieq c5,"O",C4
+    st c5,"X"
+    g P2
+    l C4
+    ieq c4,"X",C3
+    ieq c4,"O",C3
+    st c4,"X"
+    g P2
+    l C3
+    ieq c3,"X",C2
+    ieq c3,"O",C2
+    st c3,"X"
+    g P2
+    l C2
+    ieq c2,"X",C1
+    ieq c2,"O",C1
+    st c2,"X"
+    g P2
+    l C1
+    ieq c1,"X",error1
+    ieq c1,"O",error1
+    st c1,"X"
+    g P2
+    l D5
+    ieq d5,"X",D4
+    ieq d5,"O",D4
+    st d5,"X"
+    g P2
+    l D4
+    ieq d4,"X",D3
+    ieq d4,"O",D3
+    st d4,"X"
+    g P2
+    l D3
+    ieq d3,"X",D2
+    ieq d3,"O",D2
+    st d3,"X"
+    g P2
+    l D2
+    ieq d2,"X",D1
+    ieq d2,"O",D1
+    st d2,"X"
+    g P2
+    l D1
+    ieq d1,"X",error1
+    ieq d1,"O",error1
+    st d1,"X"
+    g P2
+    l E5
+    ieq e5,"X",E4
+    ieq e5,"O",E4
+    st e5,"X"
+    g P2
+    l E4
+    ieq e4,"X",E3
+    ieq e4,"O",E3
+    st e4,"X"
+    g P2
+    l E3
+    ieq e3,"X",E2
+    ieq e3,"O",E2
+    st e3,"X"
+    g P2
+    l E2
+    ieq e2,"X",E1
+    ieq e2,"O",E1
+    st e2,"X"
+    g P2
+    l E1
+    ieq e1,"X",error1
+    ieq e1,"O",error1
+    st e1,"X"
+    g P2
+    l F5
+    ieq f5,"X",F4
+    ieq f5,"O",F4
+    st f5,"X"
+    g P2
+    l F4
+    ieq f4,"X",F3
+    ieq f4,"O",F3
+    st f4,"X"
+    g P2
+    l F3
+    ieq f3,"X",F2
+    ieq f3,"O",F2
+    st f3,"X"
+    g P2
+    l F2
+    ieq f2,"X",F1
+    ieq f2,"O",F1
+    st f2,"X"
+    g P2
+    l F1
+    ieq f1,"X",error1
+    ieq f1,"O",error1
+    st f1,"X"
+    g P2
+    l P2
+    ieq %a1%+%a2%+%a3%+%a4%,"X+X+X+X",winx
+    ieq %a5%+%a2%+%a3%+%a4%,"X+X+X+X",winx
+    ieq %b1%+%b2%+%b3%+%b4%,"X+X+X+X",winx
+    ieq %b5%+%b2%+%b3%+%b4%,"X+X+X+X",winx
+    ieq %c1%+%c2%+%c3%+%c4%,"X+X+X+X",winx
+    ieq %c5%+%c2%+%c3%+%c4%,"X+X+X+X",winx
+    ieq %d1%+%d2%+%d3%+%d4%,"X+X+X+X",winx
+    ieq %d5%+%d2%+%d3%+%d4%,"X+X+X+X",winx
+    ieq %e1%+%e2%+%e3%+%e4%,"X+X+X+X",winx
+    ieq %e5%+%e2%+%e3%+%e4%,"X+X+X+X",winx
+    ieq %f1%+%f2%+%f3%+%f4%,"X+X+X+X",winx
+    ieq %f5%+%f2%+%f3%+%f4%,"X+X+X+X",winx
+    ieq %a1%+%b1%+%c1%+%d1%,"X+X+X+X",winx
+    ieq %e1%+%b1%+%c1%+%d1%,"X+X+X+X",winx
+    ieq %e1%+%f1%+%c1%+%d1%,"X+X+X+X",winx
+    ieq %a2%+%b2%+%c2%+%d2%,"X+X+X+X",winx
+    ieq %e2%+%b2%+%c2%+%d2%,"X+X+X+X",winx
+    ieq %e2%+%f2%+%c2%+%d2%,"X+X+X+X",winx
+    ieq %a3%+%b3%+%c3%+%d3%,"X+X+X+X",winx
+    ieq %e3%+%b3%+%c3%+%d3%,"X+X+X+X",winx
+    ieq %e3%+%f3%+%c3%+%d3%,"X+X+X+X",winx
+    ieq %a4%+%b4%+%c4%+%d4%,"X+X+X+X",winx
+    ieq %e4%+%b4%+%c4%+%d4%,"X+X+X+X",winx
+    ieq %e4%+%f4%+%c4%+%d4%,"X+X+X+X",winx
+    ieq %a5%+%b5%+%c5%+%d5%,"X+X+X+X",winx
+    ieq %e5%+%b5%+%c5%+%d5%,"X+X+X+X",winx
+    ieq %e5%+%f5%+%c5%+%d5%,"X+X+X+X",winx
+    ieq %a2%+%b3%+%c4%+%d5%,"X+X+X+X",winx
+    ieq %a1%+%b2%+%c3%+%d4%,"X+X+X+X",winx
+    ieq %e5%+%b2%+%c3%+%d4%,"X+X+X+X",winx
+    ieq %b1%+%c2%+%d3%+%e4%,"X+X+X+X",winx
+    ieq %f5%+%c2%+%d3%+%e4%,"X+X+X+X",winx
+    ieq %c1%+%d2%+%e3%+%f4%,"X+X+X+X",winx
+    ieq %c5%+%d4%+%e3%+%f2%,"X+X+X+X",winx
+    ieq %c5%+%d4%+%e3%+%f2%,"X+X+X+X",winx
+    ieq %b5%+%c4%+%d3%+%e2%,"X+X+X+X",winx
+    ieq %f1%+%c4%+%d3%+%e2%,"X+X+X+X",winx
+    ieq %a5%+%b4%+%c3%+%d2%,"X+X+X+X",winx
+    ieq %e1%+%b4%+%c3%+%d2%,"X+X+X+X",winx
+    ieq %a4%+%b3%+%c2%+%d1%,"X+X+X+X",winx
+    ieq turns,"30",draw
+    g map2
+    l P2R
+    e ""
+    e ""
+    e "%os%, it's your turn."
+    e ""
+    e ""
+    stp x,""
+    ieq x,"a",A5o
+    ieq x,"b",B5o
+    ieq x,"c",C5o
+    ieq x,"d",D5o
+    ieq x,"e",E5o
+    ieq x,"f",F5o
+    g Map2
+    l A5o
+    ieq a5,"X",A4o
+    ieq a5,"O",A4o
+    st a5,"O"
+    g P1c
+    l A4o
+    ieq a4,"X",A3o
+    ieq a4,"O",A3o
+    st a4,"O"
+    g P1c
+    l A3o
+    ieq a3,"X",A2o
+    ieq a3,"O",A2o
+    st a3,"O"
+    g P1c
+    l A2o
+    ieq a2,"X",A1o
+    ieq a2,"O",A1o
+    st a2,"O"
+    g P1c
+    l A1o
+    ieq a1,"X",error2
+    ieq a1,"O",error2
+    st a1,"O"
+    g P1c
+    l B5o
+    ieq b5,"X",B4o
+    ieq b5,"O",B4o
+    st b5,"O"
+    g P1c
+    l B4o
+    ieq b4,"X",B3o
+    ieq b4,"O",B3o
+    st b4,"O"
+    g P1c
+    l B3o
+    ieq b3,"X",B2o
+    ieq b3,"O",B2o
+    st b3,"O"
+    g P1c
+    l B2o
+    ieq b2,"X",B1o
+    ieq b2,"O",B1o
+    st b2,"O"
+    g P1c
+    l B1o
+    ieq b1,"X",error1
+    ieq b1,"O",error1
+    st b1,"O"
+    g P1c
+    l C5o
+    ieq c5,"X",C4o
+    ieq c5,"O",C4o
+    st c5,"O"
+    g P1c
+    l C4o
+    ieq c4,"X",C3o
+    ieq c4,"O",C3o
+    st c4,"O"
+    g P1c
+    l C3o
+    ieq c3,"X",C2o
+    ieq c3,"O",C2o
+    st c3,"O"
+    g P1c
+    l C2o
+    ieq c2,"X",C1o
+    ieq c2,"O",C1o
+    st c2,"O"
+    g P1c
+    l C1o
+    ieq c1,"X",error1
+    ieq c1,"O",error1
+    st c1,"O"
+    g P1c
+    l D5o
+    ieq d5,"X",D4o
+    ieq d5,"O",D4o
+    st d5,"O"
+    g P1c
+    l D4o
+    ieq d4,"X",D3o
+    ieq d4,"O",D3o
+    st d4,"O"
+    g P1c
+    l D3o
+    ieq d3,"X",D2o
+    ieq d3,"O",D2o
+    st d3,"O"
+    g P1c
+    l D2o
+    ieq d2,"X",D1o
+    ieq d2,"O",D1o
+    st d2,"O"
+    g P1c
+    l D1o
+    ieq d1,"X",error1
+    ieq d1,"O",error1
+    st d1,"O"
+    g P1c
+    l E5o
+    ieq e5,"X",E4o
+    ieq e5,"O",E4o
+    st e5,"O"
+    g P1c
+    l E4o
+    ieq e4,"X",E3o
+    ieq e4,"O",E3o
+    st e4,"O"
+    g P1c
+    l E3o
+    ieq e3,"X",E2o
+    ieq e3,"O",E2o
+    st e3,"O"
+    g P1c
+    l E2o
+    ieq e2,"X",E1o
+    ieq e2,"O",E1o
+    st e2,"O"
+    g P1c
+    l E1o
+    ieq e1,"X",error1
+    ieq e1,"O",error1
+    st e1,"O"
+    g P1c
+    l F5o
+    ieq f5,"X",F4o
+    ieq f5,"O",F4o
+    st f5,"O"
+    g P1c
+    l F4o
+    ieq f4,"X",F3o
+    ieq f4,"O",F3o
+    st f4,"O"
+    g P1c
+    l F3o
+    ieq f3,"X",F2o
+    ieq f3,"O",F2o
+    st f3,"O"
+    g P1c
+    l F2o
+    ieq f2,"X",F1o
+    ieq f2,"O",F1o
+    st f2,"O"
+    g P1c
+    l F1o
+    ieq f1,"X",error1
+    ieq f1,"O",error1
+    st f1,"O"
+    g P1c
+    l error1
+    e ""
+    e "Invalid Entry, That Column is Full"
+    e ""
+    p
+    g map1
+    l error2
+    e ""
+    e "Invalid Entry, That Column is Full"
+    e ""
+    p
+    g map2
+    l winx
+    cls
+    clr 0A
+    sta scorex,"%scorex%+1"
+    e ""
+    e ""
+    e "Congrats %xs%, because..."
+    e ""
+    e ""
+    e "               **"
+    e "  ****    ****  *   *********      **        **  **  **** **"
+    e "   ****  ****      **              **        **  **  **** **"
+    e "    ********       **              **   **   **  **  ** * **"
+    e "     ******        *********       **   **   **  **  ** * **"
+    e "    ********              **       **   **   **  **  ** * **"
+    e "   ****  ****             **       ************  **  ** * **"
+    e "  ****    ****     ********        ************  **  ** ****"
+    e ""
+    e ""
+    p
+    g ending
+    l wino
+    cls
+    clr 0C
+    sta scoreo,"%scoreo%+1"
+    e ""
+    e ""
+    e "Congrats %os%, because..."
+    e ""
+    e ""
+    e "               **"
+    e "  ************  *   *********      **        **  **  **** **"
+    e "  ************     **              **        **  **  **** **"
+    e "  **        **     **              **   **   **  **  ** * **"
+    e "  **        **     *********       **   **   **  **  ** * **"
+    e "  **        **            **       **   **   **  **  ** * **"
+    e "  ************            **       ************  **  ** * **"
+    e "  ************     ********        ************  **  ** ****"
+    e ""
+    e ""
+    p
+    g ending
+    l draw
+    cls
+    clr 0E
+    sta draw,"%draw%+1"
+    e ""
+    e ""
+    e "Sorry %xs% and %os%, but it's a..."
+    e ""
+    e ""
+    e " ######"
+    e " ##    #"
+    e " ##    #   ####    #####  #     #"
+    e " ##    #  #    #  #    #  #     #"
+    e " ##    #  #       #    #  #  #  #"
+    e " ######   #        #### #  #####"
+    e ""
+    e ""
+    p
+    g ending
+    l ending
+    cls
+    clr 17
+    e ""
+    e ""
+    e "Press 1 to Play Again"
+    e "Press 2 to Change Players"
+    e "Press 3 to Exit"
+    e ""
+    stp v,""
+    ieq v,"1",start
+    ieq v,"2",superstart
+    ieq v,"3",close
+    l close
+    g A
+    l finend
+
+.header
+    filename "RMATRIX.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ; ::echo Escape charcter is ^^C (Control-C).
+    ; ::echo Press any key to stat matrix...
+    ; unrecognized: start "%CD%\SPmat.bat"
+
+.header
+    filename "Default.bat"
+    entry 0
+    ver 1.0
+.instrs
+    st cosh,"f0"
+    st emd,"on"
+    st ingame,"no"
+    st s1,"7"
+    st s2,"7"
+    st s3,"7"
+    st sos,""
+    st cnt,""
+    st dpl1,"HELLO  PLAYER"
+    st h1,"_"
+    st h2,"_"
+    st h3,"_"
+    st jap,"500"
+    st chea,"n"
+    st cog,""
+    st kipp,""
+    st gs1,""
+    st gs2,""
+    st gs3,""
+    st cob,""
+    st curlod,"Default.bat"
+
+.header
+    filename "ald.bat"
+    entry 0
+    ver 1.0
+.instrs
+    st curlod,"Default.bat"
+    st atld,"on"
+
+.header
+    filename "fae.bat"
+    entry 0
+    ver 1.0
+.instrs
+    l gnfe
+    e ""
+    e " ษอออออออออออออออออออป"
+    e " บ    FATAL ERROR    บ"
+    e " ศอออออออออออออออออออผ"
+    p 0
+
+.header
+    filename "qna.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ; unrecognized: cd ..
+    cls
+    e " ษอออออออออออออออออออหอออออออออออออออออออออออหออออออออป"
+    e " บ 777 LAS VEGAS 777 บ Questions and Answers บ Page 1 บ"
+    e " ศอออออออออออออออออออสอออออออออออออออออออออออสออออออออผ"
+    e ""
+    e " Q: The game didn't save my progress. Why?"
+    e " A: The game doesn't save your progress automatically, you have to save it from"
+    e "    the main menu. However, the autoload function's saved automatically. There"
+    e "    are some errors in the saving system, I'm working on it."
+    e ""
+    e " Q: Why doesn't the game let me pull the arm?"
+    e " A: Try to insert more than 50 $ (use INS)"
+    e ""
+    e " Q: Why doesn't the game display my score?"
+    e " A: You have to win some money. If the money's in the machine, use GIVE to get"
+    e "    your prize."
+    e ""
+    e " Q: What are these files in the game directory?"
+    e " A: In the Saves folder there are your saved games and in the System folder"
+    e "    there are system files. If you modfy them, the game may crash."
+    e ""
+    e " Q: What is Simple mode and Autoload?"
+    e " A: Simple mode disables animations and Autoload loads the current saved game"
+    e "    when you start the game."
+    p 0
+    cls
+    e " ษอออออออออออออออออออหอออออออออออออออออออออออหออออออออป"
+    e " บ 777 LAS VEGAS 777 บ Questions and Answers บ Page 2 บ"
+    e " ศอออออออออออออออออออสอออออออออออออออออออออออสออออออออผ"
+    e ""
+    e " Q: How to get help in game?"
+    e " A: Type HELP."
+    e ""
+    e " Q: Why can't I keep more fields?"
+    e " A: You can only keep 2 fields. Use UNKEEP to disable KEEP and use it again."
+    e ""
+    e " Q: What is the ERROR message on the machine?"
+    e " A: It's usually not a system error. Try to figure what did you do wrong."
+    e "    The HELP command is usually very useful. However sometimes the ERROR"
+    e "    message is a real system error."
+    e ""
+    e " Q: I know batch programming language. Is there something interesting for me?"
+    e " A: There's a debug menu in the game. Use the "debug" command in the main menu."
+    e ""
+    e " Q: My question isn't here. What can I do?"
+    e " A: You can use the help screen (HELP), read this again and you can can send"
+    e "    me a message at YouTube (Name: ABS1296)"
+    p 0
+
+.header
+    filename "sco.bat"
+    entry 0
+    ver 1.0
+.instrs
+    e " ABS - 750 $ - 2010.05.09."
+    e "ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ"
+    e " ABS - 1246500 $ - 2010.05.14."
+    e "ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ"
+    e " ABS - 1003799 $ - 2010.05.14."
+    e "ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ"
+
+.header
+    filename "sim.bat"
+    entry 0
+    ver 1.0
+.instrs
+    l gnff
+    e ""
+    e " ษอออออออออออออออออออป"
+    e " บ  SAVE IS MISSING  บ"
+    e " ศอออออออออออออออออออผ"
+    p 0
+
+.header
+    filename "svs.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ; REM This is the saving system. You have to reset the autoload function to use it with the current save file.
+    ; unrecognized: cd ..
+    ; unrecognized: cd Saves
+    iex "%curlod% del /F /S /Q %curlod%",
+    ieq defined,"cosh",
+    ieq defined,"emd",
+    af "set ingame=no","%curlod%"
+    ieq defined,"curlod",
+    ; unrecognized: cd ..
+

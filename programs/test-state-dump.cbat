@@ -1,0 +1,10 @@
+.header
+    filename "test-state-dump.bat"
+    dump_state_on_exit
+.files
+    "DATA.txt","some content"
+.instrs
+    st X,42
+    st NAME,"charlton"
+    adi X,8
+    trm

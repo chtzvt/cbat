@@ -1,0 +1,1446 @@
+.global
+    entry "CHATSERVER.bat"
+
+.files
+    "\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt","Welcome to the chat server\!"
+
+.header
+    filename "CHATSERVER.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "Chat"
+    clr 07
+    cls
+    ; ::Version 6.3
+    ; ::By Captaincharles (Reddit UN) (From DSOFT) 4:45 PM 7/8/2012
+    ; ::
+    ; ::This application is freeware and the source may be
+    ; ::Copied into other programs, edited, and all of that good stuff as
+    ; ::long as the original credit goes to myself (Charlton Trezevant) and
+    ; ::DSOFT. Visit dsoft.web44.net or telnet into dsoft.zapto.org, or E-Mail
+    ; ::us at  differentialsoftware@gmail.com.
+    ; ::Thank you!
+    st SNAMME,"default_user"
+    ieq SBRAND,"",ODLAUNCHER
+    l main
+    cls
+    e "Chat with other people on the network."
+    e "No account required."
+    e ""
+    stp SNAMME,"Screen name:"
+    ieq SNAMME,"ROOT",RMENU1
+    ieq SNAMME,"FUNCT1",funct1
+    ieq SNAMME,"FUNCT2",funct2
+    g CCHOICE
+    l CCHOICE
+    cls
+    e "Please choose a chatroom:"
+    e ""
+    e "1)Chatroom A"
+    e "2)Chatroom B"
+    e "3)Chatroom C"
+    e "4)Chatroom D"
+    e "5)Exit"
+    stp CROM,"Chatroom:"
+    ieq CROM,"1",LOBBY
+    ieq CROM,"2",LOBBY
+    ieq CROM,"3",LOBBY
+    ieq CROM,"4",LOBBY
+    ieq CROM,"5",main
+    e "Invalid chatroom."
+    p
+    g CCHOICE
+    l LOBBY
+    cls
+    e "Anouncements:"
+    e ""
+    t "\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt"
+    e ""
+    e "Press any key to continue to chat..."
+    p 0
+    g %CROM%
+    l 1
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "user %SNAMME% is %username%","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%SNAMME% entered chat.","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    g chat
+    l chat
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\BANS\%USERNAME%.txt",USERBAN
+    cls
+    e "Welcome to chat."
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /whois to see who you are."
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    e ""
+    e "%SNAMME% in Chat."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat
+    ieq MSG1,"/color",color1
+    ieq MSG1,"/whois",whoiam
+    ieq MSG1,"/ROOT",RMENU2
+    ieq MSG1,"/file",FILES
+    ieq MSG1,"/FILE",FILES
+    ieq MSG1,"/q",leave
+    e "SENDING..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%SNAMME% said:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%MSG1%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    g chat
+    l leave
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%SNAMME% left!","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    g CCHOICE
+    l color1
+    clr 17
+    g chat
+    l RMENU2
+    stp RPASS,"Password:"
+    ieq RPASS,"DSOFT",RMENU
+    e "Invalid Password."
+    e ""
+    p
+    g chat
+    l whoiam
+    e "You are %SNAMME% (%username%)."
+    e ""
+    e "Everyone else is:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    e ""
+    p
+    g chat
+    ; ::CHATROOM 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+    l 2
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "user %SNAMME% is %username%","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%SNAMME% entered chat.","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    g chat2
+    l chat2
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\BANS\%USERNAME%.txt",USERBAN
+    cls
+    e "Welcome to Chatroom B."
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /whois to see who you are."
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    e ""
+    e "%SNAMME% in Chatroom B."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat2
+    ieq MSG1,"/file",FILES2
+    ieq MSG1,"/FILE",FILES2
+    ieq MSG1,"/whois",whoiam2
+    ieq MSG1,"/color",color12
+    ieq MSG1,"/ROOT",RMENU22
+    ieq MSG1,"/q",leave2
+    e "SENDING..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%SNAMME% said:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%MSG1%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    g chat2
+    l leave2
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%SNAMME% left!","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    g CCHOICE
+    l color12
+    clr 17
+    g chat2
+    l RMENU22
+    stp RPASS,"Password:"
+    ieq RPASS,"DSOFT",RMENU
+    e "Invalid Password."
+    e ""
+    p
+    g chat2
+    l whoiam2
+    e "You are %SNAMME% (%username%)."
+    e ""
+    e "Everyone else is:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    e ""
+    p
+    g chat2
+    ; ::CHATROOM 3 33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+    l 3
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "user %SNAMME% is %username%","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%SNAMME% entered chat.","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    g chat3
+    l chat3
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\BANS\%USERNAME%.txt",USERBAN
+    cls
+    e "Welcome to Chatroom C."
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /whois to see who you are."
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    e ""
+    e "%SNAMME% in Chatroom C."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat3
+    ieq MSG1,"/whois",whoiam3
+    ieq MSG1,"/file",FILES3
+    ieq MSG1,"/FILE",FILES3
+    ieq MSG1,"/color",color13
+    ieq MSG1,"/ROOT",RMENU23
+    ieq MSG1,"/q",leave3
+    e "SENDING..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%SNAMME% said:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%MSG1%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    g chat3
+    l leave3
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%SNAMME% left!","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    g CCHOICE
+    l color13
+    clr 17
+    g chat3
+    l RMENU23
+    stp RPASS,"Password:"
+    ieq RPASS,"DSOFT",RMENU
+    e "Invalid Password."
+    e ""
+    p
+    g chat3
+    l whoiam3
+    e "You are %SNAMME% (%username%)."
+    e ""
+    e "Everyone else is:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    e ""
+    p
+    g chat3
+    ; ::CHATROOM 4 444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    l 4
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "user %SNAMME% is %username%","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%SNAMME% entered chat.","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    g chat4
+    l chat4
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\BANS\%USERNAME%.txt",USERBAN
+    cls
+    e "Welcome to Chatroom D."
+    e "Type /q to exit."
+    e "type /r to refresh."
+    e "type /whois to see who you are."
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    e ""
+    e "%SNAMME% in Chatroom D."
+    stp MSG1,"Message:"
+    ieq MSG1,"/r",chat4
+    ieq MSG1,"/whois",whoiam4
+    ieq MSG1,"/file",FILES4
+    ieq MSG1,"/FILE",FILES4
+    ieq MSG1,"/color",color14
+    ieq MSG1,"/ROOT",RMENU24
+    ieq MSG1,"/q",leave4
+    e "SENDING..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%SNAMME% said:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%MSG1%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    g chat4
+    l leave4
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%SNAMME% left!","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    g CCHOICE
+    l color14
+    clr 17
+    g chat2
+    l RMENU24
+    stp RPASS,"Password:"
+    ieq RPASS,"DSOFT",RMENU
+    e "Invalid Password."
+    e ""
+    p
+    g chat4
+    l whoiam4
+    e "You are %SNAMME% (%username%)."
+    e ""
+    e "Everyone else is:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    e ""
+    p
+    g chat4
+    l WALL
+    g main
+    l funct
+    cls
+    e "What is funct?"
+    e ""
+    e ""funct" is short for function."
+    e "in this chat program, there are some hidden"
+    e "functions that do different things, such as clear"
+    e "the chatroom, show the logged in users and time of"
+    e "their login, as well as remove the chat server or program"
+    e "software from the LAN. These short commands were programmed"
+    e "into the software to make it easier for administrators to do"
+    e "simple tasks without logging in as ROOT. some of these functions (The"
+    e "latter two) Require special passcodes in order to function, to protect people"
+    e "that rely on the chatroom for communication. the root passcode is "DSOFT", which"
+    e "will let you view the current passcodes for the chat program."
+    e ""
+    e "How can i change the passcodes?"
+    e ""
+    e "Login as username ROOT."
+    e "you will be promted to enter a password (DSOFT)"
+    e "in the ROOT menu, select "1" (Change a passcode)"
+    e "enter the old passcode."
+    e "enter the new passcode."
+    e "the program will tell you the status of the change,"
+    e "then reload the root menu."
+    e ""
+    e "Who are administrators?"
+    e ""
+    e "Whoever installed the program. (Visible froom the ROOT menu)"
+    e ""
+    e "list:"
+    e "   FUNCT1=CLEAR CHATROOM"
+    e "   FUNCT2=SHOW ACESS LIST"
+    e "   FUNCT3=COPY CHATROOM TO DESKTOP"
+    e "   FUNCT004=DEL CHAT FROM NETWORK (NEED PASSCODE)"
+    e "   FUNCT032=DEL ENTIRE SERVER (NEED PASSCODE)"
+    e ""
+    p
+    g main
+    l funct1
+    cls
+    e "            FUNCT1"
+    e "Please choose a chatroom to clear:"
+    e ""
+    e "1)Chatroom A"
+    e "2)Chatroom B"
+    e "3)Chatroom C"
+    e "4)Chatroom D"
+    e "5)Exit"
+    stp CROM,"Chatroom:"
+    ieq CROM,"1",1CLS
+    ieq CROM,"2",2CLS
+    ieq CROM,"3",3CLS
+    ieq CROM,"4",4CLS
+    ieq CROM,"5",lf1
+    e "Invalid chatroom."
+    p
+    g funct1
+    l lf1
+    ieq ROOT,"YES",RMENU
+    g main
+    l 1CLS
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt -h
+    df "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "[Chat refreshed at %time% %date%]","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt +h
+    e "Cleared"
+    p
+    g funct1
+    l 2CLS
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt -h
+    df "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "[Chat refreshed at %time% %date%]","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt +h
+    e "Cleared"
+    p
+    g funct1
+    l 3CLS
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt -h
+    df "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "[Chat refreshed at %time% %date%]","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt +h
+    e "Cleared"
+    p
+    g funct1
+    l 4CLS
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt -h
+    df "\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "[Chat refreshed at %time% %date%]","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    ; unrecognized: attrib \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt +h
+    e "Cleared"
+    p
+    g funct1
+    l funct2
+    e "FUNCT2 ENGAGED."
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    e ""
+    stp vpie,"Clear list? (Y/N)"
+    ieq vpie,"Y",clr2
+    ieq vpie,"y",clr2
+    ieq vpie,"n",lf2
+    ieq vpie,"N",lf2
+    e "invalid."
+    p
+    g funct2
+    l lf2
+    ieq ROOT,"YES",RMENU
+    g main
+    l clr2
+    ; unrecognized: attrib "\\E026060n01\room308\SERVER\ANONCHAT\names.txt" -h
+    df "\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    af "[Cleared %time% %date%]","\\E026060n01\room308\SERVER\ANONCHAT\names.txt"
+    ; unrecognized: attrib "\\E026060n01\room308\SERVER\ANONCHAT\names.txt" +h
+    e "cleared."
+    p
+    g main
+    l funct3
+    cls
+    e "            FUNCT3"
+    e "Please choose a chatroom to copy:"
+    e ""
+    e "1)Chatroom A"
+    e "2)Chatroom B"
+    e "3)Chatroom C"
+    e "4)Chatroom D"
+    e "5)Exit"
+    stp CROM,"Chatroom:"
+    ieq CROM,"1",1CLS
+    ieq CROM,"2",2CLS
+    ieq CROM,"3",3CLS
+    ieq CROM,"4",4CLS
+    ieq CROM,"5",f3l
+    e "Invalid chatroom."
+    p
+    g funct3
+    l f3l
+    ieq ROOT,"YES",RMENU
+    g main
+    l 1CLS
+    e "Copying chatroom to desktop, please wait..."
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt %userprofile%\Desktop
+    e "Copied."
+    p
+    g funct3
+    l 2CLS
+    e "Copying chatroom to desktop, please wait..."
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt %userprofile%\Desktop
+    e "Copied."
+    p
+    g funct3
+    l 3CLS
+    e "Copying chatroom to desktop, please wait..."
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt %userprofile%\Desktop
+    e "Copied."
+    p
+    g funct3
+    l 4CLS
+    e "Copying chatroom to desktop, please wait..."
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt %userprofile%\Desktop
+    e "Copied."
+    p
+    g funct3
+    l WALL
+    g main
+    l RMENU1
+    stp RPASS,"Password:"
+    ieq RPASS,"DSOFT",RMENU
+    e "Invalid Password."
+    e ""
+    p
+    g main
+    l RMENU
+    cls
+    st ROOT,"YES"
+    e "Root menu.     %time% %date%"
+    e ""
+    e ""
+    e "Root options:"
+    e "1)View a passcode"
+    e "2)FUNCT QuickStart"
+    e "3)Sysinfo"
+    e "4)Banned users"
+    e "5)Back up server to flashdisk."
+    e "6)File options"
+    e "7)Add an anouncement"
+    e "8)Clear Chatroom"
+    e "9)Clear Users"
+    e "10)Copy a chatroom."
+    e "11)Exit"
+    e ""
+    stp vpie,"COM:"
+    ieq vpie,"1",CRPASS
+    ieq vpie,"whoami",ROOTWHO
+    ieq vpie,"2",QSFUNCT
+    ieq vpie,"3",ROOTINF
+    ieq vpie,"4",BANMAN
+    ieq vpie,"5",SBACKUP
+    ieq vpie,"6",FOPT
+    ieq vpie,"7",AMNTS
+    ieq vpie,"8",funct1
+    ieq vpie,"9",funct2
+    ieq vpie,"10",funct3
+    ieq vpie,"11",main
+    e "Command Is Invalid."
+    p
+    g RMENU
+    l AMNTS
+    cls
+    e "Current Anouncements:"
+    e ""
+    t "\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt"
+    e ""
+    e "Type /q to exit."
+    stp ACONT,"Anouncement:"
+    ieq ACONT,"/q",RMENU
+    ieq ACONT,"/Q",RMENU
+    e "Processing, please wait..."
+    af "","\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt"
+    af "%time%/%date%:","\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt"
+    af "%ACONT%","\\E026060n01\room308\SERVER\\ANONCHAT\ADMIN\ANOUNCEMENTS.txt"
+    e "Finished!"
+    e "Anouncement has been posted!"
+    p
+    g RMENU
+    l FOPT
+    cls
+    e "File Options."
+    e ""
+    e "Please choose an option below:"
+    e ""
+    e "1)View Posts."
+    e "2)View Downloads."
+    e "3)Download a file"
+    e "4)Exit"
+    stp vpie,"File:"
+    ieq vpie,"1",VPOSTS
+    ieq vpie,"2",DPOSTS
+    ieq vpie,"3",VDOWN
+    ieq vpie,"4",RMENU
+    e "Invalid."
+    p
+    g FOPT
+    l VPOSTS
+    cls
+    e "File posts:"
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    p
+    g FOPT
+    l DPOSTS
+    cls
+    e "Downloads as of %time%/%date%:"
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    e ""
+    p
+    g FOPT
+    l VDOWN
+    cls
+    e ""
+    e "Type "/q" in the name bar to return to"
+    e "the main menu."
+    e ""
+    e "Posted files:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    stp DFNAME,"File to download?"
+    ieq DFNAME,"/q",FOPT
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME%",RDOWNLOAD
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file name is correct."
+    p
+    g VDOWN
+    l RDOWNLOAD
+    cls
+    e "Downloading file, please wait..."
+    af "%SNAMME% (%username%) Downloaded a file: %DFNAME%.","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME% %userprofile%\Desktop >nul
+    e "File was downloaded to Desktop successfully!"
+    l RDYNMENU
+    stp vpie,"Download another file? (Y/N)"
+    ieq vpie,"y",VDOWN
+    ieq vpie,"n",FOPT
+    ieq vpie,"Y",VDOWN
+    ieq vpie,"N",FOPT
+    e "Command is invalid!"
+    p
+    g RDYNMENU
+    l BANMAN
+    cls
+    e "Banned Users:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    e ""
+    e "Please choose an option:"
+    e ""
+    e "1)Add ban"
+    e "2)Remove ban"
+    e "3)Exit"
+    stp vpie,"BANMAN:"
+    ieq vpie,"1",ADDBAN1
+    ieq vpie,"2",REMBAN1
+    ieq vpie,"3",RMENU
+    e "Command Invalid."
+    p
+    g BANMAN
+    l ADDBAN1
+    cls
+    e "Please type the username of the person you wish"
+    e "to ban. This must be the COMPUTER LOGIN USERNAME"
+    e "that they are logged into the computer with."
+    e "For example, the username for john galt would"
+    e "be jgalt."
+    e ""
+    e "current bans:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    e ""
+    stp BANNED1,"Username of banned user:"
+    ieq BANNED1,"/q",BANMAN
+    e "Creating User block, please wait..."
+    e ""
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\BANS\%BANNED1%.txt"
+    af "%BANNED1% %USERNAME% %TIME% %DATE%","\\E026060n01\room308\SERVER\ANONCHAT\BANS\%BANNED1%.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\BANS\%BANNED1%.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    af "A ban was enacted on %BANNED1% at %time% on %date% by %username%","\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    e "Banned."
+    p
+    g ADDBAN1
+    l REMBAN1
+    cls
+    e "Current bans:"
+    e ""
+    t "\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    e ""
+    e "Type /q to exit."
+    e "Only the username, not the .txt"
+    e "is nessecary."
+    e ""
+    stp BANNAME,"Remove which ban?"
+    ieq BANNAME,"/q",BANMAN
+    df "\\E026060n01\room308\SERVER\ANONCHAT\BANS\%BANNAME%.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    af "A ban was removed from %BANNED1% at %time% on %date% by %username%","\\E026060n01\room308\SERVER\ANONCHAT\BANS\BANNEDUSERS.txt"
+    e "Removed."
+    p
+    g REMBAN1
+    l ROOTINF
+    cls
+    e ""
+    e "Current logged in user is: %USERNAME%"
+    e "current location is: %CD%"
+    e "System root is: %systemroot%"
+    e ""
+    p
+    g RMENU
+    l ROOTWHO
+    e "ROOT (%userprofile%)"
+    p
+    g RMENU
+    l QSFUNCT
+    cls
+    e "funct quickstart"
+    e "starting another function will exit the ROOT menu."
+    e "Type "exit" to go back."
+    e ""
+    stp SNAMME,"FUNCTION:"
+    ieq SNAMME,"FUNCT",funct
+    ieq SNAMME,"exit",RMENU
+    ieq SNAMME,"FUNCT1",funct1
+    ieq SNAMME,"FUNCT2",funct2
+    ieq SNAMME,"FUNCT3",funct3
+    ieq SNAMME,"FUNCTMAP",functmaP
+    e "Invalid."
+    p
+    g QSFUNCT
+    l CRPASS
+    cls
+    e "Choose the passcode you would like to view:"
+    e ""
+    e "1)Del Chat!.bat"
+    e "2)Remove the Chat! server"
+    e "3)Exit"
+    e ""
+    stp vpie,"COM:"
+    ieq vpie,"1",CDELPASS
+    ieq vpie,"2",CDEL2PASS
+    ieq vpie,"3",RMENU
+    e "Command Is Invalid."
+    p
+    g RMENU
+    l CDELPASS
+    cls
+    e "Current Password for"
+    e "Chat removal:"
+    e ""
+    e "adm1nDEL1"
+    e ""
+    p
+    g RMENU
+    l CDEL2PASS
+    cls
+    e "Current Password for"
+    e "server removal:"
+    e ""
+    e "disco2"
+    e ""
+    p
+    g RMENU
+    l WALL
+    g main
+    l funct004
+    cls
+    e "Chat removal."
+    e ""
+    stp %VPASS1%,"Password:"
+    ieq VPASS,"adm1nDEL1",removechat1
+    e "Invalid Password."
+    p
+    g main
+    l WALL
+    g main
+    l removechat1
+    clr 0e
+    df "\\E026060n01\room308\SERVER\ANONCHAT"
+    e " ----------------"
+    e "{Program Removed.}"
+    e " ----------------"
+    p
+    df "Chat! v2.0.bat"
+    l funct032
+    cls
+    e "Disabled By administrator."
+    e "Function is not available at this time."
+    e ""
+    p
+    g main
+    ; ::set /p %VPASS1%=Password:
+    ; ::if "%VPASS%"==disco2 goto removeserver1
+    l WALL
+    g main
+    l removeserver1
+    ; ::del \\E026060n01\room308\SERVER\
+    clr 0e
+    e " ---------------"
+    e "{Server Removed.}"
+    e " ---------------"
+    p
+    df "Chat! v2.0.bat"
+    l USERBAN
+    cls
+    clr 17
+    e "%USERNAME% Has been banned from chat."
+    e "Please talk to an administrator to"
+    e "become unbanned."
+    e ""
+    p
+    trm
+    l SBACKUP
+    cls
+    stp SBAC,"Password:"
+    ieq SBAC,"ctbak",SBAKGOOD
+    e "INVALID."
+    p
+    g RMENU
+    l SBAKGOOD
+    cls
+    e "Backing up, Please wait..."
+    e ""
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT %userprofile%\Desktop
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\CHATSERVER.bat %userprofile%\Desktop
+    ; unrecognized: attrib %userprofile%\Desktop\CHATSERVER.bat -h
+    e "Copied to desktop."
+    p
+    g RMENU
+    l FILES
+    ttl "DMS File Transfering Service V1.0"
+    cls
+    e "Welcome to file transfer!"
+    e "Please choose an option:"
+    e ""
+    e "1)Send File"
+    e "2)Download File"
+    e "3)Help"
+    e "4)exit"
+    e ""
+    stp FILEOP,"FILE:"
+    ieq FILEOP,"1",SENDFILE
+    ieq FILEOP,"2",GETFILE
+    ieq FILEOP,"3",FHELP
+    ieq FILEOP,"4",chat
+    e "Invalid command."
+    p
+    g FILES
+    l FHELP
+    cls
+    e "File Transfering Service Help V1.0"
+    e ""
+    e "Acessing the FTS menu:"
+    e ""
+    e "Type "/file" in any chatroom"
+    e ""
+    e "Sending files:"
+    e ""
+    e "In the main menu, type "1"."
+    e ""
+    e "Drag the file to the Desktop."
+    e "Make sure that the file is not in a folder."
+    e "THE FILE SYSTEM CAN NOT TRANSFER FOLDERS!"
+    e "NOTE: POSTED FILES CAN NOT BE REMOVED!"
+    e "follow the onscreen instructions."
+    e ""
+    e "Downloading files:"
+    e ""
+    e "in the main menu, type 2."
+    e "follow the onscreen instructions."
+    e ""
+    p
+    g FILES
+    l GETFILE
+    cls
+    e "Chat! file downloader V1.0"
+    e ""
+    e "Type "/q" in the name bar to return to"
+    e "the main menu."
+    e ""
+    e "Posted files:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    stp DFNAME,"File to download?"
+    ieq DFNAME,"/q",FILES
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME%",DOWNLOAD
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file name is correct."
+    p
+    g GETFILE
+    l DOWNLOAD
+    cls
+    e "Downloading file, please wait..."
+    af "%SNAMME% (%username%) Downloaded a file: %DFNAME%. [%time%-%date%]","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME% %userprofile%\Desktop >nul
+    e "File was downloaded to Desktop successfully!"
+    l DYNMENU
+    stp vpie,"Download another file? (Y/N)"
+    ieq vpie,"y",GETFILE
+    ieq vpie,"n",FILES
+    ieq vpie,"Y",GETFILE
+    ieq vpie,"N",FILES
+    e "Command is invalid!"
+    p
+    g DYNMENU
+    l SENDFILE
+    cls
+    e "Drag the file you want to send on to the"
+    e "Desktop, then press any key..."
+    p 0
+    cls
+    e "Please type the name of the file, plus"
+    e "its extension (.jpeg, .bat, .txt, etc...)"
+    e "Type "/q" to exit."
+    e ""
+    stp FNAME,"File name (+ extension):"
+    ieq FNAME,"/q",chat
+    iex "%USERPROFILE%\Desktop\%FNAME%",FILEISVALID
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file is on the desktop,"
+    e "and that the file name is correct."
+    p
+    g SENDFILE
+    l FILEISVALID
+    cls
+    e "Would you like to add a message? (Y/N)"
+    stp MSGYN,""
+    ieq MSGYN,"y",MSGY
+    ieq MSGYN,"n",MSGN
+    ieq MSGYN,"Y",MSGY
+    ieq MSGYN,"N",MSGN
+    e "Command is invalid."
+    p
+    g FILEISVALID
+    l MSGY
+    cls
+    e "Enter a message to send with your file:"
+    stp FMSG,""
+    g SENDAGENT
+    l MSGN
+    st FMSG,"Check out this cool file: %FNAME%!"
+    g SENDAGENT
+    l SENDAGENT
+    cls
+    e "Please wait while your file is being processed..."
+    e ""
+    ; xcopy: xcopy %USERPROFILE%\Desktop\%FNAME% \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD
+    e "Posting to chatroom..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e "File Posted!"
+    e "Press any key to return to chatroom..."
+    g chat
+    l FILES2
+    ttl "DMS File Transfering Service V1.0"
+    cls
+    e "Welcome to file transfer!"
+    e "Please choose an option:"
+    e ""
+    e "1)Send File"
+    e "2)Download File"
+    e "3)Help"
+    e "4)exit"
+    e ""
+    stp FILEOP,"FILE:"
+    ieq FILEOP,"1",SENDFILE2
+    ieq FILEOP,"2",GETFILE2
+    ieq FILEOP,"3",FHELP2
+    ieq FILEOP,"4",chat2
+    e "Invalid command."
+    p
+    g FILES2
+    l FHELP2
+    cls
+    e "File Transfering Service Help V1.0"
+    e ""
+    e "Acessing the FTS menu:"
+    e ""
+    e "Type "/file" in any chatroom"
+    e ""
+    e "Sending files:"
+    e ""
+    e "In the main menu, type "1"."
+    e ""
+    e "Drag the file to the Desktop."
+    e "Make sure that the file is not in a folder."
+    e "THE FILE SYSTEM CAN NOT TRANSFER FOLDERS!"
+    e "NOTE: POSTED FILES CAN NOT BE REMOVED!"
+    e "follow the onscreen instructions."
+    e ""
+    e "Downloading files:"
+    e ""
+    e "in the main menu, type 2."
+    e "follow the onscreen instructions."
+    e ""
+    p
+    g FILES2
+    l GETFILE2
+    cls
+    e "Chat! file downloader V1.0"
+    e ""
+    e "Type "/q" in the name bar to return to"
+    e "the main menu."
+    e ""
+    e "Posted files:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    stp DFNAME,"File to download?"
+    ieq DFNAME,"/q",FILES2
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME%",DOWNLOAD2
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file name is correct."
+    p
+    g GETFILE2
+    l DOWNLOAD2
+    cls
+    e "Downloading file, please wait..."
+    af "%SNAMME% (%username%) Downloaded a file: %DFNAME%. [%time%-%date%]","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME% %userprofile%\Desktop >nul
+    e "File was downloaded to Desktop successfully!"
+    l DYNMENU2
+    stp vpie,"Download another file? (Y/N)"
+    ieq vpie,"y",GETFILE2
+    ieq vpie,"n",FILES2
+    ieq vpie,"Y",GETFILE2
+    ieq vpie,"N",FILES2
+    e "Command is invalid!"
+    p
+    g DYNMENU2
+    l SENDFILE2
+    cls
+    e "Drag the file you want to send on to the"
+    e "Desktop, then press any key..."
+    p 0
+    cls
+    e "Please type the name of the file, plus"
+    e "its extension (.jpeg, .bat, .txt, etc...)"
+    e "Type "/q" to exit."
+    e ""
+    stp FNAME,"File name (+ extension):"
+    ieq FNAME,"/q",chat2
+    iex "%USERPROFILE%\Desktop\%FNAME%",FILEISVALID2
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file is on the desktop,"
+    e "and that the file name is correct."
+    p
+    g SENDFILE2
+    l FILEISVALID2
+    cls
+    e "Would you like to add a message? (Y/N)"
+    stp MSGYN,""
+    ieq MSGYN,"y",MSGY2
+    ieq MSGYN,"n",MSGN2
+    ieq MSGYN,"Y",MSGY2
+    ieq MSGYN,"N",MSGN2
+    e "Command is invalid."
+    p
+    g FILEISVALID2
+    l MSGY2
+    cls
+    e "Enter a message to send with your file:"
+    stp FMSG,""
+    g SENDAGENT2
+    l MSGN2
+    st FMSG,"Check out this cool file: %FNAME%!"
+    g SENDAGENT2
+    l SENDAGENT2
+    cls
+    e "Please wait while your file is being processed..."
+    e ""
+    ; xcopy: xcopy %USERPROFILE%\Desktop\%FNAME% \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD
+    cls
+    e "Posting to chatroom..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM2.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e "File Posted!"
+    e "Press any key to return to chatroom..."
+    g chat2
+    l FILES3
+    ttl "DMS File Transfering Service V1.0 (C3)"
+    cls
+    e "Welcome to file transfer!"
+    e "Please choose an option:"
+    e ""
+    e "1)Send File"
+    e "2)Download File"
+    e "3)Help"
+    e "4)exit"
+    e ""
+    stp FILEOP,"FILE:"
+    ieq FILEOP,"1",SENDFILE3
+    ieq FILEOP,"2",GETFILE3
+    ieq FILEOP,"3",FHELP3
+    ieq FILEOP,"4",chat3
+    e "Invalid command."
+    p
+    g FILES3
+    l FHELP3
+    cls
+    e "File Transfering Service Help V1.0"
+    e ""
+    e "Acessing the FTS menu:"
+    e ""
+    e "Type "/file" in any chatroom"
+    e ""
+    e "Sending files:"
+    e ""
+    e "In the main menu, type "1"."
+    e ""
+    e "Drag the file to the Desktop."
+    e "Make sure that the file is not in a folder."
+    e "THE FILE SYSTEM CAN NOT TRANSFER FOLDERS!"
+    e "NOTE: POSTED FILES CAN NOT BE REMOVED!"
+    e "follow the onscreen instructions."
+    e ""
+    e "Downloading files:"
+    e ""
+    e "in the main menu, type 2."
+    e "follow the onscreen instructions."
+    e ""
+    p
+    g FILES3
+    l GETFILE3
+    cls
+    e "Chat! file downloader V1.0"
+    e ""
+    e "Type "/q" in the name bar to return to"
+    e "the main menu."
+    e ""
+    e "Posted files:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    stp DFNAME,"File to download?"
+    ieq DFNAME,"/q",FILES3
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME%",DOWNLOAD3
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file name is correct."
+    p
+    g GETFILE3
+    l DOWNLOAD3
+    cls
+    e "Downloading file, please wait..."
+    af "%SNAMME% (%username%) Downloaded a file: %DFNAME%. [%time%-%date%]","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME% %userprofile%\Desktop >nul
+    e "File was downloaded to Desktop successfully!"
+    l DYNMENU3
+    stp vpie,"Download another file? (Y/N)"
+    ieq vpie,"y",GETFILE3
+    ieq vpie,"n",FILES3
+    ieq vpie,"Y",GETFILE3
+    ieq vpie,"N",FILES3
+    e "Command is invalid!"
+    p
+    g DYNMENU3
+    l SENDFILE3
+    cls
+    e "Drag the file you want to send on to the"
+    e "Desktop, then press any key..."
+    p 0
+    cls
+    e "Please type the name of the file, plus"
+    e "its extension (.jpeg, .bat, .txt, etc...)"
+    e "Type "/q" to exit."
+    e ""
+    stp FNAME,"File name (+ extension):"
+    ieq FNAME,"/q",chat3
+    iex "%USERPROFILE%\Desktop\%FNAME%",FILEISVALID3
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file is on the desktop,"
+    e "and that the file name is correct."
+    p
+    g SENDFILE3
+    l FILEISVALID3
+    cls
+    e "Would you like to add a message? (Y/N)"
+    stp MSGYN,""
+    ieq MSGYN,"y",MSGY3
+    ieq MSGYN,"n",MSGN3
+    ieq MSGYN,"Y",MSGY3
+    ieq MSGYN,"N",MSGN3
+    e "Command is invalid."
+    p
+    g FILEISVALID3
+    l MSGY3
+    cls
+    e "Enter a message to send with your file:"
+    stp FMSG,""
+    g SENDAGENT3
+    l MSGN3
+    st FMSG,"Check out this cool file: %FNAME%!"
+    g SENDAGENT3
+    l SENDAGENT3
+    cls
+    e "Please wait while your file is being processed..."
+    e ""
+    ; xcopy: xcopy %USERPROFILE%\Desktop\%FNAME% \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD
+    cls
+    e "Posting to chatroom..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM3.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e "File Posted!"
+    e "Press any key to return to chatroom..."
+    g chat3
+    l FILES4
+    ttl "DMS File Transfering Service V1.0"
+    cls
+    e "Welcome to file transfer!"
+    e "Please choose an option:"
+    e ""
+    e "1)Send File"
+    e "2)Download File"
+    e "3)Help"
+    e "4)exit"
+    e ""
+    stp FILEOP,"FILE:"
+    ieq FILEOP,"1",SENDFILE4
+    ieq FILEOP,"2",GETFILE4
+    ieq FILEOP,"3",FHELP4
+    ieq FILEOP,"4",chat4
+    e "Invalid command."
+    p
+    g FILES4
+    l FHELP4
+    cls
+    e "File Transfering Service Help V1.0"
+    e ""
+    e "Acessing the FTS menu:"
+    e ""
+    e "Type "/file" in any chatroom"
+    e ""
+    e "Sending files:"
+    e ""
+    e "In the main menu, type "1"."
+    e ""
+    e "Drag the file to the Desktop."
+    e "Make sure that the file is not in a folder."
+    e "THE FILE SYSTEM CAN NOT TRANSFER FOLDERS!"
+    e "NOTE: POSTED FILES CAN NOT BE REMOVED!"
+    e "follow the onscreen instructions."
+    e ""
+    e "Downloading files:"
+    e ""
+    e "in the main menu, type 2."
+    e "follow the onscreen instructions."
+    e ""
+    p
+    g FILES4
+    l GETFILE4
+    cls
+    e "Chat! file downloader V1.0"
+    e ""
+    e "Type "/q" in the name bar to return to"
+    e "the main menu."
+    e ""
+    e "Posted files:"
+    t "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e ""
+    stp DFNAME,"File to download?"
+    ieq DFNAME,"/q",FILES4
+    iex "\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME%",DOWNLOAD4
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file name is correct."
+    p
+    g GETFILE4
+    l DOWNLOAD4
+    cls
+    e "Downloading file, please wait..."
+    af "%SNAMME% (%username%) Downloaded a file: %DFNAME%. [%time%-%date%]","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\DOWNLOADLIST.txt"
+    ; xcopy: xcopy \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\%DFNAME% %userprofile%\Desktop >nul
+    e "File was downloaded to Desktop successfully!"
+    l DYNMENU4
+    stp vpie,"Download another file? (Y/N)"
+    ieq vpie,"y",GETFILE4
+    ieq vpie,"n",FILES4
+    ieq vpie,"Y",GETFILE4
+    ieq vpie,"N",FILES4
+    e "Command is invalid!"
+    p
+    g DYNMENU4
+    l SENDFILE4
+    cls
+    e "Drag the file you want to send on to the"
+    e "Desktop, then press any key..."
+    p 0
+    cls
+    e "Please type the name of the file, plus"
+    e "its extension (.jpeg, .bat, .txt, etc...)"
+    e "Type "/q" to exit."
+    e ""
+    stp FNAME,"File name (+ extension):"
+    ieq FNAME,"/q",chat4
+    iex "%USERPROFILE%\Desktop\%FNAME%",FILEISVALID4
+    e "Oops! That file name is invalid!"
+    e ""
+    e "Check that the file is on the desktop,"
+    e "and that the file name is correct."
+    p
+    g SENDFILE4
+    l FILEISVALID4
+    cls
+    e "Would you like to add a message? (Y/N)"
+    stp MSGYN,""
+    ieq MSGYN,"y",MSGY4
+    ieq MSGYN,"n",MSGN4
+    ieq MSGYN,"Y",MSGY4
+    ieq MSGYN,"N",MSGN4
+    e "Command is invalid."
+    p
+    g FILEISVALID4
+    l MSGY4
+    cls
+    e "Enter a message to send with your file:"
+    stp FMSG,""
+    g SENDAGENT4
+    l MSGN4
+    st FMSG,"Check out this cool file: %FNAME%!"
+    g SENDAGENT4
+    l SENDAGENT4
+    cls
+    e "Please wait while your file is being processed..."
+    e ""
+    ; xcopy: xcopy %USERPROFILE%\Desktop\%FNAME% \\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD >nul
+    cls
+    e "Posting to chatroom..."
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\CHATROOM4.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%SNAMME% Posted a file! :","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FNAME%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "Message:","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%FMSG%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "%time% %date%","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    af "","\\E026060n01\room308\SERVER\ANONCHAT\DOWNLOAD\POSTS.txt"
+    e "File Posted!"
+    e "Press any key to return to chatroom..."
+    g chat4
+    l ODLAUNCHER
+    cls
+    e "Outdated launcher detected."
+    ; malformed set: set "DETECTLAUNCHER" EQU "OUTDATED"
+    c "\\E026060n01\room308\SERVER\SYSTEM\PLUGBOARD.bat"
+    e "Program will now exit."
+    p
+    trm
+
+.header
+    filename "PLUGBOARD.bat"
+    entry 0
+    ver 1.0
+.instrs
+    ttl "SWITCHBOARD...STAGE 1...PROCESSING..."
+    ; ::By Charlton Trezevant (DSOFT)
+    ; ::Dial "0" for Operator.
+    ; ::Install new features @ end
+    ; ::last update: 3:46 PM 9/6/2012
+    ; ::Version:
+    st VERS,"1.0"
+    g UPDATE
+    st RAND,"%RANDOM%"
+    st SBRAND,"%RAND%"
+    ieq OP,"0",OP
+    ieq DETECTLAUNCHER,"OUTDATED",UPDATE
+    ieq SWITCH,"CHATA",LCHAT
+    ieq SWITCH,"CHATB",LCHATB
+    ieq SWITCH,"X-DOS",LXDOS
+    ieq SWITCH,"FAILSAFE",FAILSAFE
+    ieq SWITCH,"DMS",LDMS
+    ieq SWITCH,"DMSB",LDMSB
+    ; ::NUMERIC
+    ieq NSWITCH,"100",LCHAT
+    ieq NSWITCH,"101",LCHATB
+    ieq NSWITCH,"200",LXDOS
+    ieq NSWITCH,"FAIL1",FAILSAFE
+    ieq NSWITCH,"300",LDMS
+    ieq NSWITCH,"301",LDMSB
+    ; ::Also numeric
+    ieq SWITCH,"100",LCHAT
+    ieq SWITCH,"101",LCHATB
+    ieq SWITCH,"200",LXDOS
+    ieq SWITCH,"FAIL1",FAILSAFE
+    ieq SWITCH,"300",LDMS
+    ieq SWITCH,"301",LDMSB
+    l ERR
+    e ""
+    e "Could not identify request."
+    e ""
+    e "ERROR 244: Request not compatble. [%SWITCH%]"
+    e "Encountered @ SWITHCHBOARD %VERS% Stage 1."
+    e "Launcher version: %LVER%"
+    e ""
+    e "Your current launcher may not be compatible with the new EON server"
+    e "Configuration."
+    e ""
+    af "ERROR 244: Request not compatble. [%SWITCH%]","%CD%\SERVER\SYSTEM\LOGS\ERRORS.txt"
+    af "encountered @ SWITHCHBOARD %VERS% Stage 1.","%CD%\SERVER\SYSTEM\LOGS\ERRORS.txt"
+    af "Launcher version: %LVER%","%CD%\SERVER\SYSTEM\LOGS\ERRORS.txt"
+    af "User: %username%","%CD%\SERVER\SYSTEM\LOGS\ERRORS.txt"
+    e ""
+    g UPDATE
+    l UPDATE
+    stp vpie,"Attempt update? (Y/N):"
+    ieq vpie,"y",UY
+    ieq vpie,"n",END
+    ieq vpie,"Y",UY
+    ieq vpie,"N",END
+    e "Invalid."
+    p
+    g UPDATE
+    l UY
+    cls
+    e "The latest launcher will appear in your browser.."
+    e "Please wait while the link loads..."
+    ; ::ADD %s B4 %s to nullify the %s in URL for batch!!!
+    ; ::start https:\\www.dropbox.com/sh/5617hvz24j0yqgd/QKcQSv7PMp/Chat%%21%%20Terminal.bat
+    e "Press any key after you have downloaded the file."
+    e "The program will copy the file to the desktop."
+    p 0
+    ; xcopy: xcopy "%CD%\UPDATE\Chat! Terminal.bat" "%USERPROFILE%\Desktop" /q /u >nul
+    ; ::xcopy "%userprofile%\Downloads\Chat! Terminal.bat" "%USERPROFILE%\Desktop" /q /u >nul
+    g USUCESS
+    e "UPDATE FAILED."
+    e ""
+    g UPDATE
+    l USUCESS
+    st DETECTLAUNCHER,"OK"
+    e "Please delete this launcher and use the new version,"
+    e "located on the desktop."
+    e ""
+    e "THANK YOU!"
+    g END
+    l OP
+    e "Version: %VERS%"
+    e "User: %username%"
+    e "ID rand: %SBRAND%"
+    p
+    g END0
+    l LCHAT
+    c "%CD%\SERVER\ANONCHAT\CHATSERVER.bat"
+    g END
+    l LDMS
+    l LDMSB
+    l LXDOS
+    l LCHATB
+    e ""
+    e "Not installed."
+    e "Please contact an Administrator."
+    e ""
+    l END
+    e "Session closed."
+    e "Program will now exit."
+    p
+    l END0
+    e ""
+    trm
+
